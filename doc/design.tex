@@ -1,0 +1,77 @@
+
+\documentclass{article}
+%\usepackage{fullpage}
+\usepackage{palatino}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{verbatim}
+\setlength{\captionmargin}{1in}
+
+\newcommand \kazoo {{\textbf{Kazoo} }}
+
+\begin{document}
+
+\title{\kazoo - a sound transformation system}
+\author{Fritz Obermeyer}
+\date{2009:12:24}
+\maketitle
+
+\abstract{
+ \kazoo is a trainable real-time audio transformation system
+ for use in sound and music synthesis.
+ 
+}
+
+\section{Introduction}
+
+Electronic musical instrument expressivity is often limited by input bandwidth.
+The \kazoo system addresses this by using sound as the input medium.
+
+We develop a novel extensions of deep restricted boltzmann machines
+(deep belief nets) for time-series data.
+
+\section{System Overview}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{system_diagram.pdf}
+\end{center}
+\caption{ \label{fig:system_diagram}
+The kazoo transformation consists of
+  (1) a psychoacoustic front-end,
+  (2) an adaptive front-end,
+  (3) a deep dynamical model,
+  (4) an adaptive back-end mirroring the front-end, and
+  (5) a psychoacoustic back-end mirroring the front end.
+  Components (2-4) constitute a deep transition belief net.
+  Levels (2) and (4) use the same probabilistic models.
+  }
+\end{figure}
+
+\section{The invertible super-resolution reassigned spectrogram transform}
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=\textwidth]{synth_windows.pdf}
+\end{center}
+\caption{ \label{fig:synth_windows}
+  Synthesis windows for various time exponents.
+  }
+\end{figure}
+
+\begin{comment}
+\section{Psychoacoustic front- and back- ends}
+\subsection{Inverting the Reassigned Spectrogram}
+
+\subsection{Demultiplexing correlation signals}
+
+\section{Deep transition restricted boltzmann machines}
+
+\subsection{Unsupervised training}
+
+\subsection{Supervised training}
+\end{comment}
+
+\end{document}
+

@@ -1,0 +1,14 @@
+# DO NOT DELETE
+
+cloud_kernels.cu.o: cloud_kernels.cu.h common.h cxx0x.h cloud_stats.h
+cloud_kernels.cu.o: gpu.cu.h gpu.h vectors.cu.h vectors.h
+cloud_points_gpu.cu.o: cloud_points.h common.h cxx0x.h cloud_math.h vectors.h
+cloud_points_gpu.cu.o: eigen.h probability.h cloud_stats.h
+cloud_points_gpu.cu.o: cloud_persistence.h cloud_kernels.cu.h gpu.cu.h gpu.h
+cloud_points_gpu.cu.o: vectors.cu.h
+gpu.cu.o: gpu.cu.h gpu.h common.h cxx0x.h cloud_stats.h vectors.cu.h
+gpu.cu.o: vectors.h
+gpu_test.cu.o: gpu.cu.h gpu.h common.h cxx0x.h cloud_stats.h gpu_test.h
+gpu_test.cu.o: vectors.h vectors.cu.h cloud_kernels.cu.h
+vectors.cu.o: vectors.cu.h vectors.h common.h cxx0x.h gpu.cu.h gpu.h
+vectors.cu.o: cloud_stats.h

@@ -1,0 +1,207 @@
+
+A framework for modular time-series prediction. 
+
+  see notes/ideas/bayesian.text (2010:03:05)
+  see notes/ideas/belief_prop.text (2010:04:02)
+
+Formal specification. 
+
+  see kazoo/src/transforms.py
+  see kazoo/src/models.py
+
+  The streaming network framework consists of
+  ###[
+    concept channel
+      param in : port
+      param out : port
+
+    concept port
+      type data
+      param size : int > 0
+      param frame_rate : rational > 0
+      param frame_latency : int
+      param time_latency : real
+
+      data channel_fwd
+      data channel_bwd
+
+      method connect : channel, port -> _
+
+    concept node:
+      param input : list port
+      param output : list port
+
+    concept network:
+      ...
+  ###]
+
+  For probabilistic modeling purposes we define
+  ###[
+    concept model:
+
+      type param
+      type state
+      type obs
+
+      data param : param
+
+      method update : param, prev_state, current_obs -> param, current_state
+      method predict : param, state, num_frames -> later_obs
+
+    concept predictor implements sink:
+
+      param model : model
+      param range : frames
+      data state : model.state
+
+      type data = model.obs
+      param latency = -(self.range)
+      method consume = \o:obs.
+        self.state = model.update o.
+        future_state = model.predict self.range self.state
+        model.observe self.state o
+  ###]
+
+  OLD ------------------------------------------------------------------------
+
+  ###[
+    concept dynamic_model implements model:
+
+      type param
+      type state
+      type obs
+
+      # deterministic observation
+      method observe : state -> obs
+
+      # generative
+      method sample : param -> state
+      method sample_given : param, obs -> state
+      method transition_sample : param, state -> state
+      method transition_sample_given : param, obs, state -> state
+      method transition_sample_given_n_step : param, list<obs>, state -> state
+
+      # maximum likelihood
+      method transition : param, state -> state
+      method transition_n_step : param, int, state -> list<state>
+      method transition_estimate : param, state, obs -> state
+      method transition_estimate_n_step : param, list<obs>, state -> list<state>
+
+      # minimizing KL-divergence
+      method transition_energy : param, state, state -> state
+      method transition_denergy : param, state, state -> vector
+      method learn : prev_state, current_obs, param -> param
+      method learn_n_step : prev_state, list<current_obs>, param -> param
+
+      # goodness of fit, "does data follow model?"
+      method obs_energy : param, prev_state, curr_obs -> real
+      method obs_energy : param, prev_state -> real
+      method rel_energy : param, obs -> real  # should be zero-mean
+  ###]
+
+Python interface. 
+
+  Using C++ objects in Python.
+  ###[
+    class Channel (Reals):
+      member c : Complex
+
+    class Port:
+      property name
+      property is_input : bool
+      property is_output : bool
+      property size : int
+      property type : 1+1
+      member fwd : Channel
+      member bwd : Channel
+
+    class Node:
+      property name
+      member ... # each port is a property
+
+    class Network:
+      init ()
+      method add (n : Node)
+      method connect (in : Port, out : Port)
+      method validate () : unsigned
+      method start ()
+      method stop ()
+      method run_until_keypress ()
+  ###]
+  Note: Instance-dependent port attributes can be handled with getattrfunc,
+    http://docs.python.org/extending/newtypes.html#attribute-management
+    and in more detail
+    http://docs.python.org/extending/newtypes.html
+    #type-specific-attribute-management
+    Question: How does PyObject_Dir know what ports are available?
+
+  Using Python objects in C++. ???
+  ###[
+    struct PortType:
+      member name
+      member parity
+      member size
+      member type
+
+    class Transform (Node): # = PythonTransform in C++
+      init (self : PyObject *,
+            name : string,
+            inputs : PortTypes,
+            outputs : PortTypes)
+      abstract method step_fwd ()
+      abstract method step_bwd ()
+
+    class Source (Node): # = PythonSource in C++
+      init (self : PyObject *,
+            name : string,
+            outputs : PortTypes)
+      abstract method step_fwd ()
+      abstract method step_bwd ()
+
+    class Effect (Node): # = PythonEffect in C++
+      init (self : PyObject *,
+            name : string,
+            inputs : PortTypes)
+      abstract method step_rev ()
+  ###]
+
+  For example an audio file class would define
+  ###[
+    class AudioFile (Source):
+      def __init__ (self, filename, block_size):
+        Source.__init__(self,
+                        "audio_file",
+                        PortType("in", true, block_size, COMPLEX))
+
+      def step_bwd (): ...
+      def step_fwd (): ...
+  ###]
+  Note: The PythonSource constructor looks in the method table of self
+    for "step_fwd" and "step_bwd", as in
+    http://docs.python.org/extending/embedding.html#pure-embedding
+    The PythonSource's own step_fwd and step_bwd methods
+    call the stored python method on the stored ports, as in
+    http://docs.python.org/extending/extending.html
+    #calling-python-functions-from-c
+
+    Alternatively, PythonSource::step_fwd can call
+    ###[
+      PyObject * result = PyObject_CallMethod(self, "step_fwd", NULL)
+      ASSERT(result != NULL, "step_fwd is not implemented");
+      Py_DECREF(result);
+    ###]
+    as described in
+    http://docs.python.org/c-api/object.html#PyObject_CallMethod
+    To validate beforehand, the constructor can call
+    ###[
+      ASSERT(PyObject_HasAttrString(self, "step_fwd"),
+             "step_fwd is not implemented");
+      ASSERT(PyCallable_Check(PyObject_GetAttrWtring(self, "step_fwd")),
+             "step_fwd is not callable");
+    ###]
+
+(R1) Jack - audio connection kit
+  http://jackaudio.org/
+(R2) GStreamer - open source multimedia framework
+  http://www.gstreamer.net/
+

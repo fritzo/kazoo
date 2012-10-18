@@ -1,0 +1,310 @@
+# DO NOT DELETE
+
+_kazoo.cpp.o: _kazoo.h common.h cxx0x.h audio.h vectors.h audio_types.h
+_kazoo.cpp.o: animate.h cyclic_time.h threads.h splines.h array.h images.h
+_kazoo.cpp.o: image_types.h spectrogram.h fft.h window.h reassign.h
+_kazoo.cpp.o: transforms.h synchrony.h filters.h probability.h bounded.h
+_kazoo.cpp.o: psycho.h config.h hash_map.h events.h
+address.cpp.o: address.h common.h cxx0x.h
+address_test.cpp.o: address.h common.h cxx0x.h
+aligned_allocator_test.cpp.o: aligned_allocator.h common.h cxx0x.h
+animate.cpp.o: animate.h common.h cxx0x.h vectors.h cyclic_time.h threads.h
+animate_test.cpp.o: common.h cxx0x.h animate.h vectors.h cyclic_time.h
+animate_test.cpp.o: threads.h events.h
+args.cpp.o: args.h
+array_test.cpp.o: common.h cxx0x.h array.h
+audio.cpp.o: audio.h common.h cxx0x.h vectors.h audio_types.h
+audio_alignment.cpp.o: audio_alignment.h common.h cxx0x.h streaming.h
+audio_alignment.cpp.o: vectors.h cyclic_time.h audio_types.h threads.h
+audio_alignment.cpp.o: config.h hash_map.h
+audio_alignment_test.cpp.o: common.h cxx0x.h audio_alignment.h streaming.h
+audio_alignment_test.cpp.o: vectors.h cyclic_time.h audio_types.h threads.h
+audio_alignment_test.cpp.o: voice.h raster_audio.h psycho.h splines.h array.h
+audio_alignment_test.cpp.o: images.h image_types.h filters.h probability.h
+audio_alignment_test.cpp.o: synchrony.h bounded.h config.h hash_map.h
+audio_alignment_test.cpp.o: streaming_devices.h streaming_video.h gestures.h
+audio_alignment_test.cpp.o: animate.h events.h audio.h scripting.h args.h
+audio_test.cpp.o: common.h cxx0x.h audio.h vectors.h audio_types.h
+avcodec_test.cpp.o: common.h cxx0x.h
+ball.cpp.o: ball.h common.h cxx0x.h streaming_audio.h streaming.h vectors.h
+ball.cpp.o: cyclic_time.h audio_types.h threads.h synthesis.h array.h
+ball.cpp.o: gestures.h bounded.h image_types.h synchrony.h filters.h
+ball.cpp.o: probability.h psycho.h splines.h images.h config.h hash_map.h
+ball.cpp.o: streaming_video.h streaming_camera.h camera.h streaming_devices.h
+ball.cpp.o: animate.h events.h audio.h tracker.h matching.h
+bucket.cpp.o: bucket.h common.h cxx0x.h streaming_audio.h streaming.h
+bucket.cpp.o: vectors.h cyclic_time.h audio_types.h threads.h synthesis.h
+bucket.cpp.o: array.h gestures.h bounded.h image_types.h synchrony.h
+bucket.cpp.o: filters.h probability.h psycho.h splines.h images.h config.h
+bucket.cpp.o: hash_map.h streaming_video.h streaming_camera.h camera.h
+bucket.cpp.o: streaming_devices.h animate.h events.h audio.h tracker.h
+bucket.cpp.o: matching.h
+calibration.cpp.o: calibration.h common.h cxx0x.h streaming.h vectors.h
+calibration.cpp.o: cyclic_time.h audio_types.h threads.h bounded.h
+calibration.cpp.o: image_types.h gestures.h array.h config.h hash_map.h
+calibration.cpp.o: images.h probability.h regression.h linalg.h propagate.h
+calibration.cpp.o: propagate_impl.h splines.h
+calibration_test.cpp.o: calibration.h common.h cxx0x.h streaming.h vectors.h
+calibration_test.cpp.o: cyclic_time.h audio_types.h threads.h bounded.h
+calibration_test.cpp.o: image_types.h gestures.h array.h config.h hash_map.h
+calibration_test.cpp.o: images.h args.h
+camera.cpp.o: camera.h common.h cxx0x.h vectors.h cyclic_time.h threads.h
+camera.cpp.o: config.h hash_map.h images.h image_types.h
+camera_test.cpp.o: common.h cxx0x.h camera.h vectors.h cyclic_time.h
+camera_test.cpp.o: threads.h config.h hash_map.h images.h image_types.h
+camera_test.cpp.o: animate.h filters.h array.h probability.h events.h args.h
+capture.cpp.o: capture.h common.h cxx0x.h vectors.h
+capture_test.cpp.o: capture.h common.h cxx0x.h vectors.h transforms.h
+capture_test.cpp.o: window.h fft.h splines.h array.h images.h image_types.h
+capture_test.cpp.o: threads.h
+cellular.cpp.o: cellular.h common.h cxx0x.h vectors.h
+cellular_test.cpp.o: cellular.h common.h cxx0x.h vectors.h
+cloud_flow.cpp.o: cloud_flow.h cloud_points.h common.h cxx0x.h cloud_math.h
+cloud_flow.cpp.o: vectors.h eigen.h probability.h cloud_stats.h
+cloud_flow.cpp.o: cloud_persistence.h cloud_video.h compress.h streaming.h
+cloud_flow.cpp.o: cyclic_time.h audio_types.h threads.h filters.h array.h
+cloud_kernels.cpp.o: cloud_kernels.h common.h cxx0x.h cloud_stats.h vectors.h
+cloud_kernels_tbb.cpp.o: cloud_kernels.h common.h cxx0x.h cloud_stats.h
+cloud_kernels_tbb.cpp.o: vectors.h
+cloud_map.cpp.o: cloud_map.h common.h cxx0x.h cloud_points.h cloud_math.h
+cloud_map.cpp.o: vectors.h eigen.h probability.h cloud_stats.h
+cloud_map.cpp.o: cloud_persistence.h eigen_gpu.h gpu.h
+cloud_math.cpp.o: cloud_math.h common.h cxx0x.h vectors.h eigen.h
+cloud_math.cpp.o: probability.h cloud_stats.h
+cloud_persistence.cpp.o: cloud_persistence.h common.h cxx0x.h eigen.h
+cloud_persistence.cpp.o: vectors.h
+cloud_points.cpp.o: cloud_points.h common.h cxx0x.h cloud_math.h vectors.h
+cloud_points.cpp.o: eigen.h probability.h cloud_stats.h cloud_persistence.h
+cloud_points.cpp.o: cloud_video.h compress.h streaming.h cyclic_time.h
+cloud_points.cpp.o: audio_types.h threads.h cloud_flow.h cloud_kernels.h
+cloud_points.cpp.o: histogram.h hash_map.h config.h
+cloud_points_cpu.cpp.o: cloud_points.h common.h cxx0x.h cloud_math.h
+cloud_points_cpu.cpp.o: vectors.h eigen.h probability.h cloud_stats.h
+cloud_points_cpu.cpp.o: cloud_persistence.h cloud_kernels.h
+clouds.cpp.o: clouds.h common.h cxx0x.h cloud_math.h vectors.h eigen.h
+clouds.cpp.o: probability.h cloud_stats.h cloud_points.h cloud_persistence.h
+clouds.cpp.o: eigen_gpu.h cloud_map.h histogram.h hash_map.h config.h
+common.cpp.o: common.h cxx0x.h config.h hash_map.h
+compress.cpp.o: compress.h common.h cxx0x.h streaming.h vectors.h
+compress.cpp.o: cyclic_time.h audio_types.h threads.h
+compress_notbb.cpp.o: compress.h common.h cxx0x.h streaming.h vectors.h
+compress_notbb.cpp.o: cyclic_time.h audio_types.h threads.h
+compress_test.cpp.o: compress.h common.h cxx0x.h streaming.h vectors.h
+compress_test.cpp.o: cyclic_time.h audio_types.h threads.h streaming_camera.h
+compress_test.cpp.o: streaming_video.h splines.h array.h images.h
+compress_test.cpp.o: image_types.h psycho.h filters.h probability.h
+compress_test.cpp.o: synchrony.h bounded.h config.h hash_map.h gestures.h
+compress_test.cpp.o: camera.h streaming_devices.h animate.h events.h audio.h
+compress_test.cpp.o: args.h
+dirt.cpp.o: dirt.h common.h cxx0x.h table.h streaming_audio.h streaming.h
+dirt.cpp.o: vectors.h cyclic_time.h audio_types.h threads.h synthesis.h
+dirt.cpp.o: array.h gestures.h bounded.h image_types.h synchrony.h filters.h
+dirt.cpp.o: probability.h psycho.h splines.h images.h config.h hash_map.h
+dirt.cpp.o: streaming_video.h streaming_camera.h camera.h streaming_devices.h
+dirt.cpp.o: animate.h events.h audio.h streaming_synthesis.h tracker.h
+dirt.cpp.o: matching.h calibration.h streaming_shared.h
+eigen.cpp.o: eigen.h vectors.h common.h cxx0x.h
+eigen_gpu.cpp.o: eigen_gpu.h common.h cxx0x.h eigen.h vectors.h gpu.h
+eigen_gpu_test.cpp.o: eigen_gpu.h common.h cxx0x.h eigen.h vectors.h args.h
+events.cpp.o: events.h common.h cxx0x.h
+fft.cpp.o: fft.h common.h cxx0x.h vectors.h
+fft_test.cpp.o: common.h cxx0x.h fft.h vectors.h
+fftw_test.cpp.o: common.h cxx0x.h vectors.h
+filters.cpp.o: filters.h common.h cxx0x.h array.h vectors.h probability.h
+filters_test.cpp.o: filters.h common.h cxx0x.h array.h vectors.h
+filters_test.cpp.o: probability.h
+flock.cpp.o: flock.h common.h cxx0x.h psycho.h vectors.h splines.h array.h
+flock.cpp.o: images.h image_types.h filters.h probability.h synchrony.h
+flock.cpp.o: bounded.h audio_types.h cyclic_time.h threads.h config.h
+flock.cpp.o: hash_map.h synthesis.h gestures.h streaming.h regression.h
+flock.cpp.o: linalg.h events.h
+gestures.cpp.o: gestures.h common.h cxx0x.h array.h vectors.h bounded.h
+gestures.cpp.o: image_types.h
+gloves.cpp.o: gloves.h common.h cxx0x.h streaming_video.h streaming.h
+gloves.cpp.o: vectors.h cyclic_time.h audio_types.h threads.h splines.h
+gloves.cpp.o: array.h images.h image_types.h psycho.h filters.h probability.h
+gloves.cpp.o: synchrony.h bounded.h config.h hash_map.h gestures.h
+gpu_test.cpp.o: gpu_test.h gpu.h common.h cxx0x.h vectors.h cloud_kernels.h
+gpu_test.cpp.o: cloud_stats.h args.h
+histogram.cpp.o: histogram.h common.h cxx0x.h hash_map.h
+images.cpp.o: images.h common.h cxx0x.h image_types.h vectors.h sym33.h
+images.cpp.o: array.h
+images_test.cpp.o: images.h common.h cxx0x.h image_types.h animate.h
+images_test.cpp.o: vectors.h cyclic_time.h threads.h camera.h config.h
+images_test.cpp.o: hash_map.h events.h args.h
+kazoo.cpp.o: common.h cxx0x.h streaming.h vectors.h cyclic_time.h
+kazoo.cpp.o: audio_types.h threads.h streaming_shared.h streaming_audio.h
+kazoo.cpp.o: synthesis.h array.h gestures.h bounded.h image_types.h
+kazoo.cpp.o: synchrony.h filters.h probability.h psycho.h splines.h images.h
+kazoo.cpp.o: config.h hash_map.h streaming_video.h streaming_camera.h
+kazoo.cpp.o: camera.h streaming_devices.h animate.h events.h audio.h
+kazoo.cpp.o: streaming_synthesis.h flock.h regression.h linalg.h tracker.h
+kazoo.cpp.o: matching.h table.h calibration.h bucket.h ball.h movement.h
+kazoo.cpp.o: dirt.h playback.h args.h
+learn.cpp.o: common.h cxx0x.h streaming.h vectors.h cyclic_time.h
+learn.cpp.o: audio_types.h threads.h streaming_shared.h streaming_audio.h
+learn.cpp.o: synthesis.h array.h gestures.h bounded.h image_types.h
+learn.cpp.o: synchrony.h filters.h probability.h psycho.h splines.h images.h
+learn.cpp.o: config.h hash_map.h streaming_video.h streaming_camera.h
+learn.cpp.o: camera.h streaming_devices.h animate.h events.h audio.h
+learn.cpp.o: streaming_synthesis.h streaming_clouds.h clouds.h cloud_math.h
+learn.cpp.o: eigen.h cloud_stats.h cloud_points.h cloud_persistence.h
+learn.cpp.o: eigen_gpu.h voice.h raster_audio.h compress.h gloves.h
+learn.cpp.o: scripting.h args.h
+lemon_test.cpp.o: common.h cxx0x.h args.h
+limits_test.cpp.o: common.h cxx0x.h
+linalg.cpp.o: linalg.h common.h cxx0x.h vectors.h
+linalg_test.cpp.o: linalg.h common.h cxx0x.h vectors.h
+matching.cpp.o: matching.h common.h cxx0x.h hash_map.h
+matching_test.cpp.o: matching.h common.h cxx0x.h hash_map.h
+midi.cpp.o: midi.h common.h cxx0x.h gestures.h array.h vectors.h bounded.h
+midi.cpp.o: image_types.h hash_map.h
+midi_test.cpp.o: midi.h common.h cxx0x.h gestures.h array.h vectors.h
+midi_test.cpp.o: bounded.h image_types.h hash_map.h
+misc_test.cpp.o: common.h cxx0x.h window.h
+network_flow.cpp.o: network_flow.h common.h cxx0x.h vectors.h
+network_flow_test.cpp.o: network_flow.h common.h cxx0x.h vectors.h args.h
+optim.cpp.o: optim.h common.h cxx0x.h
+particle_synthesis.cpp.o: particle_synthesis.h common.h cxx0x.h synthesis.h
+particle_synthesis.cpp.o: vectors.h array.h gestures.h bounded.h
+particle_synthesis.cpp.o: image_types.h audio_types.h cyclic_time.h
+particle_synthesis.cpp.o: synchrony.h filters.h probability.h threads.h
+particle_synthesis.cpp.o: streaming.h particles.h
+particles.cpp.o: particles.h common.h cxx0x.h vectors.h images.h
+particles.cpp.o: image_types.h
+pde_test.cpp.o: common.h cxx0x.h vectors.h splines.h array.h images.h
+pde_test.cpp.o: image_types.h
+playback.cpp.o: playback.h common.h cxx0x.h image_types.h streaming.h
+playback.cpp.o: vectors.h cyclic_time.h audio_types.h threads.h
+player.cpp.o: raster_audio.h common.h cxx0x.h vectors.h streaming.h
+player.cpp.o: cyclic_time.h audio_types.h threads.h streaming_devices.h
+player.cpp.o: streaming_video.h splines.h array.h images.h image_types.h
+player.cpp.o: psycho.h filters.h probability.h synchrony.h bounded.h config.h
+player.cpp.o: hash_map.h gestures.h animate.h events.h audio.h
+player.cpp.o: streaming_vectors.h scripting.h args.h
+probability.cpp.o: probability.h common.h cxx0x.h optim.h
+propagate.cpp.o: propagate.h propagate_impl.h common.h cxx0x.h hash_map.h
+propagate_test.cpp.o: propagate.h propagate_impl.h common.h cxx0x.h
+propagate_test.cpp.o: hash_map.h array.h
+psycho.cpp.o: psycho.h common.h cxx0x.h vectors.h splines.h array.h images.h
+psycho.cpp.o: image_types.h filters.h probability.h synchrony.h bounded.h
+psycho.cpp.o: audio_types.h cyclic_time.h threads.h config.h hash_map.h
+psycho_test.cpp.o: common.h cxx0x.h psycho.h vectors.h splines.h array.h
+psycho_test.cpp.o: images.h image_types.h filters.h probability.h synchrony.h
+psycho_test.cpp.o: bounded.h audio_types.h cyclic_time.h threads.h config.h
+psycho_test.cpp.o: hash_map.h args.h
+random.cpp.o: common.h cxx0x.h random.h vectors.h
+random_test.cpp.o: common.h cxx0x.h
+raster_audio.cpp.o: raster_audio.h common.h cxx0x.h vectors.h streaming.h
+raster_audio.cpp.o: cyclic_time.h audio_types.h threads.h
+raster_audio_test.cpp.o: raster_audio.h common.h cxx0x.h vectors.h
+raster_audio_test.cpp.o: streaming.h cyclic_time.h audio_types.h threads.h
+raster_audio_test.cpp.o: streaming_devices.h streaming_video.h splines.h
+raster_audio_test.cpp.o: array.h images.h image_types.h psycho.h filters.h
+raster_audio_test.cpp.o: probability.h synchrony.h bounded.h config.h
+raster_audio_test.cpp.o: hash_map.h gestures.h animate.h events.h audio.h
+raster_audio_test.cpp.o: streaming_vectors.h scripting.h args.h
+reassign.cpp.o: reassign.h common.h cxx0x.h fft.h vectors.h window.h
+reassign.cpp.o: splines.h array.h images.h image_types.h transforms.h
+reassign.cpp.o: threads.h
+regression.cpp.o: regression.h common.h cxx0x.h vectors.h linalg.h
+regression_test.cpp.o: regression.h common.h cxx0x.h vectors.h linalg.h
+sparse.cpp.o: sparse.h common.h cxx0x.h vectors.h
+sparse_test.cpp.o: sparse.h common.h cxx0x.h vectors.h linalg.h args.h
+spectrogram.cpp.o: spectrogram.h common.h cxx0x.h fft.h vectors.h window.h
+speed_test.cpp.o: common.h cxx0x.h images.h image_types.h vectors.h
+splines.cpp.o: splines.h common.h cxx0x.h vectors.h array.h images.h
+splines.cpp.o: image_types.h
+splines_test.cpp.o: splines.h common.h cxx0x.h vectors.h array.h images.h
+splines_test.cpp.o: image_types.h
+sse_test.cpp.o: common.h cxx0x.h args.h
+streaming.cpp.o: streaming.h common.h cxx0x.h vectors.h cyclic_time.h
+streaming.cpp.o: audio_types.h threads.h events.h
+streaming_audio.cpp.o: streaming_audio.h common.h cxx0x.h streaming.h
+streaming_audio.cpp.o: vectors.h cyclic_time.h audio_types.h threads.h
+streaming_audio.cpp.o: synthesis.h array.h gestures.h bounded.h image_types.h
+streaming_audio.cpp.o: synchrony.h filters.h probability.h psycho.h splines.h
+streaming_audio.cpp.o: images.h config.h hash_map.h
+streaming_camera.cpp.o: streaming_camera.h common.h cxx0x.h streaming.h
+streaming_camera.cpp.o: vectors.h cyclic_time.h audio_types.h threads.h
+streaming_camera.cpp.o: streaming_video.h splines.h array.h images.h
+streaming_camera.cpp.o: image_types.h psycho.h filters.h probability.h
+streaming_camera.cpp.o: synchrony.h bounded.h config.h hash_map.h gestures.h
+streaming_camera.cpp.o: camera.h
+streaming_clouds.cpp.o: streaming_clouds.h common.h cxx0x.h clouds.h
+streaming_clouds.cpp.o: cloud_math.h vectors.h eigen.h probability.h
+streaming_clouds.cpp.o: cloud_stats.h cloud_points.h cloud_persistence.h
+streaming_clouds.cpp.o: eigen_gpu.h voice.h streaming.h cyclic_time.h
+streaming_clouds.cpp.o: audio_types.h threads.h raster_audio.h psycho.h
+streaming_clouds.cpp.o: splines.h array.h images.h image_types.h filters.h
+streaming_clouds.cpp.o: synchrony.h bounded.h config.h hash_map.h events.h
+streaming_devices.cpp.o: streaming_devices.h common.h cxx0x.h streaming.h
+streaming_devices.cpp.o: vectors.h cyclic_time.h audio_types.h threads.h
+streaming_devices.cpp.o: streaming_video.h splines.h array.h images.h
+streaming_devices.cpp.o: image_types.h psycho.h filters.h probability.h
+streaming_devices.cpp.o: synchrony.h bounded.h config.h hash_map.h gestures.h
+streaming_devices.cpp.o: animate.h events.h audio.h
+streaming_shared.cpp.o: streaming_shared.h common.h cxx0x.h streaming.h
+streaming_shared.cpp.o: vectors.h cyclic_time.h audio_types.h threads.h
+streaming_synthesis.cpp.o: streaming_synthesis.h common.h cxx0x.h synthesis.h
+streaming_synthesis.cpp.o: vectors.h array.h gestures.h bounded.h
+streaming_synthesis.cpp.o: image_types.h audio_types.h cyclic_time.h
+streaming_synthesis.cpp.o: synchrony.h filters.h probability.h threads.h
+streaming_synthesis.cpp.o: streaming.h hash_map.h splines.h images.h
+streaming_video.cpp.o: streaming_video.h common.h cxx0x.h streaming.h
+streaming_video.cpp.o: vectors.h cyclic_time.h audio_types.h threads.h
+streaming_video.cpp.o: splines.h array.h images.h image_types.h psycho.h
+streaming_video.cpp.o: filters.h probability.h synchrony.h bounded.h config.h
+streaming_video.cpp.o: hash_map.h gestures.h
+supergram_profile.cpp.o: common.h cxx0x.h reassign.h fft.h vectors.h window.h
+supergram_profile.cpp.o: splines.h array.h images.h image_types.h
+supergram_profile.cpp.o: transforms.h threads.h
+svd.cpp.o: svd.h common.h cxx0x.h vectors.h
+synchrony.cpp.o: synchrony.h common.h cxx0x.h filters.h array.h vectors.h
+synchrony.cpp.o: probability.h bounded.h images.h image_types.h splines.h
+synchrony_test.cpp.o: synchrony.h common.h cxx0x.h filters.h array.h
+synchrony_test.cpp.o: vectors.h probability.h bounded.h reassign.h fft.h
+synchrony_test.cpp.o: window.h splines.h images.h image_types.h transforms.h
+synchrony_test.cpp.o: threads.h animate.h cyclic_time.h events.h args.h
+synthesis.cpp.o: synthesis.h common.h cxx0x.h vectors.h array.h gestures.h
+synthesis.cpp.o: bounded.h image_types.h audio_types.h cyclic_time.h
+synthesis.cpp.o: synchrony.h filters.h probability.h threads.h splines.h
+synthesis.cpp.o: images.h random.h
+synthesis_profile.cpp.o: synthesis.h common.h cxx0x.h vectors.h array.h
+synthesis_profile.cpp.o: gestures.h bounded.h image_types.h audio_types.h
+synthesis_profile.cpp.o: cyclic_time.h synchrony.h filters.h probability.h
+synthesis_profile.cpp.o: threads.h
+synthesis_test.cpp.o: synthesis.h common.h cxx0x.h vectors.h array.h
+synthesis_test.cpp.o: gestures.h bounded.h image_types.h audio_types.h
+synthesis_test.cpp.o: cyclic_time.h synchrony.h filters.h probability.h
+synthesis_test.cpp.o: threads.h audio.h
+table.cpp.o: table.h common.h cxx0x.h streaming_audio.h streaming.h vectors.h
+table.cpp.o: cyclic_time.h audio_types.h threads.h synthesis.h array.h
+table.cpp.o: gestures.h bounded.h image_types.h synchrony.h filters.h
+table.cpp.o: probability.h psycho.h splines.h images.h config.h hash_map.h
+table.cpp.o: streaming_video.h streaming_camera.h camera.h
+table.cpp.o: streaming_devices.h animate.h events.h audio.h
+table.cpp.o: streaming_synthesis.h tracker.h matching.h calibration.h
+threads.cpp.o: threads.h common.h cxx0x.h
+toy.cpp.o: common.h cxx0x.h streaming.h vectors.h cyclic_time.h audio_types.h
+toy.cpp.o: threads.h streaming_shared.h streaming_audio.h synthesis.h array.h
+toy.cpp.o: gestures.h bounded.h image_types.h synchrony.h filters.h
+toy.cpp.o: probability.h psycho.h splines.h images.h config.h hash_map.h
+toy.cpp.o: streaming_video.h streaming_devices.h animate.h events.h audio.h
+toy.cpp.o: streaming_synthesis.h flock.h regression.h linalg.h args.h
+tracker.cpp.o: tracker.h common.h cxx0x.h streaming.h vectors.h cyclic_time.h
+tracker.cpp.o: audio_types.h threads.h image_types.h bounded.h array.h
+tracker.cpp.o: filters.h probability.h gestures.h matching.h hash_map.h
+tracker.cpp.o: config.h images.h splines.h
+transforms.cpp.o: transforms.h common.h cxx0x.h vectors.h window.h fft.h
+transforms.cpp.o: splines.h array.h images.h image_types.h threads.h
+transforms_test.cpp.o: common.h cxx0x.h transforms.h vectors.h window.h fft.h
+transforms_test.cpp.o: splines.h array.h images.h image_types.h threads.h
+vectors.cpp.o: vectors.h common.h cxx0x.h
+vectors_test.cpp.o: common.h cxx0x.h vectors.h args.h
+voice.cpp.o: voice.h common.h cxx0x.h streaming.h vectors.h cyclic_time.h
+voice.cpp.o: audio_types.h threads.h raster_audio.h psycho.h splines.h
+voice.cpp.o: array.h images.h image_types.h filters.h probability.h
+voice.cpp.o: synchrony.h bounded.h config.h hash_map.h
+warping_test.cpp.o: splines.h common.h cxx0x.h vectors.h array.h images.h
+warping_test.cpp.o: image_types.h

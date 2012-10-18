@@ -1,0 +1,117 @@
+
+Deep Restricted Transition Boltzmann Machines for Audio Processing. 
+
+  (see ideas/belief_prop.text and ideas/music.text for discussion)
+
+  Problem 1: Learning
+    Input: 
+      * a corpus as hyperresolution time-freq distribution or _spectrogram_
+          [x(0,w,t) | w,t]
+        or ambiguously undersampled version of same
+      * a linear projection operation for oversampling : x(1,-,t) |--> x(0,-,t)
+      * a psychoacoustic prior on layer 1, corresponding to time-freq energy
+          E1(x) = sum w,t.
+                  e1(w,t,x(0, w  , t  ),
+                         x(0, w  , t+1),
+                         x(0, w+1, t  ),
+                         x(0, w+1, t+1))
+    State: 
+      * at layers i=0,1, spectrograms of complex-disk values x(t,i,w)
+      * at layers i>2, a uniform network of angles x(t,i,j) in S1
+      * an additional very-top layer with a few [0,1]-valued words or labels
+      Simple Version: omit layer 1 and labels; use only 2 generic layers
+      Figure: Layers
+        ###a
+          labels
+            |
+            n  \
+            |   |
+            :   > generic layers
+            |   |
+            2  /
+            |
+            1 hyperresolution spectrogram
+            |
+            0 raw spectrogram
+        ###a
+    Learn Parameters: 
+      * at each deep layer i>1, quadratic energies between pairs of units
+          E2(x) = sum i>0. E2(i,x)
+                = sum t,i>0,j,j'.  e2(i,j,j',x(i,j,t),x(i,j',t))
+                = sum t,i>0,j,j'.  e2(i,j,j') * x(i,j,t) * x(i,j',t)
+        subject to bounds to keep units not too correlated
+      * between every adjacent pair of layers i,i'>0, transition energies
+          E3(x) = sum i,i'. E3(i,i',x)
+                = sum t,i~i',j,j'.
+                  e3(i,j,i',j',x(t,i,j),x(t+1,i',j'),x(t+1,i',j'))
+                = sum t,i~i',j,j'.
+                  ( e3(i,j,i',j',0) | x(t+1,i',j')-x(t,i',j') - x(t,i,j)dt |^2
+                                         x(t+1,i',j')
+                  + e3(i,j,i',j',1) | log ------------ - x(t,i,j)dt |^2 )
+                                          x(t,i',j')
+      * between the nth layer and the label layer,
+          E4(x) = sum t,j,l. e4(t,j,l) |x(t,n,j)|^2 x(t,n+1,l)
+    To Minimize: Corpus free energy, fixing x(0) and varying x(>0)
+
+  Algorithm 1: 
+    (a) Estimate full density spectrogram at layer 1 from layer 0
+      by time-greedily annealing or (MF;sample)ing.
+      Simple Version: omit layer 1, omit this step
+    (b) Initially learn energies greedily in the following order
+      (1) use online gradient descent to learn
+        E2[1]
+      (2) use contrastive divergence to learn
+        E2[1] + E3[2,0]
+      (3) use contrastive divergence to learn
+        E2[1] + E3[2,0] + E2[2]
+      (4) use contrastive divergence to learn
+        E2[1] + E3[2,0] + E2[2] + E3[1,1]
+      (5) back to (2) to learn higher layers 2 & up
+      Simple Version: only two layers
+      Question: merge 2+3 ???
+    (c) Fine-tune energies using full contrastive divergence & maybe sleep.
+    (d) Learn each stage in (b),(c) by traversing through corpus sequentially,
+      possibly multiple times, in wake-sleep cycles.
+      Simple Version: traverse once
+      Question: forwards only ???
+    (e) Deep-layer state is tracked by a particle filter-smoother.
+      Simple Version: one particle, no smoothing
+
+  Problem 2: Sampling
+    Given: 
+      * an energy function E=E1+E2+E3 as in Problem 1
+      * possibly a vector of labels
+    Sample: a spectrogram [x(t,i,w) | t,i,w]
+    From Likelihood: L(x) = exp(-E(x))
+
+  Algorithm 2: 
+    (a) time-greedily anneal in forward-backward phases
+    (b) when sampling, use mean-field approximations of sample energy
+      (eg when sampling x,y WRT e(x,y,z), use mean field
+        e(x) = E y. e(x,y,z), fixing z but averaging over y)
+    (c) use kikuchi sampling for layer 1, which has 4-neighborhoods
+    (d) projection : x(1) |--> x(0) is deterministic, so do at end
+
+  Problem 3: Transformation
+    Given: 
+      * a model trained with labels
+      * an input label i
+      * an output label o
+      * a set of attribute energies e(i,j)>=0 for generic layers (i=2...n),
+        forming an attribute energy
+          A(x,y) = sum t,i,j. e(i,j) y(t,i,j) x(t,i,j)
+        Eg: e(n,j) = 1, e(m<n,j) = 0 focuses on attributes in nth layer.
+        Eg: try to isolate rhythm or melody using nonuniform A
+    Input Stream: 
+      * a spectrogram x
+    Output Stream: 
+      * a spectrogram y
+    Minimizing: free energy \v. E(<y,v,o>) + E u:E(<x,u,i>). A(u,v)
+      where u interpolates layers x through i,
+      and v randomly interpolates y through o.
+
+  Algorithm 3: 
+    (a) track x using a particle filter
+    (b) add mean field energies for particle attributes
+    (c) time-greedily sample y, smoothing only deep layers back in time
+

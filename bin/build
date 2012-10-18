@@ -1,0 +1,432 @@
+#!/usr/bin/python
+
+import os
+import sys
+import subprocess
+import re
+
+HOME = os.environ.get('HOME', '~')
+KAZOO = os.environ.get('KAZOO', os.path.join(HOME, 'kazoo'))
+
+sys.path.append(os.path.join(KAZOO, 'test'))
+import main
+
+os.chdir(KAZOO)
+LEARN = os.path.join('src', 'learn')
+DATA = 'data'
+CONFIG = 'config'
+
+#----( utilities )------------------------------------------------------------
+
+def WARN(message):
+  sys.stderr.write('WARNING %s\n' % message)
+
+def assert_sanitized (name):
+  for char in name:
+    assert re.match('[A-Za-z0-9_-]', char)
+  assert len(name) > 0
+
+def run (args, log_file):
+
+  command = ' '.join(args)
+  print command
+  log = open(log_file, 'a')
+  log.write('\n')
+  log.write('%s\n' % ('-' * 80))
+  log.write('Running Command\n')
+  log.write('%s\n' % command)
+  log.write('\n')
+  log.close()
+
+  p1 = subprocess.Popen(
+      ['time', '--verbose'] + args,
+      stdout=subprocess.PIPE,
+      stderr=subprocess.STDOUT)
+  p2 = subprocess.Popen(
+      ['tee', '--append', log_file],
+      stdin=p1.stdout)
+
+
+  p2.wait()
+  return p1.wait()
+
+#----( wrapping bin/learn )---------------------------------------------------
+
+@main.command
+def gloves (name = 'default', max_bits = 13):
+  'build a model of gloves video'
+
+  assert_sanitized(name)
+
+  cloud_dir = os.path.join(DATA, 'gloves')
+  obs_dir = os.path.join(DATA, 'gloves')
+  map_dir = os.path.join(DATA, 'gg')
+
+  log_file = os.path.join(cloud_dir, '%s.log' % name)
+  cloud_file = os.path.join(cloud_dir, '%s.cloud' % name)
+  map_file = os.path.join(map_dir, '%s-%s.map' % (name, name))
+  cropped_file = os.path.join(map_dir, '%s.map' % name)
+
+  # assume observations have already been collected
+
+  observations = [
+      os.path.join(obs_dir, file)
+      for file in os.listdir(obs_dir)
+      if re.match('filtered-gloves-.*\.avi', file) ]
+
+  # build point sets
+
+  if not os.path.exists(cloud_file):
+    if run(
+        [LEARN, 'gloves', 'new'] +
+        ['-b', str(max_bits)] +
+        ['-o', cloud_file] +
+        observations,
+        log_file):
+
+      WARN('failed to build gloves points')
+
+      # results are still valid when this aborts early
+      if not os.path.exists(cloud_file):
+        return
+
+  # build flows
+
+  if run(
+      [LEARN, 'gloves', 'flow'] +
+      ['-f', cloud_file] +
+      ['--use-existing', '1'] +
+      observations,
+      log_file):
+
+    WARN('failed to build gloves flow')
+    return
+
+  # build map
+
+  if not os.path.exists(map_file):
+    if run(
+        [LEARN, 'gg', 'new'] +
+        ['-d', cloud_file] +
+        ['-c', cloud_file] +
+        ['-o', map_file],
+        log_file):
+
+      WARN('failed to build gloves-gloves controller')
+      return
+
+  # crop map
+
+  if not os.path.exists(cropped_file):
+    if run(
+        [LEARN, 'gv', 'crop'] +
+        ['-i', map_file] +
+        ['-o', cropped_file],
+        log_file):
+
+      WARN('failed to crop gloves-gloves controller')
+      return
+
+@main.command
+def gloves_clean (name = 'default'):
+  'clean out an old model of gloves video'
+
+  assert_sanitized(name)
+
+  cloud_dir = os.path.join(DATA, 'gloves')
+  map_dir = os.path.join(DATA, 'gg')
+
+  log_file = os.path.join(cloud_dir, '%s.log' % name)
+  cloud_file = os.path.join(cloud_dir, '%s.cloud' % name)
+  map_file = os.path.join(map_dir, '%s-%s.map' % (name, name))
+  cropped_file = os.path.join(map_dir, '%s.map' % name)
+
+  re_cloud = re.compile(name + '\.cloud.*')
+  re_map = re.compile(name + '%s-%s.map.*' % (name, name))
+  re_cropped = re.compile(name + '%s.cloud.*' % name)
+
+  # remove existing cloud
+
+  if os.path.exists(log_file):
+    print 'removing %s' % log_file
+    os.remove(log_file)
+
+  for file in os.listdir(cloud_dir):
+    if re.match(re_cloud, file):
+      print 'removing %s' % file
+      os.remove(os.path.join(cloud_dir, file))
+
+  map_file = os.path.join(map_dir, '%s.map' % name)
+  if os.path.exists(map_file):
+    os.remove(map_file)
+
+@main.command
+def voice (name, *audio_files):
+  'build a voice model and controller'
+
+  max_bits = 15
+  gloves_name = 'big'
+
+  assert_sanitized(name)
+
+  obs_dir = os.path.join(DATA, 'raster_audio', name)
+  cloud_dir = os.path.join(DATA, 'voice', name)
+  map_dir = os.path.join(DATA, 'gv', name)
+
+  cloud_file = os.path.join(cloud_dir, '%s.cloud' % name)
+  gloves_file = os.path.join(DATA, 'gloves', '%s.cloud' % gloves_name)
+  map_file = os.path.join(map_dir, '%s-%s.map' % (name, gloves_name))
+  cropped_file = os.path.join(DATA, 'gv', '%s.map' % name)
+
+  # analyze audio
+
+  log_file = os.path.join(obs_dir, 'build.log')
+
+  if not os.path.exists(obs_dir):
+    os.mkdir(obs_dir)
+
+    subprocess.call([
+      'cp',
+      os.path.join(CONFIG, 'default.voice.conf'),
+      os.path.join(obs_dir, 'voice.conf') ])
+
+    if run(
+        [LEARN, 'voice', 'convert'] +
+        ['-d', name] +
+        list(audio_files),
+        log_file):
+
+      WARN('failed to analyze audio')
+      return
+
+  observations = [
+      os.path.join(obs_dir, file)
+      for file in os.listdir(obs_dir)
+      if re.match('.*\.avi', file) ]
+
+  # build point sets
+
+  log_file = os.path.join(cloud_dir, 'build.log')
+
+  if not os.path.exists(cloud_dir):
+    os.mkdir(cloud_dir)
+
+    if not os.path.exists(cloud_file):
+
+      subprocess.call([
+        'cp',
+        os.path.join(CONFIG, 'default.cloud.conf'),
+        os.path.join(cloud_dir, 'cloud.conf') ])
+
+      if run(
+          [LEARN, 'voice', 'new'] +
+          ['-b', str(max_bits)] +
+          ['-o', cloud_file] +
+          observations,
+          log_file):
+
+        WARN('failed to build voice points')
+
+        # results are still valid when this aborts early
+        if not os.path.exists(cloud_file):
+          return
+
+  # build flows
+
+  if run(
+      [LEARN, 'voice', 'flow'] +
+      ['-f', cloud_file] +
+      ['--use-existing', '1'] +
+      observations,
+      log_file):
+
+    WARN('failed to build voice flow')
+    return
+
+  # build map
+
+  if not os.path.exists(map_dir):
+    os.mkdir(map_dir)
+
+    if run(
+        [LEARN, 'gv', 'new'] +
+        ['-d', cloud_file] +
+        ['-c', gloves_file] +
+        ['-o', map_file],
+        log_file):
+
+      WARN('failed to build voice-gloves controller')
+      subprocess.call(['rm', '-rf', map_dir])
+      return
+
+  # crop map
+
+  if not os.path.exists(cropped_file):
+
+    if run(
+        [LEARN, 'gv', 'crop'] +
+        ['-i', map_file] +
+        ['-o', cropped_file],
+        log_file):
+
+      WARN('failed to crop voice-gloves controller')
+      return
+
+@main.command
+def voice_clean (name = 'all', gloves_name = 'big'):
+  'clean out one or all old models of audio'
+
+  assert_sanitized(name)
+
+  if name == 'all':
+
+    obs_dir = os.path.join(DATA, 'raster_audio')
+    cloud_dir = os.path.join(DATA, 'voice')
+    map_dir = os.path.join(DATA, 'gv')
+
+    for dir in [obs_dir, cloud_dir, map_dir]:
+      for file in os.listdir(dir):
+        if file != 'Makefile':
+          subprocess.call(['rm', '-rfv', os.path.join(dir, file)])
+
+  else:
+
+    obs_dir = os.path.join(DATA, 'raster_audio', name)
+    cloud_dir = os.path.join(DATA, 'voice', name)
+    map_dir = os.path.join(DATA, 'gv', name)
+    cropped_file = os.path.join(DATA, 'gv', '%s.map' % name)
+
+    subprocess.call(['rm', '-rfv', obs_dir, cloud_dir, map_dir, cropped_file])
+
+@main.command
+def voice_log (name = 'list available names'):
+  'opens build log in new terminal'
+
+  if name == 'list available names':
+
+    print 'Try one of these:'
+
+    cloud_dir = os.path.join(DATA, 'voice')
+    for file in os.listdir(cloud_dir):
+      if os.path.isdir(os.path.join(cloud_dir, file)):
+        log_file = os.path.join(cloud_dir, file, 'build.log')
+        if os.path.exists(log_file):
+          print '> build voice-log %s' % file
+
+    return
+
+  assert_sanitized(name)
+
+  cloud_dir = os.path.join(DATA, 'voice', name)
+  log_file = os.path.join(cloud_dir, 'build.log')
+
+  p = subprocess.Popen(
+      ['xfce4-terminal', '--execute'] +
+      ['tail', '-f', '-n', '+0'] +
+      [log_file])
+
+@main.command
+def play (name = 'list available names'):
+  'play a voice controller'
+
+  if name == 'list available names':
+
+    print 'Try one of these:'
+
+    map_dir = os.path.join(DATA, 'gv')
+    for file in os.listdir(map_dir):
+      if re.match('[a-zA-Z0-9_-]+.map$', file):
+        print '> build play %s' % file[:-4]
+
+    return
+
+  assert_sanitized(name)
+
+  map_dir = os.path.join(DATA, 'gv')
+  obs_dir = os.path.join(DATA, 'raster_audio', name)
+
+  map_file = os.path.join(map_dir, '%s.map' % name)
+  config_file = os.path.join(obs_dir, name, 'voice.conf')
+
+  if os.path.exists(config_file):
+    config = ['-c', config_file]
+  else:
+    config = []
+
+  subprocess.call(
+      [LEARN, 'gv', 'play'] +
+      config +
+      ['-i', map_file])
+
+#----( scripting )------------------------------------------------------------
+
+script = 'data/build_all.py'
+
+def get_commands ():
+  if os.path.exists(script):
+    return eval(open(script).read())
+  else:
+    return []
+
+def set_commands (commands):
+  write = open(script, 'w').write
+  write('# this script is generated and used by bin/build\n')
+  write('[\n')
+  for command in commands:
+    write(' [\n')
+    for arg in command:
+      write('  %r,\n' % arg)
+    write(' ],\n')
+  write(']\n')
+
+@main.command
+def add (*command):
+  'add a command to data/build_all.py'
+  commands = get_commands()
+  if commands:
+    commands.append(list(command))
+  set_commands(commands)
+
+@main.command
+def edit_all ():
+  'edits all commands in data/build_all.py'
+  editor = os.environ.get('EDITOR', 'gvim')
+  subprocess.call([editor, script])
+
+@main.command
+def print_all (brief = 1):
+  'prints all commands in data/build_all.py'
+  commands = get_commands()
+  for command in commands:
+    if brief:
+      print 'build %s %s ...' % (command[0], command[1])
+    else:
+      print 'build'
+      for arg in command:
+        print '  ', arg
+
+@main.command
+def all ():
+  'runs all commands in data/build_all.py'
+  for command in get_commands():
+    main.main(command)
+
+@main.command
+def _a (*command):
+  'run command and add to data/build_all.py'
+  add(*command)
+  main.main(*command)
+
+#----( main )-----------------------------------------------------------------
+
+kazoo_logo = '''\
+  _  __   _    ____  ___   ___
+ | |/ /  / \  |_  / /   \ /   \  Video-Controlled Musical Instruments
+ |   (  / O \  / /_|  O  |  O  |  copyright 2009-2011 Fritz Obermeyer
+ |_|\_\/__n__\/____|\___/ \___/
+'''
+
+if __name__ == '__main__':
+  print kazoo_logo,
+  main.main()
+

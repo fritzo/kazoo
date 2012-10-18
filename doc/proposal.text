@@ -1,0 +1,60 @@
+
+Title: Proposal for a Trainable Video Theremin
+
+Abstract: 
+  A musical instrument with video input, audio input/output,
+  and sophisticated machine learning algorithms in between.
+  The learning algorithm is trained in multiple complementary manners:
+  (1) unsupervised "ear training" on a corpus of music
+  (2) unsupervised "eye traininy" by watching video of hands
+  (3) supervised synthesis training, by correlating hand --> sound input
+  (4) unsupervised synthesis training, by habituating motifs
+  The learning algorithm uses Geoff Hinton's fast learning algorithms for deep
+  belief nets for (1-3), and contrastive divergence for (4)
+  The software will run in real time by combining low latency with prediction,
+  and is efficient enough to run on an affordable laptop computer.
+
+Introduction. 
+
+Related work. 
+
+  ... wii-style theremin projects ???
+
+Background. 
+
+  Video motion tracking algorithms. 
+
+    Basic video processing ???
+
+    Articulated hand motion tracking ???
+
+  Audio analysis algorithms. 
+
+    Windowed fourier transforms ???
+
+  Audio synthesis algorithms. 
+
+    Model-based ???
+
+  Deep belief nets. 
+
+    Geoff Hinton's deep belief nets.
+
+    Yann LeCun's convolutional nets.
+
+  Dynamic belief nets. 
+
+    Neural nets for audio processing ???
+
+Proposed system. 
+
+  Low-level streaming framework. 
+
+  High-level Learning algorithms. 
+
+  Low-level learning optimizations. 
+
+    GPU processing...
+
+Work plan. 
+

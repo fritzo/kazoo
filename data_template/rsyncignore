@@ -1,0 +1,3 @@
+rsyncignore
+Makefile
+*.raw

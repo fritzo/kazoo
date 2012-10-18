@@ -1,0 +1,58 @@
+\documentclass{article}
+%\usepackage{fullpage}
+\usepackage{amsmath,amsfonts,amssymb}
+
+\newcommand \TODO {\fbox{\textbf{TODO}}}
+
+\newcommand \Like {{\mathbb{L}}}
+\newcommand \Prob {{\mathbb{P}}}
+
+\begin{document}
+
+\section{Matching via belief propagation}
+
+Consider a general problem of associating individual observations into
+extended collections,
+in the presence of false alarms (spurrious singleton observations)
+and missed detections (aspects in which a detection is missed).
+Let $P$ be a vertex signature,
+$V$ be the set of observations,
+$p:P$,
+let $E_i \subseteq \forall v:V. 1+P$ be a set of feasible edges.
+We disallow vertices from appearing in an edge via multiple ports,
+to avoid situations where vertex $\leftrightarrow$ edge messages are double-counted.
+
+Augmenting this combinatorial structure,
+let $F:V \to \Like$ be false alarm likelihoods,
+$Ai : Ei \to \Like$ be association likelihoods, and
+$Mi : 1 \times V + V \times 1 \to \Like$ be missed detection likeihoods.
+We then wish to solve the problem
+
+\newcommand \tab {\hspace{1cm}}
+
+\begin{align*}
+&\textbf{Given:}
+\\&\tab P                     &&\text{set of ports}
+\\&\tab V                     &&\text{set of vertices}
+\\&\tab E : V \to (1 + P)     &&\text{set of feasible edges}
+\\&\tab F : V \to \Like       &&\text{prior false alarm likelihoods}
+\\&\tab M : ( 1 \times V
+            + V \times 1 )
+            \to \Like         &&\text{prior missed detection likelihoods}
+\\&\textbf{Vary:}
+\\&\tab A' : E \to \Prob      &&\text{posterior association probabilities}
+\\&\tab F' : V \to \Prob      &&\text{posterior false alarm probabilities}
+\\&\tab M' : ( 1 \times V
+             + V \times 1 )
+             \to \Prob        &&\text{posterior missed detection probabilities}
+\\&\textbf{To Minimize:}
+\\&\tab \TODO
+\\&\textbf{Subject To:}
+\\&\tab \forall v:V.\, \TODO
+\end{align*}
+
+\subsection{Example: Factored multi-frame assignment}
+
+\subsection{Example: Bi-directional grid matching}
+
+\end{document}

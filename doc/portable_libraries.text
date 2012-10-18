@@ -1,0 +1,74 @@
+
+(N1) Portable Media Libraries. 
+  (1) OpenGL ES - for embedded graphics
+    http://en.wikipedia.org/wiki/OpenGL_ES
+    Supported by:
+      * ios
+      * Android
+      * Blackberry
+      * WebGL ( http://en.wikipedia.org/wiki/WebGL )
+      * nintendo/plastation
+      ...many others...
+  (2) OepnSL ES - for embedded audio
+    http://en.wikipedia.org/wiki/OpenSL_ES
+    Supported by:
+      * Android 2.3 via NDK
+  (3) OpenlAL - portable 3D audio
+    http://en.wikipedia.org/wiki/OpenAL
+    Supported by:
+      * linux/unix//mac/windows
+      * ios
+      * xbox/playstation-portable
+  (4) PortAudio - portable audio
+    http://en.wikipedia.org/wiki/PortAudio
+    Supported By:
+      * linux/mac/windows
+      * android?
+      * NOT ios
+  (5) Clutter - a portable graphics interface
+    http://www.clutter-project.org/
+  (6) HTML5 - the latest greatest portable multimedia language
+    Supported by:
+      * all recent browsers (not IE)
+      * current audio implementations have latency problems
+    Game engines:
+      * https://github.com/bebraw/jswiki/wiki/Game-Engines
+  (7) Impact.js - an HTML5/javascript library for games ($99/license)
+    http://impactjs.com/
+    Supported by: <same as HTML5>
+  (8) SDL - a portable gaming library (graphics + audio out)
+    Supported by:
+      * linux/mac/windows
+      * ios 3.1.3+
+      * android 1.6+
+  (9) WebGL - OpenGL for browsers
+    http://en.wikipedia.org/wiki/WebGL
+  (10) gwt-voices - sound for Googlw Web Toolkit
+    http://code.google.com/p/gwt-voices/
+  (11) Google Web Toolkit (GWT) - a Java-to-JavaScript compiler + libraries
+    http://en.wikipedia.org/wiki/Google_Web_Toolkit
+  (12) PyGame - a python wrapper for SDL
+    http://en.wikipedia.org/wiki/Pygame
+  --------
+  Old Favorite: SDL ( + PortAudio for sound input)
+    Pros: 
+      * number crunching
+      * low-latency audio
+    Cons: 
+      * requires additional web/ajax/social library
+      * slow spiral cycles
+  New Favorite: HTML5 + WebGL
+    Pros: 
+      * easy distribution
+      * easy customer relationships
+      * integrates with other web tools
+      * fast spiral cycles
+    Cons: 
+      * poor support, despite future of portability
+      * poor audio implementations
+
+(N2) iOS development.
+  (N1) iOS development (for app store publishing) requires Mac OS + XCode
+    (notwithstanding rumors of hackintosh virtual machine approaches).
+    The cheapest (time+$) way to do mac development is to buy a used mac mini.
+

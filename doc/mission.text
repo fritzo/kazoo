@@ -1,0 +1,20 @@
+
+The Kazoo Project. 
+
+  The kazoo is a tool to transform between regions of audio space,
+  enabling a user with limited sound-production range
+  to cover a fuller auditory range.
+  The kazoo allows a beatboxer, toe-tapper, or whistler to create any sound.
+
+  Kazoo workflow consists of two phases.
+  Offline: 
+    Given a collection of music,
+    learn the extents of auditory space.
+  In Realtime: 
+    Given an control input stream of sound,
+    learn the subspace spanned by the control input,
+    fit a minimum-deformation expansion from this space to the entire space,
+    and transduce temporally-extended sounds via this expansion.
+
+  As a particular example, silence/noise transduces to random music.
+

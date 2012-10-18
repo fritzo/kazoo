@@ -1,0 +1,105 @@
+
+Looper layout. 
+
+###a
+  AB0123456789AB0123456789AB0123456789AB0123456789AB0123456789AB0123456789AB012
+    .           .           .           .           .           .           .
+  --+-----------+-----------+-----------+-----------+-----------+-----------+--
+    |           |           |           |           |           |           |  
+  --+-----------+-----------+-----------+-----------+-----------+-----------+--
+    |           |           |           |           |           |           |  
+  --+-----------+-----------+-----------+-----------+-----------+-----------+--
+    |           |           |           |           |           |           |  
+  --+-----------+-----------+-----------+-----------+-----------+-----------+--
+    |           |           |           |           |           |           |  
+  --+-----------+-----------+-----------+-----------+-----------+-----------+--
+    |           |           |           |           |           |           |  
+  --+-----------+-----------+-----------+-----------+-----------+-----------+--
+    |           |           |           |           |           |           |  
+  --+-----------+-----------+-----------+-----------+-----------+-----------+--
+    '           '           '           '           '           '           '
+###a
+
+(N1) x-axis: pitch, 6+ octaves
+  ###a
+    22.5 55 110 220 440 880 1660 Hz
+  ###a
+  (N1) horizontal motion varies pitch
+  (N2) pitch is corrected to a 12-tone scale, except when moving.
+    Let p,v be the pitch and pitch velocity in octaves,octaves/sec.
+    Then pitch roughly below cutoff velocity v0 is corrected to
+    ###[
+               sin(24 pi p)
+      p' = p + ------------ exp(-(v/v0)^2)
+                  24 pi
+    ###]
+    
+(N2) y-axis: rhythm, 6+ octaves
+  ###a
+    32 sec
+    16 sec
+    8 sec
+    4 sec
+    2 sec
+    1 sec
+    0.5 sec  # sort-of acts like it's continuous
+  ###a
+  (N1) vertical motion moves sound among levels:
+    Up: copy sound to two periods
+    Down: mix sound to a single period
+    (Q1) How to prevent damping during motion?
+
+(N3) 49 crossings points are used for camera calibration.
+  Calibration uses the overconstrained model:
+  ###a
+        undistort     affine
+    u,v --------> x,y -----> p,t
+  ###a
+  Undistortion uses Brown's 4-dimensional radial model (R1)
+  ###[
+    X = U0 + (U-U0) (1 + k2 |U-U0|^2 + k4 |U-U0|^2)
+  ###]
+  with parameters u0,v0,k2,k4.
+  The skew-free affine transform uses 5 parameters
+  ###[
+    p = p1 (cos(theta) (x-x0) + sin(theta) (y-y0))
+    t = t1 (sin(theta) (x-x0) - cos(theta) (y-y0))
+  ###]
+  with parameters x0,y0,theta,p1,t1.
+  The parameter are independently distributed as normal or lognormal:
+  ###[
+    u0    = 0 +- 0.1 rad
+    v0    = 0 +- 0.1 rad
+    k2    = 0 +- 0.1 / rad^2 # XXX wild guess
+    k4    = 0 +- 0.1 / rad^4 # XXX wild guess
+    x0    = 0 +- 0.1 rad
+    y0    = 0 +- 0.1 rad
+    theta = 0 +- 0.1 rad
+    p1    = exp(2 +- 1)
+    t1    = exp(1 +- 1)
+  ###]
+  The entire calibration algorithm is as follows:
+  (1) accumulate background image
+  (2) find top 49+n cross keypoints in image
+  (3) find nearest neighbor pairs in NESW directions
+  (4) estimate theta,p1,t1 using mean pair vectors
+  (5) optimize pair vectors to lie in unit grid
+  (6) compute chi^2/dof, remove outliers, and re-optimize
+  (7) cluster points to choose x,y centers of grid
+
+(N4) Gestures
+  (G1) tap-hold-release
+    Synthesize sound parametrized by x-position and impact.
+    Alpha-channel = opacity is determined by intensity = z-position.
+    Zero-impact erases sound.
+    y-position between levels puts sound on both levels.
+  (G2) vertical pair of fingers spanning tempo line dragged up/down
+    Up: loop sample to double period
+    Down: mix two half periods of sound to halve period
+    (up,down) are a section,retract pair.
+    Waste: can x position be used for anything?
+      Maybe break into roughly one channel per octave,
+      or bandpass filter around 
+
+(R1) http://en.wikipedia.org/wiki/Distortion_(optics)
+
