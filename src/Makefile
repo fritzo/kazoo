@@ -191,7 +191,7 @@ gv: FORCE
 
 current_test: compress-test
 
-test: limits_test misc_test random_test vectors_test speed_test lemon_test fftw_test fft_test warping_test splines_test transforms_test audio_test animate_test psycho_test capture_test camera_test avcodec_test compress_test matching_test network_flow_test array_test filters_test linalg_test sparse_test eigen_gpu_test calibration_test images_test synthesis_test synchrony_test raster_audio_test audio_alignment_test pde_test midi_test gpu_test aligned_allocator_test
+test: limits_test misc_test random_test vectors_test speed_test lemon_test fftw_test fft_test warping_test splines_test transforms_test audio_test animate_test psycho_test camera_test avcodec_test compress_test matching_test network_flow_test array_test filters_test linalg_test sparse_test eigen_gpu_test calibration_test images_test synthesis_test synchrony_test raster_audio_test audio_alignment_test pde_test midi_test gpu_test aligned_allocator_test
 run-test: misc-test vectors-test speed-test fftw-test fft-test warping-test psycho-test matching-test array-test filters-test linalg-test tracking-test aligned-allocator-test
 
 limits_test: limits_test.cpp.o common.cpp.o
@@ -269,12 +269,6 @@ psycho_test: psycho_test.cpp.o psycho.cpp.o synchrony.cpp.o images.cpp.o splines
 	@$(CXX) $(CXXFLAGS) $^ $(LFLAGS) $(FFTW3F) $(PNG) -o $@
 psycho-test: psycho_test FORCE
 	./psycho_test
-
-capture_test: capture_test.cpp.o capture.cpp.o $(TRANSFORMS_O)
-	@echo linking $@
-	@$(CXX) $(CXXFLAGS) $^ $(LFLAGS) $(FFTW3F) $(OPENCV) -o $@
-capture-test: capture_test FORCE
-	./capture_test
 
 camera_test: camera_test.cpp.o camera.cpp.o images.cpp.o filters.cpp.o animate.cpp.o events.cpp.o vectors.cpp.o threads.cpp.o args.cpp.o common.cpp.o
 	@echo linking $@

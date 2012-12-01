@@ -378,7 +378,7 @@ void test_decode_stream (const char * filename)
 
   ASSERT_EQ(
       format_context->streams[video_stream]->codec->codec_type,
-      CODEC_TYPE_VIDEO);
+      AVMEDIA_TYPE_VIDEO);
 
   AVCodecContext * codec_context
     = format_context->streams[video_stream]->codec;

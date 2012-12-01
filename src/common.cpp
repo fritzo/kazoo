@@ -14,7 +14,7 @@
 const char * kazoo_logo =
 "  _  __   _    ____  ___   ___\n"
 " | |/ /  / \\  |_  / /   \\ /   \\  Video-Controlled Musical Instruments\n"
-" |   (  / O \\  / /_|  O  |  O  |  copyright 2009-2011 Fritz Obermeyer\n"
+" |   (  / O \\  / /_|  O  |  O  |  copyright 2009-2012 Fritz Obermeyer\n"
 " |_|\\_\\/__n__\\/____|\\___/ \\___/";
 
 void chdir_kazoo ()

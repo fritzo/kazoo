@@ -1315,11 +1315,11 @@ void enhance_lines (
 
   // enhance autocorrelation
   zero_float(image, I*J);
-  for (ptrdiff_t di = -R, DI = R; di <= DI; ++di) {
+  for (std::ptrdiff_t di = -R, DI = R; di <= DI; ++di) {
     size_t I0 = abs(di);
     size_t I1 = I - abs(di);
 
-    for (ptrdiff_t dj = 0, DJ = R; dj <= DJ; ++dj) {
+    for (std::ptrdiff_t dj = 0, DJ = R; dj <= DJ; ++dj) {
       size_t J0 = dj;
       size_t J1 = J - dj;
 
@@ -1778,10 +1778,10 @@ inline float mean_over_square (
 {
   ASSERT_LT(0, r);
 
-  ptrdiff_t x0 = r <= x ? x - r : 0;
-  ptrdiff_t x1 = x + r < X ? x + r : X - 1;
-  ptrdiff_t y0 = r <= y ? y - r : 0;
-  ptrdiff_t y1 = y + r < Y ? y + r : Y - 1;
+  std::ptrdiff_t x0 = r <= x ? x - r : 0;
+  std::ptrdiff_t x1 = x + r < X ? x + r : X - 1;
+  std::ptrdiff_t y0 = r <= y ? y - r : 0;
+  std::ptrdiff_t y1 = y + r < Y ? y + r : Y - 1;
 
   return ( integral[x1 * Y + y1]
          - integral[x0 * Y + y1]
@@ -1839,10 +1839,10 @@ void extract_blob (
   float m11 = 0;
   float m02 = 0;
 
-  ptrdiff_t R = radius;
+  std::ptrdiff_t R = radius;
   float R2 = sqr(R + 0.5f);
-  for (ptrdiff_t dx = -R; dx <= R; ++dx) { size_t x = x0 + dx;
-  for (ptrdiff_t dy = -R; dy <= R; ++dy) { size_t y = y0 + dy;
+  for (std::ptrdiff_t dx = -R; dx <= R; ++dx) { size_t x = x0 + dx;
+  for (std::ptrdiff_t dy = -R; dy <= R; ++dy) { size_t y = y0 + dy;
     if (sqr(dx) + sqr(dy) > R2) continue;
 
     float p = image[x * height + y];

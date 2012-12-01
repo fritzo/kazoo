@@ -271,17 +271,12 @@ public:
 
   OctavePassFilter ()
   {
-#ifdef __GXX_EXPERIMENTAL_CXX0X__
-    x_hist = {0,0};
-    y_hist = {0,0,0,0};
-#else // __GXX_EXPERIMENTAL_CXX0X__
     x_hist[0] = 0;
     x_hist[1] = 0;
     y_hist[0] = 0;
     y_hist[1] = 0;
     y_hist[2] = 0;
     y_hist[3] = 0;
-#endif // __GXX_EXPERIMENTAL_CXX0X__
   }
 
   void set_pitch (float pitch, float bandwidth = 0.25);
