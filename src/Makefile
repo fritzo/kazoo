@@ -191,7 +191,7 @@ gv: FORCE
 
 current_test: compress-test
 
-test: limits_test misc_test random_test vectors_test speed_test lemon_test fftw_test fft_test warping_test splines_test transforms_test audio_test animate_test psycho_test camera_test avcodec_test compress_test matching_test network_flow_test array_test filters_test linalg_test sparse_test eigen_gpu_test calibration_test images_test synthesis_test synchrony_test raster_audio_test audio_alignment_test pde_test midi_test gpu_test aligned_allocator_test
+test: limits_test misc_test random_test vectors_test speed_test lemon_test fftw_test fft_test warping_test splines_test transforms_test audio_test animate_test psycho_test camera_test avcodec_test compress_test matching_test network_flow_test array_test filters_test linalg_test sparse_test eigen_gpu_test calibration_test images_test synthesis_test synchrony_test raster_audio_test audio_alignment_test pde_test gpu_test aligned_allocator_test
 run-test: misc-test vectors-test speed-test fftw-test fft-test warping-test psycho-test matching-test array-test filters-test linalg-test tracking-test aligned-allocator-test
 
 limits_test: limits_test.cpp.o common.cpp.o
@@ -397,12 +397,6 @@ filters-test: filters_test FORCE
 
 sse_test: sse_test.cpp.o args.cpp.o common.cpp.o FORCE
 	objdump -d sse_test.cpp.o | grep addps
-
-midi_test: midi_test.cpp.o midi.cpp.o vectors.cpp.o gestures.cpp.o common.cpp.o
-	@echo linking $@
-	@$(CXX) $(CXXFLAGS) $^ $(LFLAGS) $(STK) -o $@
-midi-test: midi_test
-	./midi_test
 
 gpu_test: gpu_test.cpp.o gpu_test.cu.o gpu.cu.o cloud_kernels.cpp.o cloud_kernels_tbb.cpp.o cloud_kernels.cu.o vectors.cu.o vectors.cpp.o args.cpp.o common.cpp.o
 	@echo linking $@

@@ -53,10 +53,6 @@ camera.cpp.o: config.h hash_map.h images.h image_types.h
 camera_test.cpp.o: common.h cxx0x.h camera.h vectors.h cyclic_time.h
 camera_test.cpp.o: threads.h config.h hash_map.h images.h image_types.h
 camera_test.cpp.o: animate.h filters.h array.h probability.h events.h args.h
-capture.cpp.o: capture.h common.h cxx0x.h vectors.h
-capture_test.cpp.o: capture.h common.h cxx0x.h vectors.h transforms.h
-capture_test.cpp.o: window.h fft.h splines.h array.h images.h image_types.h
-capture_test.cpp.o: threads.h
 cellular.cpp.o: cellular.h common.h cxx0x.h vectors.h
 cellular_test.cpp.o: cellular.h common.h cxx0x.h vectors.h
 cloud_flow.cpp.o: cloud_flow.h cloud_points.h common.h cxx0x.h cloud_math.h
@@ -157,10 +153,6 @@ linalg.cpp.o: linalg.h common.h cxx0x.h vectors.h
 linalg_test.cpp.o: linalg.h common.h cxx0x.h vectors.h
 matching.cpp.o: matching.h common.h cxx0x.h hash_map.h
 matching_test.cpp.o: matching.h common.h cxx0x.h hash_map.h
-midi.cpp.o: midi.h common.h cxx0x.h gestures.h array.h vectors.h bounded.h
-midi.cpp.o: image_types.h hash_map.h
-midi_test.cpp.o: midi.h common.h cxx0x.h gestures.h array.h vectors.h
-midi_test.cpp.o: bounded.h image_types.h hash_map.h
 misc_test.cpp.o: common.h cxx0x.h window.h
 network_flow.cpp.o: network_flow.h common.h cxx0x.h vectors.h
 network_flow_test.cpp.o: network_flow.h common.h cxx0x.h vectors.h args.h
@@ -204,6 +196,7 @@ raster_audio_test.cpp.o: array.h images.h image_types.h psycho.h filters.h
 raster_audio_test.cpp.o: probability.h synchrony.h bounded.h config.h
 raster_audio_test.cpp.o: hash_map.h gestures.h animate.h events.h audio.h
 raster_audio_test.cpp.o: streaming_vectors.h scripting.h args.h
+rational.cpp.o: rational.h common.h cxx0x.h vectors.h eigen.h
 reassign.cpp.o: reassign.h common.h cxx0x.h fft.h vectors.h window.h
 reassign.cpp.o: splines.h array.h images.h image_types.h transforms.h
 reassign.cpp.o: threads.h
