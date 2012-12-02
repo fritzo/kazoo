@@ -567,7 +567,7 @@ void Bank::init_decay (
     size_t order) const
 {
   ASSERT_LT(0, size);
-  ASSERT_DIVIDES(4, size);
+  //ASSERT_DIVIDES(4, size);
   ASSERT_LT(0, freq0);
   ASSERT_LT(0, freq1);
 
@@ -599,7 +599,7 @@ void Bank::init_decay_transform (
     float min_timescale) const
 {
   ASSERT_LT(0, size);
-  ASSERT_DIVIDES(4, size);
+  //ASSERT_DIVIDES(4, size);
   ASSERT_LT(0, freq0);
   ASSERT_LT(0, freq1);
 
@@ -729,7 +729,7 @@ SimpleBank::SimpleBank (Bank param)
     m_phase_real(size),
     m_phase_imag(size)
 {
-  ASSERT_DIVIDES(4, size);
+  //ASSERT_DIVIDES(4, size);
 
   Bank::init_transform(m_frequency);
 
@@ -1127,7 +1127,7 @@ PhasorBank::PhasorBank (Bank param)
 
     m_temp(m_meso_bend)
 {
-  ASSERT_DIVIDES(4, size);
+  //ASSERT_DIVIDES(4, size);
   ASSERT_LT(0, param.acuity);
   ASSERT_LT(0, param.strength);
 
@@ -1418,7 +1418,7 @@ SyncopatorBank::SyncopatorBank (Bank param)
     m_beat        (size, m_data + size * 6),
     m_temp        (size, m_data + size * 7)
 {
-  ASSERT_DIVIDES(4, size);
+  //ASSERT_DIVIDES(4, size);
   ASSERT_LT(0, param.acuity);
   ASSERT_LT(0, param.strength);
 
@@ -1563,7 +1563,7 @@ GeomBank::GeomBank (Bank param)
 
     m_force_snapshot(0,0)
 {
-  ASSERT_DIVIDES(4, size);
+  //ASSERT_DIVIDES(4, size);
   ASSERT_LT(0, param.acuity);
   ASSERT_LT(0, param.strength);
 
@@ -1753,7 +1753,7 @@ GeomSet::GeomSet (
 
     m_force_gain(m_timescale)
 {
-  ASSERT_DIVIDES(4, m_size);
+  //ASSERT_DIVIDES(4, m_size);
   ASSERT_LT(min_freq, max_freq);
   ASSERT_LT(max_freq, 0.1f);
   ASSERT_LT(0, m_min_duration);
@@ -2053,7 +2053,7 @@ BoltzBank::BoltzBank (Bank param)
 
     m_force_snapshot(0,0)
 {
-  ASSERT_DIVIDES(4, size);
+  //ASSERT_DIVIDES(4, size);
   ASSERT_LT(0, param.acuity);
   ASSERT_LT(0, param.strength);
 
