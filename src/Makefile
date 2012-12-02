@@ -160,7 +160,7 @@ sse: FORCE synchrony.cpp.o
 
 #----( main targets )---------------------------------------------------------
 
-kazoo: kazoo.cpp.o dirt.cpp.o table.cpp.o bucket.cpp.o ball.cpp.o tracker.cpp.o calibration.cpp.o playback.cpp.o streaming_devices.cpp.o streaming_camera.cpp.o streaming_video.cpp.o streaming_audio.cpp.o streaming_shared.cpp.o streaming.cpp.o matching.cpp.o flock.cpp.o particle_synthesis.cpp.o streaming_synthesis.cpp.o synthesis.cpp.o psycho.cpp.o synchrony.cpp.o regression.cpp.o linalg.cpp.o propagate.cpp.o filters.cpp.o probability.cpp.o optim.cpp.o splines.cpp.o camera.cpp.o audio.cpp.o animate.cpp.o events.cpp.o particles.cpp.o images.cpp.o gestures.cpp.o random.cpp.o vectors.cpp.o eigen.cpp.o threads.cpp.o args.cpp.o common.cpp.o
+kazoo: kazoo.cpp.o dirt.cpp.o table.cpp.o bucket.cpp.o ball.cpp.o sing.cpp.o rational.cpp.o tracker.cpp.o calibration.cpp.o playback.cpp.o streaming_devices.cpp.o streaming_camera.cpp.o streaming_video.cpp.o streaming_audio.cpp.o streaming_shared.cpp.o streaming.cpp.o matching.cpp.o flock.cpp.o particle_synthesis.cpp.o streaming_synthesis.cpp.o synthesis.cpp.o psycho.cpp.o synchrony.cpp.o regression.cpp.o linalg.cpp.o propagate.cpp.o filters.cpp.o probability.cpp.o optim.cpp.o splines.cpp.o camera.cpp.o audio.cpp.o animate.cpp.o events.cpp.o particles.cpp.o images.cpp.o gestures.cpp.o random.cpp.o vectors.cpp.o eigen.cpp.o threads.cpp.o args.cpp.o common.cpp.o
 	@echo linking $@
 	@$(CXX) $(CXXFLAGS) $^ $(LFLAGS) $(LAPACK) $(V4L2) $(PNG) $(FFMPEG) $(EIGEN) -o $@
 	@$(STRIP_SYMBOLS) $@

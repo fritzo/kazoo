@@ -75,6 +75,7 @@ Harmony::Harmony (
   ASSERT(size % 2, "Harmony does not have an odd number of points");
   m_mass.zero();
   m_mass[(size - 1) / 2] = 1; // start with all mass at center
+  m_analysis.zero();
   m_dmass.zero();
 }
 
@@ -153,30 +154,15 @@ void Harmony::compute_prior ()
   }
 }
 
-void Harmony::sample (
-    Vector<complex> & sound_accum)
+void Harmony::analyze (const Vector<complex> & sound_in)
 {
-  const size_t F = m_points.size();
-
-  compute_prior();
-
-  for (size_t i = 0; i < F; ++i) {
-    m_dmass[i] = (1.0f - m_sustain) * (m_prior[i] - m_mass[i])
-               + m_randomize_rate * random_std() * m_mass[i];
-  }
-
-  m_synth.sample_accum(m_mass, m_dmass, sound_accum);
-  m_mass += m_dmass;
+  m_anal.sample(sound_in, m_analysis);
 }
 
-void Harmony::sample (
-    const Vector<complex> & sound_in,
-    Vector<complex> & sound_accum)
+void Harmony::sample (Vector<complex> & sound_accum)
 {
-  ASSERT_EQ(sound_in.size, sound_accum.size);
   const size_t F = m_points.size();
 
-  m_anal.sample(sound_in, m_analysis);
   compute_prior();
 
   for (size_t i = 0; i < F; ++i) {

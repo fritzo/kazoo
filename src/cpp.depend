@@ -135,8 +135,8 @@ kazoo.cpp.o: synchrony.h filters.h probability.h psycho.h splines.h images.h
 kazoo.cpp.o: config.h hash_map.h streaming_video.h streaming_camera.h
 kazoo.cpp.o: camera.h streaming_devices.h animate.h events.h audio.h
 kazoo.cpp.o: streaming_synthesis.h flock.h regression.h linalg.h tracker.h
-kazoo.cpp.o: matching.h table.h calibration.h bucket.h ball.h movement.h
-kazoo.cpp.o: dirt.h playback.h args.h
+kazoo.cpp.o: matching.h table.h calibration.h bucket.h ball.h sing.h
+kazoo.cpp.o: rational.h eigen.h movement.h dirt.h playback.h args.h
 learn.cpp.o: common.h cxx0x.h streaming.h vectors.h cyclic_time.h
 learn.cpp.o: audio_types.h threads.h streaming_shared.h streaming_audio.h
 learn.cpp.o: synthesis.h array.h gestures.h bounded.h image_types.h
@@ -205,6 +205,11 @@ reassign.cpp.o: splines.h array.h images.h image_types.h transforms.h
 reassign.cpp.o: threads.h
 regression.cpp.o: regression.h common.h cxx0x.h vectors.h linalg.h
 regression_test.cpp.o: regression.h common.h cxx0x.h vectors.h linalg.h
+sing.cpp.o: sing.h common.h cxx0x.h streaming_audio.h streaming.h vectors.h
+sing.cpp.o: cyclic_time.h audio_types.h threads.h synthesis.h array.h
+sing.cpp.o: gestures.h bounded.h image_types.h synchrony.h filters.h
+sing.cpp.o: probability.h psycho.h splines.h images.h config.h hash_map.h
+sing.cpp.o: rational.h eigen.h
 sparse.cpp.o: sparse.h common.h cxx0x.h vectors.h
 sparse_test.cpp.o: sparse.h common.h cxx0x.h vectors.h linalg.h args.h
 spectrogram.cpp.o: spectrogram.h common.h cxx0x.h fft.h vectors.h window.h

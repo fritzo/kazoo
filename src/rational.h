@@ -166,12 +166,8 @@ public:
       float randomize_rate = HARMONY_RANDOMIZE_RATE);
   ~Harmony ();
 
-  void sample (
-      Vector<complex> & sound_accum);
-
-  void sample (
-      const Vector<complex> & sound_in,
-      Vector<complex> & sound_accum);
+  void analyze (const Vector<complex> & sound_in);
+  void sample (Vector<complex> & sound_accum);
 
 private:
 

@@ -12,7 +12,7 @@
 #include "table.h"
 #include "bucket.h"
 #include "ball.h"
-//#include "rational.h" // TODO
+#include "sing.h"
 #include "movement.h"
 #include "dirt.h"
 #include "playback.h"
@@ -1705,12 +1705,42 @@ void run_ball (Args & args)
 
 void run_sing_alone(Args & args)
 {
-  TODO("sing alone");
+  float acuity = args.pop(Rational::HARMONY_ACUITY);
+
+  StereoAudioThread audio(false);
+  SpeakerGain speaker_gain;
+  RationalSinger singer(acuity);
+
+  audio.in - speaker_gain;
+  speaker_gain.in - singer;
+
+  run();
 }
 
 void run_sing_together(Args & args)
 {
-  TODO("sing together");
+  float acuity = args.pop(Rational::HARMONY_ACUITY);
+
+  StereoAudioThread audio(not g_deaf);
+  SpeakerGain speaker_gain;
+  RationalSinger singer(acuity);
+
+  audio.in - speaker_gain;
+  speaker_gain.in - singer;
+
+  if (g_deaf) {
+
+    run();
+
+  } else {
+
+    MicGain mic_gain;
+
+    audio.out - mic_gain;
+    mic_gain.out - singer;
+
+    run();
+  }
 }
 
 void run_sing (Args & args)
@@ -1916,7 +1946,7 @@ int main (int argc, char ** argv)
     .case_("bucket", run_bucket)
     .case_("table", run_table)
     .case_("ball", run_ball)
-    .case_("soing", run_sing)
+    .case_("sing", run_sing)
     .case_("help", run_long_help)
     .default_error();
 
