@@ -12,6 +12,7 @@
 #include "table.h"
 #include "bucket.h"
 #include "ball.h"
+//#include "rational.h" // TODO
 #include "movement.h"
 #include "dirt.h"
 #include "playback.h"
@@ -1700,6 +1701,26 @@ void run_ball (Args & args)
     .default_error();
 }
 
+//----( singing commands )----------------------------------------------------
+
+void run_sing_alone(Args & args)
+{
+  TODO("sing alone");
+}
+
+void run_sing_together(Args & args)
+{
+  TODO("sing together");
+}
+
+void run_sing (Args & args)
+{
+  args
+    .case_("alone", run_sing_alone)
+    .case_("together", run_sing_together)
+    .default_error();
+}
+
 } // namespace Streaming
 
 using namespace Streaming;
@@ -1850,6 +1871,9 @@ const char * long_help_message =
 "\n    blobs | wobbler | hats | strings"
 "\n      [FINGER_CAPACITY]"
 "\n    band [NUM_MEMBERS = 4] [FINGER_CAPACITY]"
+"\n  sing"
+"\n    alone"
+"\n    together"
 ;
 
 const char * short_help_message =
@@ -1892,6 +1916,7 @@ int main (int argc, char ** argv)
     .case_("bucket", run_bucket)
     .case_("table", run_table)
     .case_("ball", run_ball)
+    .case_("soing", run_sing)
     .case_("help", run_long_help)
     .default_error();
 

@@ -548,6 +548,11 @@ public:
   SimpleBank (Bank param);
   virtual ~SimpleBank ();
 
+  void set_frequency (const Vector<float> & frequency)
+  {
+    m_frequency = frequency;
+  }
+
   void sample_accum (
       const Vector<float> & amplitude0_in,
       const Vector<float> & damplitude_in,
@@ -587,9 +592,14 @@ public:
 
 class FourierBank2 : public Bank
 {
+protected:
+
   Vector<float> m_rescale;
   Vector<float> m_trans_real;
   Vector<float> m_trans_imag;
+
+private:
+
   Vector<float> m_pos_real;
   Vector<float> m_pos_imag;
   Vector<float> m_vel_real;

@@ -160,9 +160,9 @@ sse: FORCE synchrony.cpp.o
 
 #----( main targets )---------------------------------------------------------
 
-kazoo: kazoo.cpp.o dirt.cpp.o table.cpp.o bucket.cpp.o ball.cpp.o tracker.cpp.o calibration.cpp.o playback.cpp.o streaming_devices.cpp.o streaming_camera.cpp.o streaming_video.cpp.o streaming_audio.cpp.o streaming_shared.cpp.o streaming.cpp.o matching.cpp.o flock.cpp.o particle_synthesis.cpp.o streaming_synthesis.cpp.o synthesis.cpp.o psycho.cpp.o synchrony.cpp.o regression.cpp.o linalg.cpp.o propagate.cpp.o filters.cpp.o probability.cpp.o optim.cpp.o splines.cpp.o camera.cpp.o audio.cpp.o animate.cpp.o events.cpp.o particles.cpp.o images.cpp.o gestures.cpp.o random.cpp.o vectors.cpp.o threads.cpp.o args.cpp.o common.cpp.o
+kazoo: kazoo.cpp.o dirt.cpp.o table.cpp.o bucket.cpp.o ball.cpp.o tracker.cpp.o calibration.cpp.o playback.cpp.o streaming_devices.cpp.o streaming_camera.cpp.o streaming_video.cpp.o streaming_audio.cpp.o streaming_shared.cpp.o streaming.cpp.o matching.cpp.o flock.cpp.o particle_synthesis.cpp.o streaming_synthesis.cpp.o synthesis.cpp.o psycho.cpp.o synchrony.cpp.o regression.cpp.o linalg.cpp.o propagate.cpp.o filters.cpp.o probability.cpp.o optim.cpp.o splines.cpp.o camera.cpp.o audio.cpp.o animate.cpp.o events.cpp.o particles.cpp.o images.cpp.o gestures.cpp.o random.cpp.o vectors.cpp.o eigen.cpp.o threads.cpp.o args.cpp.o common.cpp.o
 	@echo linking $@
-	@$(CXX) $(CXXFLAGS) $^ $(LFLAGS) $(LAPACK) $(V4L2) $(PNG) $(FFMPEG) -o $@
+	@$(CXX) $(CXXFLAGS) $^ $(LFLAGS) $(LAPACK) $(V4L2) $(PNG) $(FFMPEG) $(EIGEN) -o $@
 	@$(STRIP_SYMBOLS) $@
 
 learn: learn.cpp.o gloves.cpp.o voice.cpp.o raster_audio.cpp.o streaming_devices.cpp.o streaming_camera.cpp.o streaming_video.cpp.o streaming_audio.cpp.o streaming_shared.cpp.o streaming.cpp.o psycho.cpp.o synchrony.cpp.o streaming_clouds.cpp.o clouds.cpp.o cloud_persistence.cpp.o cloud_math.cpp.o cloud_points.cpp.o cloud_points_cpu.cpp.o cloud_points_gpu.cu.o cloud_kernels.cpp.o cloud_kernels_tbb.cpp.o cloud_kernels.cu.o cloud_flow.cpp.o cloud_map.cpp.o sparse.cpp.o linalg.cpp.o filters.cpp.o probability.cpp.o optim.cpp.o splines.cpp.o compress.cpp.o camera.cpp.o audio.cpp.o animate.cpp.o events.cpp.o images.cpp.o gestures.cpp.o random.cpp.o eigen_gpu.cpp.o gpu.cu.o histogram.cpp.o eigen.cpp.o vectors.cu.o vectors.cpp.o threads.cpp.o args.cpp.o common.cpp.o
@@ -370,6 +370,12 @@ synchrony-test: synchrony_test FORCE
 	./synchrony_test phasor
 	@#./synchrony_test fourier
 	@#./synchrony_test loop
+
+rational_test: rational_test.cpp.o rational.cpp.o synchrony.cpp.o images.cpp.o vectors.cpp.o eigen.cpp.o common.cpp.o
+	@echo linking $@
+	@$(CXX) $(CXXFLAGS) $^ $(LFLAGS) $(PNG) $(LAPACK) $(EIGEN) -o $@
+rational-test: rational_test FORCE
+	./rational_test
 
 raster_audio_test: raster_audio_test.cpp.o raster_audio.cpp.o streaming_devices.cpp.o streaming.cpp.o animate.cpp.o audio.cpp.o vectors.cpp.o events.cpp.o threads.cpp.o args.cpp.o common.cpp.o
 raster-audio-test: raster_audio_test

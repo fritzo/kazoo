@@ -196,7 +196,10 @@ raster_audio_test.cpp.o: array.h images.h image_types.h psycho.h filters.h
 raster_audio_test.cpp.o: probability.h synchrony.h bounded.h config.h
 raster_audio_test.cpp.o: hash_map.h gestures.h animate.h events.h audio.h
 raster_audio_test.cpp.o: streaming_vectors.h scripting.h args.h
-rational.cpp.o: rational.h common.h cxx0x.h vectors.h eigen.h
+rational.cpp.o: rational.h common.h cxx0x.h vectors.h synchrony.h filters.h
+rational.cpp.o: array.h probability.h bounded.h eigen.h
+rational_test.cpp.o: rational.h common.h cxx0x.h vectors.h synchrony.h
+rational_test.cpp.o: filters.h array.h probability.h bounded.h eigen.h
 reassign.cpp.o: reassign.h common.h cxx0x.h fft.h vectors.h window.h
 reassign.cpp.o: splines.h array.h images.h image_types.h transforms.h
 reassign.cpp.o: threads.h
