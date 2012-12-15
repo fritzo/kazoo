@@ -12,12 +12,10 @@ namespace Rational
 
 static const float HARMONY_MAX_RADIUS = sqrtf(24*24 + 1*1 + 1e-4f); // 279 keys
 static const float HARMONY_PRIOR_SEC = 8.0f;
-static const float HARMONY_ACUITY = 3.0f;
+static const float HARMONY_ACUITY = 7.0f;
 static const float HARMONY_SUSTAIN_SEC = 1.0f;
 static const float HARMONY_ATTACK_SEC = 0.1f;
-static const float HARMONY_BACKGROUND_GAIN = 0.3f;
-static const float HARMONY_UPDATE_HZ = 60.0f;
-static const float HARMONY_RANDOMIZE_RATE = 0.0f;
+static const float HARMONY_RANDOMIZE_RATE = 20.0f;
 
 int gcd (int a, int b);
 
@@ -161,8 +159,6 @@ public:
       float acuity = HARMONY_ACUITY,
       float sustain_sec = HARMONY_SUSTAIN_SEC,
       float attack_sec = HARMONY_ATTACK_SEC,
-      float background_gain = HARMONY_BACKGROUND_GAIN, // TODO depricate
-      float update_hz = HARMONY_UPDATE_HZ, // TODO depricate
       float randomize_rate = HARMONY_RANDOMIZE_RATE);
   ~Harmony ();
 

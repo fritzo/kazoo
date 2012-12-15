@@ -4,11 +4,16 @@
 namespace Streaming
 {
 
-RationalSinger::RationalSinger (float acuity)
+RationalSinger::RationalSinger (
+    float acuity,
+    float randomize_rate)
   : m_harmony(
       Rational::HARMONY_MAX_RADIUS,
-      Rational::HARMONY_ACUITY,
-      acuity)
+      Rational::HARMONY_PRIOR_SEC,
+      acuity,
+      Rational::HARMONY_SUSTAIN_SEC,
+      Rational::HARMONY_ATTACK_SEC,
+      randomize_rate)
 {
 }
 

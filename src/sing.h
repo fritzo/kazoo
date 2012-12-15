@@ -18,7 +18,9 @@ class RationalSinger
 
 public:
 
-  RationalSinger (float acuity = Rational::HARMONY_ACUITY);
+  RationalSinger (
+      float acuity = Rational::HARMONY_ACUITY,
+      float randomize_rate = Rational::HARMONY_RANDOMIZE_RATE);
 
   virtual void push (Seconds time, const StereoAudioFrame & sound_in);
   virtual void pull (Seconds time, StereoAudioFrame & sound_out);

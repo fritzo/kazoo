@@ -47,8 +47,6 @@ Harmony::Harmony (
     float acuity,
     float sustain_sec,
     float attack_sec,
-    float background_gain,
-    float update_hz,
     float randomize_rate)
   : m_attack(attack_sec / DEFAULT_AUDIO_FRAMERATE),
     m_sustain(sustain_sec / DEFAULT_AUDIO_FRAMERATE),
@@ -65,6 +63,7 @@ Harmony::Harmony (
     m_synth(m_points)
 {
   size_t size = m_points.size();
+  LOG("Building Harmony with " << size << " points");
 
   for (size_t i = 0; i < size; ++i) {
     for (size_t j = 0; j < size; ++j) {

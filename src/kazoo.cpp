@@ -1706,10 +1706,11 @@ void run_ball (Args & args)
 void run_sing_alone(Args & args)
 {
   float acuity = args.pop(Rational::HARMONY_ACUITY);
+  float randomize_rate = args.pop(Rational::HARMONY_RANDOMIZE_RATE);
 
   StereoAudioThread audio(false);
   SpeakerGain speaker_gain;
-  RationalSinger singer(acuity);
+  RationalSinger singer(acuity, randomize_rate);
 
   audio.in - speaker_gain;
   speaker_gain.in - singer;
@@ -1720,10 +1721,11 @@ void run_sing_alone(Args & args)
 void run_sing_together(Args & args)
 {
   float acuity = args.pop(Rational::HARMONY_ACUITY);
+  float randomize_rate = args.pop(Rational::HARMONY_RANDOMIZE_RATE);
 
   StereoAudioThread audio(not g_deaf);
   SpeakerGain speaker_gain;
-  RationalSinger singer(acuity);
+  RationalSinger singer(acuity, randomize_rate);
 
   audio.in - speaker_gain;
   speaker_gain.in - singer;
@@ -1902,8 +1904,8 @@ const char * long_help_message =
 "\n      [FINGER_CAPACITY]"
 "\n    band [NUM_MEMBERS = 4] [FINGER_CAPACITY]"
 "\n  sing"
-"\n    alone"
-"\n    together"
+"\n    alone [ACUITY = 7] [RANDOMIZE_RATE = 20]"
+"\n    together [ACUITY = 7] [RANDOMIZE_RATE = 20]"
 ;
 
 const char * short_help_message =
