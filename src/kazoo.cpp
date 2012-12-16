@@ -1703,22 +1703,7 @@ void run_ball (Args & args)
 
 //----( singing commands )----------------------------------------------------
 
-void run_sing_alone(Args & args)
-{
-  float acuity = args.pop(Rational::HARMONY_ACUITY);
-  float randomize_rate = args.pop(Rational::HARMONY_RANDOMIZE_RATE);
-
-  StereoAudioThread audio(false);
-  SpeakerGain speaker_gain;
-  RationalSinger singer(acuity, randomize_rate);
-
-  audio.in - speaker_gain;
-  speaker_gain.in - singer;
-
-  run();
-}
-
-void run_sing_together(Args & args)
+void run_sing (Args & args)
 {
   float acuity = args.pop(Rational::HARMONY_ACUITY);
   float randomize_rate = args.pop(Rational::HARMONY_RANDOMIZE_RATE);
@@ -1743,14 +1728,6 @@ void run_sing_together(Args & args)
 
     run();
   }
-}
-
-void run_sing (Args & args)
-{
-  args
-    .case_("alone", run_sing_alone)
-    .case_("together", run_sing_together)
-    .default_error();
 }
 
 } // namespace Streaming
@@ -1903,9 +1880,7 @@ const char * long_help_message =
 "\n    blobs | wobbler | hats | strings"
 "\n      [FINGER_CAPACITY]"
 "\n    band [NUM_MEMBERS = 4] [FINGER_CAPACITY]"
-"\n  sing"
-"\n    alone [ACUITY = 7] [RANDOMIZE_RATE = 20]"
-"\n    together [ACUITY = 7] [RANDOMIZE_RATE = 20]"
+"\n  sing [ACUITY = 7] [RANDOMIZE_RATE = 10]"
 ;
 
 const char * short_help_message =

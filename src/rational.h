@@ -15,7 +15,7 @@ static const float HARMONY_PRIOR_SEC = 8.0f;
 static const float HARMONY_ACUITY = 7.0f;
 static const float HARMONY_SUSTAIN_SEC = 1.0f;
 static const float HARMONY_ATTACK_SEC = 0.1f;
-static const float HARMONY_RANDOMIZE_RATE = 20.0f;
+static const float HARMONY_RANDOMIZE_RATE = 10.0f;
 
 int gcd (int a, int b);
 
@@ -140,6 +140,7 @@ class Harmony
   const float m_randomize_rate;
   std::vector<Number> m_points;
 
+  Vector<float> m_pitch;
   MatrixXf & m_energy_matrix;
   VectorXf & m_mass_vector;
   VectorXf & m_prior_vector;
@@ -168,6 +169,7 @@ public:
 private:
 
   void compute_prior ();
+  void centralize_pitch();
 };
 
 } // namespace Rational

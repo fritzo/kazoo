@@ -48,10 +48,13 @@ Harmony::Harmony (
     float sustain_sec,
     float attack_sec,
     float randomize_rate)
+
   : m_attack(attack_sec / DEFAULT_AUDIO_FRAMERATE),
     m_sustain(sustain_sec / DEFAULT_AUDIO_FRAMERATE),
-    m_randomize_rate(randomize_rate / DEFAULT_AUDIO_FRAMERATE),
+    m_randomize_rate(randomize_rate / sqrtf(DEFAULT_AUDIO_FRAMERATE)),
     m_points(ball_of_radius(max_radius)),
+
+    m_pitch(m_points.size()),
     m_energy_matrix(* new MatrixXf(m_points.size(), m_points.size())),
     m_mass_vector(* new VectorXf(m_points.size())),
     m_prior_vector(* new VectorXf(m_points.size())),
@@ -59,11 +62,16 @@ Harmony::Harmony (
     m_prior(m_points.size(), m_prior_vector.data()),
     m_analysis(m_points.size()),
     m_dmass(m_points.size()),
+
     m_anal(m_points, acuity),
     m_synth(m_points)
 {
   size_t size = m_points.size();
   LOG("Building Harmony with " << size << " points");
+
+  for (size_t i = 0; i < size; ++i) {
+    m_pitch[i] = m_points[i].to_float();
+  }
 
   for (size_t i = 0; i < size; ++i) {
     for (size_t j = 0; j < size; ++j) {
@@ -153,6 +161,27 @@ void Harmony::compute_prior ()
   }
 }
 
+void Harmony::centralize_pitch ()
+{
+  const size_t F = m_points.size();
+
+  float pitch_pitch = 0;
+  float dmass_pitch = 0;
+  for (size_t i = 0; i < F; ++i) {
+    float p = m_pitch[i];
+    float m = max(TOL, m_mass[i] + m_dmass[i]);
+    float metric = 1.0f / max(TOL, sqr(m));
+    pitch_pitch += p * metric * p;
+    dmass_pitch += p * metric * m;
+  }
+
+  const float dmass_coeff = -dmass_pitch / max(TOL, pitch_pitch);
+  for (size_t i = 0; i < F; ++i) {
+    m_dmass[i] += dmass_coeff * m_pitch[i];
+    m_dmass[i] = max(m_dmass[i], TOL - m_mass[i]);
+  }
+}
+
 void Harmony::analyze (const Vector<complex> & sound_in)
 {
   m_anal.sample(sound_in, m_analysis);
@@ -167,8 +196,11 @@ void Harmony::sample (Vector<complex> & sound_accum)
   for (size_t i = 0; i < F; ++i) {
     m_dmass[i] = m_attack * m_analysis[i]
                + (1.0f - m_sustain) * (m_prior[i] - m_mass[i])
-               + m_randomize_rate * random_std() * m_mass[i];
+               + m_mass[i] * (expf(m_randomize_rate * random_std()) - 1);
+    m_dmass[i] = max(m_dmass[i], TOL - m_mass[i]);
   }
+
+  centralize_pitch();
 
   m_synth.sample_accum(m_mass, m_dmass, sound_accum);
   m_mass += m_dmass;
