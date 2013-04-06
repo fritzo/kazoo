@@ -14,3 +14,9 @@ To get a kazoo instrument running on a new system:
 5. build everything with make -c $KAZOO build
 6. [optional] install python module with make -C $KAZOO install
 7. [optional] install boot init script with $KAZOO/init.sh
+
+## LICENSE
+
+Copyright (C) 2009-2012 Fritz Obermeyer
+Licensed under the MIT license:
+http://www.opensource.org/licenses/mit-license.php
