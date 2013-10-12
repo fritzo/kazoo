@@ -963,19 +963,19 @@ BOILERPLATE_TYPE("_transforms", Spline2DSeparable)
 
 //----( misc functions )------------------------------------------------------
 
-PyObject * new_Vector<float> (PyObject * self, PyObject * args);
-PyObject * new_Vector<complex> (PyObject * self, PyObject * args);
+PyObject * new_Vector_float (PyObject * self, PyObject * args);
+PyObject * new_Vector_complex (PyObject * self, PyObject * args);
 PyObject * hdr_real_color (PyObject * self, PyObject * args);
 
 //----( kazoo module )--------------------------------------------------------
 
 static PyMethodDef kazoo_methods[] = {
-  { "Vector<float>", new_Vector<float>, METH_VARARGS,
-    "Vector<float>(size0 [,size1, size2, size3])\n\n"
+  { "Vector_float", new_Vector_float, METH_VARARGS,
+    "Vector_float(size0 [,size1, size2, size3])\n\n"
     "Creates a memory-aligned array of float32 values initialized to zero."
     "WARNING: the array memory is never freed."},
-  { "Vector<complex>", new_Vector<complex>, METH_VARARGS,
-    "Vector<complex>(size0 [,size1, size2, size3])\n\n"
+  { "Vector_complex", new_Vector_complex, METH_VARARGS,
+    "Vector_complex(size0 [,size1, size2, size3])\n\n"
     "Creates a memory-aligned array of complex64 values initialized to zero."
     "WARNING: the array memory is never freed."},
   { "hdr_real_color", hdr_real_color, METH_VARARGS,

@@ -15,6 +15,7 @@ $i portaudio19-dev libstk0-dev # these conflicts with jack2
 $i libcvaux-dev libcv-dev libhighgui-dev
 $i python-numpy python-scipy python-matplotlib python-dev
 $i libsuitesparse-dev
+$i libatlas-base-dev
 $i mplayer
 
 # install jack
@@ -26,6 +27,7 @@ sudo echo '@audio  -  memlock  760974' >> /etc/security/limits.conf
 # install non-packaged tools
 ./install-fftwf.sh
 ./install-lemon.sh
+./install-eigen.sh
 ./install-cuda.sh
 
 # make data directory

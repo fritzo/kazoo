@@ -113,7 +113,7 @@
 
 //----( vector conversions )--------------------------------------------------
 
-PyArrayObject * py_Vector<float> (const Vector<float> & vector)
+PyArrayObject * py_Vector_float (const Vector<float> & vector)
 {
   size_t nd = 1;
   static npy_intp dims[1];
@@ -123,7 +123,7 @@ PyArrayObject * py_Vector<float> (const Vector<float> & vector)
   return (PyArrayObject *) array;
 }
 
-Vector<float> c_Vector<float> (PyArrayObject * array, size_t true_size = 0)
+Vector<float> c_Vector_float (PyArrayObject * array, size_t true_size = 0)
 {
   size_t nd = PyArray_NDIM(array);
   ASSERT(PyArray_TYPE(array) == PyArray_FLOAT,
@@ -143,7 +143,7 @@ Vector<float> c_Vector<float> (PyArrayObject * array, size_t true_size = 0)
   return Vector<float>(size, (float*)PyArray_DATA(array));
 }
 
-Vector<complex> c_Vector<complex> (PyArrayObject * array, size_t true_size = 0)
+Vector<complex> c_Vector_complex (PyArrayObject * array, size_t true_size = 0)
 {
   ASSERT(PyArray_TYPE(array) == PyArray_CFLOAT,
          "array must have type complex64");
@@ -321,7 +321,7 @@ PyObject* Audio_read (AudioObject * self, PyObject * args)
   ASSERT_COMPLEXES(time_in, object->size());
 
   LOG1("reading audio input");
-  Vector<complex> c_time_in = c_Vector<complex>(time_in);
+  Vector<complex> c_time_in = c_Vector_complex(time_in);
   Py_BEGIN_ALLOW_THREADS
   object->read(c_time_in);
   Py_END_ALLOW_THREADS
@@ -348,7 +348,7 @@ PyObject* Audio_write (AudioObject * self, PyObject * args)
   ASSERT_COMPLEXES(time_out, object->size());
 
   LOG1("writing audio output");
-  Vector<complex> c_time_out = c_Vector<complex>(time_out);
+  Vector<complex> c_time_out = c_Vector_complex(time_out);
   Py_BEGIN_ALLOW_THREADS
   object->write(c_time_out);
   Py_END_ALLOW_THREADS
@@ -412,7 +412,7 @@ PyObject* Screen_draw_vh (ScreenObject * self, PyObject * args)
   ASSERT_REALS2(data, object->height(), object->width());
 
   LOG1("drawing 2D array");
-  Vector<float> c_data = c_Vector<float>(data);
+  Vector<float> c_data = c_Vector_float(data);
   Py_BEGIN_ALLOW_THREADS
   object->draw(c_data, false);
   if (key_pressed()) exit(0);
@@ -440,7 +440,7 @@ PyObject* Screen_draw_hv (ScreenObject * self, PyObject * args)
   ASSERT_REALS2(data, object->width(), object->height());
 
   LOG1("drawing 2D array");
-  Vector<float> c_data = c_Vector<float>(data);
+  Vector<float> c_data = c_Vector_float(data);
   Py_BEGIN_ALLOW_THREADS
   object->draw(c_data, true);
   if (key_pressed()) exit(0);
@@ -467,7 +467,7 @@ PyObject* Screen_vertical_sweep (ScreenObject * self, PyObject * args)
   ASSERT_REALS(data, object->height());
 
   LOG1("drawing vertical sweep");
-  Vector<float> c_data = c_Vector<float>(data);
+  Vector<float> c_data = c_Vector_float(data);
   Py_BEGIN_ALLOW_THREADS
   object->vertical_sweep(c_data);
   if (key_pressed()) exit(0);
@@ -510,7 +510,7 @@ PyObject* Spectrogram_weights (SpectrogramObject * self)
   Spectrogram* object = self->object;
   ASSERT(object != NULL, "Spectrogram NULL");
 
-  PyArrayObject* result = py_Vector<float>(object->weights());
+  PyArrayObject* result = py_Vector_float(object->weights());
 
   Py_INCREF(result);
   return (PyObject *) result;
@@ -537,8 +537,8 @@ PyObject* Spectrogram_transform_fwd (SpectrogramObject * self, PyObject * args)
   ASSERT_REALS(freq_out, object->size() / 2);
 
   LOG1("running fft");
-  Vector<complex> c_time_in = c_Vector<complex>(time_in);
-  Vector<float> c_freq_out = c_Vector<float>(freq_out);
+  Vector<complex> c_time_in = c_Vector_complex(time_in);
+  Vector<float> c_freq_out = c_Vector_float(freq_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_fwd(c_time_in,
                         c_freq_out);
@@ -569,8 +569,8 @@ PyObject* Spectrogram_transform_bwd (SpectrogramObject * self, PyObject * args)
   ASSERT_COMPLEXES(time_out, object->size());
 
   LOG1("running fft");
-  Vector<float> c_freq_in = c_Vector<float>(freq_in);
-  Vector<complex> c_time_out = c_Vector<complex>(time_out);
+  Vector<float> c_freq_in = c_Vector_float(freq_in);
+  Vector<complex> c_time_out = c_Vector_complex(time_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_bwd(c_freq_in,
                         c_time_out);
@@ -641,7 +641,7 @@ PyObject* Supergram_weights (SupergramObject * self)
   Supergram* object = self->object;
   ASSERT(object != NULL, "Supergram NULL");
 
-  PyArrayObject * result = py_Vector<float>(object->weights());
+  PyArrayObject * result = py_Vector_float(object->weights());
 
   Py_INCREF(result);
   return (PyObject *) result;
@@ -652,7 +652,7 @@ PyObject* Supergram_synth (SupergramObject * self)
   Supergram* object = self->object;
   ASSERT(object != NULL, "Supergram NULL");
 
-  PyArrayObject * result = py_Vector<float>(object->synth());
+  PyArrayObject * result = py_Vector_float(object->synth());
 
   Py_INCREF(result);
   return (PyObject *) result;
@@ -679,8 +679,8 @@ PyObject* Supergram_transform_fwd (SupergramObject * self, PyObject * args)
   ASSERT_REALS(freq_out, object->super_size());
 
   LOG1("running fft");
-  Vector<complex> c_time_in = c_Vector<complex>(time_in, object->small_size());
-  Vector<float> c_freq_out = c_Vector<float>(freq_out, object->super_size());
+  Vector<complex> c_time_in = c_Vector_complex(time_in, object->small_size());
+  Vector<float> c_freq_out = c_Vector_float(freq_out, object->super_size());
   Py_BEGIN_ALLOW_THREADS
   object->transform_fwd(c_time_in,
                         c_freq_out);
@@ -711,8 +711,8 @@ PyObject* Supergram_transform_bwd (SupergramObject * self, PyObject * args)
   ASSERT_COMPLEXES(time_out, object->small_size());
 
   LOG1("running fft");
-  Vector<float> c_freq_in = c_Vector<float>(freq_in);
-  Vector<complex> c_time_out = c_Vector<complex>(time_out);
+  Vector<float> c_freq_in = c_Vector_float(freq_in);
+  Vector<complex> c_time_out = c_Vector_complex(time_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_bwd(c_freq_in,
                         c_time_out);
@@ -832,9 +832,9 @@ PyObject* Phasogram_transform (PhasogramObject * self, PyObject * args)
   ASSERT_COMPLEXES(sound_out, object->size_out());
 
   LOG1("running transform");
-  Vector<float> c_mass_in = c_Vector<float>(mass_in, object->size_in());
-  Vector<float> c_amplitude_in = c_Vector<float>(amplitude_in, object->size_in());
-  Vector<complex> c_sound_out = c_Vector<complex>(sound_out, object->size_out());
+  Vector<float> c_mass_in = c_Vector_float(mass_in, object->size_in());
+  Vector<float> c_amplitude_in = c_Vector_float(amplitude_in, object->size_in());
+  Vector<complex> c_sound_out = c_Vector_complex(sound_out, object->size_out());
 
   Py_BEGIN_ALLOW_THREADS
   object->transform(
@@ -909,8 +909,8 @@ PyObject* Pitchgram_transform (PitchgramObject * self, PyObject * args)
   ASSERT_REALS(pitch_out, object->size_out());
 
   LOG1("running transform");
-  Vector<complex> c_time_in = c_Vector<complex>(time_in, object->size_in());
-  Vector<float> c_pitch_out = c_Vector<float>(pitch_out, object->size_out());
+  Vector<complex> c_time_in = c_Vector_complex(time_in, object->size_in());
+  Vector<float> c_pitch_out = c_Vector_float(pitch_out, object->size_out());
 
   Py_BEGIN_ALLOW_THREADS
   object->transform(
@@ -993,9 +993,9 @@ PyObject* MultiScale_transform_fwd (MultiScaleObject * self, PyObject * args)
   ASSERT_REALS(snd_out, object->size_snd());
 
   LOG1("splitting super --> fst + snd");
-  Vector<float> c_super_in = c_Vector<float>(super_in);
-  Vector<float> c_fst_out = c_Vector<float>(fst_out);
-  Vector<float> c_snd_out = c_Vector<float>(snd_out);
+  Vector<float> c_super_in = c_Vector_float(super_in);
+  Vector<float> c_fst_out = c_Vector_float(fst_out);
+  Vector<float> c_snd_out = c_Vector_float(snd_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_fwd(c_super_in,
                         c_fst_out,
@@ -1031,9 +1031,9 @@ PyObject* MultiScale_transform_bwd (MultiScaleObject * self, PyObject * args)
   ASSERT_REALS(super_out, object->size_super());
 
   LOG("fusing fst + snd --> super");
-  Vector<float> c_fst_io = c_Vector<float>(fst_io);
-  Vector<float> c_snd_io = c_Vector<float>(snd_io);
-  Vector<float> c_super_out = c_Vector<float>(super_out);
+  Vector<float> c_fst_io = c_Vector_float(fst_io);
+  Vector<float> c_snd_io = c_Vector_float(snd_io);
+  Vector<float> c_super_out = c_Vector_float(super_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_bwd(c_fst_io,
                         c_snd_io,
@@ -1104,9 +1104,9 @@ PyObject* HiLoSplitter_transform_fwd (HiLoSplitterObject * self, PyObject * args
   ASSERT_REALS(low_out, object->size_lowpass());
 
   LOG1("splitting full --> high + low");
-  Vector<float> c_full_in = c_Vector<float>(full_in);
-  Vector<float> c_high_out = c_Vector<float>(high_out);
-  Vector<float> c_low_out = c_Vector<float>(low_out);
+  Vector<float> c_full_in = c_Vector_float(full_in);
+  Vector<float> c_high_out = c_Vector_float(high_out);
+  Vector<float> c_low_out = c_Vector_float(low_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_fwd(c_full_in,
                         c_high_out,
@@ -1142,9 +1142,9 @@ PyObject* HiLoSplitter_transform_bwd (HiLoSplitterObject * self, PyObject * args
   ASSERT_REALS(full_out, object->size());
 
   LOG("fusing high + low --> full");
-  Vector<float> c_high_in = c_Vector<float>(high_in);
-  Vector<float> c_low_in = c_Vector<float>(low_in);
-  Vector<float> c_full_out = c_Vector<float>(full_out);
+  Vector<float> c_high_in = c_Vector_float(high_in);
+  Vector<float> c_low_in = c_Vector_float(low_in);
+  Vector<float> c_full_out = c_Vector_float(full_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_bwd(c_high_in,
                         c_low_in,
@@ -1212,8 +1212,8 @@ PyObject* Shepard_transform_fwd (ShepardObject * self, PyObject * args)
   ASSERT_REALS(tone_out, object->size_out());
 
   LOG1("converting pitch --> tone");
-  Vector<float> c_pitch_in = c_Vector<float>(pitch_in);
-  Vector<float> c_tone_out = c_Vector<float>(tone_out);
+  Vector<float> c_pitch_in = c_Vector_float(pitch_in);
+  Vector<float> c_tone_out = c_Vector_float(tone_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_fwd(c_pitch_in,
                         c_tone_out);
@@ -1244,8 +1244,8 @@ PyObject* Shepard_transform_bwd (ShepardObject * self, PyObject * args)
   ASSERT_REALS(pitch_out, object->size_in());
 
   LOG("converting tone --> pitch");
-  Vector<float> c_tone_in = c_Vector<float>(tone_in);
-  Vector<float> c_pitch_out = c_Vector<float>(pitch_out);
+  Vector<float> c_tone_in = c_Vector_float(tone_in);
+  Vector<float> c_pitch_out = c_Vector_float(pitch_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_bwd(c_tone_in,
                         c_pitch_out);
@@ -1310,8 +1310,8 @@ PyObject* Loudness_transform_fwd (LoudnessObject * self, PyObject * args)
   ASSERT_REALS(loudness_out, object->size());
 
   LOG1("converting energy --> loudness");
-  Vector<float> c_energy_in = c_Vector<float>(energy_in);
-  Vector<float> c_loudness_out = c_Vector<float>(loudness_out);
+  Vector<float> c_energy_in = c_Vector_float(energy_in);
+  Vector<float> c_loudness_out = c_Vector_float(loudness_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_fwd(c_energy_in,
                         c_loudness_out);
@@ -1342,8 +1342,8 @@ PyObject* Loudness_transform_bwd (LoudnessObject * self, PyObject * args)
   ASSERT_REALS(energy_out, object->size());
 
   LOG("converting loudness --> energy");
-  Vector<float> c_loudness_in = c_Vector<float>(loudness_in);
-  Vector<float> c_energy_out = c_Vector<float>(energy_out);
+  Vector<float> c_loudness_in = c_Vector_float(loudness_in);
+  Vector<float> c_energy_out = c_Vector_float(energy_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_bwd(c_loudness_in,
                         c_energy_out);
@@ -1401,8 +1401,8 @@ PyObject* Sharpener_transform (SharpenerObject * self, PyObject * args)
   ASSERT_REALS(freq_out, object->size());
 
   LOG1("sharpening spectrum");
-  Vector<float> c_freq_in = c_Vector<float>(freq_in);
-  Vector<float> c_freq_out = c_Vector<float>(freq_out);
+  Vector<float> c_freq_in = c_Vector_float(freq_in);
+  Vector<float> c_freq_out = c_Vector_float(freq_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform(c_freq_in,
                     c_freq_out);
@@ -1460,8 +1460,8 @@ PyObject* OctaveLower_transform (OctaveLowerObject * self, PyObject * args)
   ASSERT_COMPLEXES(sound_out, object->size());
 
   LOG1("lowering pitch by one octave");
-  Vector<complex> c_sound_in = c_Vector<complex>(sound_in);
-  Vector<complex> c_sound_out = c_Vector<complex>(sound_out);
+  Vector<complex> c_sound_in = c_Vector_complex(sound_in);
+  Vector<complex> c_sound_out = c_Vector_complex(sound_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform(c_sound_in,
                     c_sound_out);
@@ -1527,8 +1527,8 @@ PyObject* PitchShift_transform (PitchShiftObject * self, PyObject * args)
   ASSERT_COMPLEXES(sound_out, object->size());
 
   LOG1("shifting pitch");
-  Vector<complex> c_sound_in = c_Vector<complex>(sound_in);
-  Vector<complex> c_sound_out = c_Vector<complex>(sound_out);
+  Vector<complex> c_sound_in = c_Vector_complex(sound_in);
+  Vector<complex> c_sound_out = c_Vector_complex(sound_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform(c_sound_in,
                     c_sound_out);
@@ -1604,8 +1604,8 @@ PyObject* Melodigram_transform_fwd (MelodigramObject * self, PyObject * args)
   ASSERT_REALS(corr_out, object->size_out());
 
   LOG("computing melodigram transform");
-  Vector<float> c_pitch_in = c_Vector<float>(pitch_in);
-  Vector<float> c_corr_out = c_Vector<float>(corr_out);
+  Vector<float> c_pitch_in = c_Vector_float(pitch_in);
+  Vector<float> c_corr_out = c_Vector_float(corr_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_fwd(c_pitch_in,
                         c_corr_out);
@@ -1640,9 +1640,9 @@ PyObject* Melodigram_transform_bwd (MelodigramObject * self, PyObject * args)
   ASSERT_REALS(pitch_out, object->size());
 
   LOG("inverting melodigram transform");
-  Vector<float> c_prev_pitch_in = c_Vector<float>(prev_pitch_in);
-  Vector<float> c_corr_in = c_Vector<float>(corr_in);
-  Vector<float> c_pitch_out = c_Vector<float>(pitch_out);
+  Vector<float> c_prev_pitch_in = c_Vector_float(prev_pitch_in);
+  Vector<float> c_corr_in = c_Vector_float(corr_in);
+  Vector<float> c_pitch_out = c_Vector_float(pitch_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_bwd(c_prev_pitch_in,
                         c_corr_in,
@@ -1709,8 +1709,8 @@ PyObject* Rhythmgram_transform_fwd (RhythmgramObject * self, PyObject * args)
   ASSERT_REALS(tempo_out, object->size_out());
 
   LOG("computing rhythmgram transform");
-  Vector<float> c_value_in = c_Vector<float>(value_in);
-  Vector<float> c_tempo_out = c_Vector<float>(tempo_out);
+  Vector<float> c_value_in = c_Vector_float(value_in);
+  Vector<float> c_tempo_out = c_Vector_float(tempo_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_fwd(c_value_in,
                         c_tempo_out);
@@ -1741,8 +1741,8 @@ PyObject* Rhythmgram_transform_bwd (RhythmgramObject * self, PyObject * args)
   ASSERT_REALS(value_out, object->size_in());
 
   LOG("inverting rhythmgram transform");
-  Vector<float> c_tempo_in = c_Vector<float>(tempo_in);
-  Vector<float> c_value_out = c_Vector<float>(value_out);
+  Vector<float> c_tempo_in = c_Vector_float(tempo_in);
+  Vector<float> c_value_out = c_Vector_float(value_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_bwd(c_tempo_in,
                         c_value_out);
@@ -1809,8 +1809,8 @@ PyObject* Correlogram_transform_fwd (CorrelogramObject * self, PyObject * args)
   ASSERT_REALS(corr_out, object->size_out());
 
   LOG("converting frequency --> tone");
-  Vector<float> c_freq_in = c_Vector<float>(freq_in);
-  Vector<float> c_corr_out = c_Vector<float>(corr_out);
+  Vector<float> c_freq_in = c_Vector_float(freq_in);
+  Vector<float> c_corr_out = c_Vector_float(corr_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_fwd(c_freq_in,
                         c_corr_out);
@@ -1845,9 +1845,9 @@ PyObject* Correlogram_transform_bwd (CorrelogramObject * self, PyObject * args)
   ASSERT_REALS(freq_out, object->size_in());
 
   LOG("converting tone --> frequency");
-  Vector<float> c_prev_freq_in = c_Vector<float>(prev_freq_in);
-  Vector<float> c_corr_in = c_Vector<float>(corr_in);
-  Vector<float> c_freq_out = c_Vector<float>(freq_out);
+  Vector<float> c_prev_freq_in = c_Vector_float(prev_freq_in);
+  Vector<float> c_corr_in = c_Vector_float(corr_in);
+  Vector<float> c_freq_out = c_Vector_float(freq_out);
   Py_BEGIN_ALLOW_THREADS
   object->transform_bwd(c_prev_freq_in,
                         c_corr_in,
@@ -1923,7 +1923,7 @@ PyObject* History_add (HistoryObject * self, PyObject * args)
   ASSERT_REALS(frame_in, object->size());
 
   LOG1("adding frame to history");
-  Vector<float> c_frame_in = c_Vector<float>(frame_in);
+  Vector<float> c_frame_in = c_Vector_float(frame_in);
   Py_BEGIN_ALLOW_THREADS
   object->add(c_frame_in);
   Py_END_ALLOW_THREADS
@@ -1947,7 +1947,7 @@ PyObject* History_get (HistoryObject * self, PyObject * args)
   ASSERT_REALS2(history_out, object->length(), object->size());
 
   LOG1("getting history");
-  Vector<float> c_history_out = c_Vector<float>(history_out);
+  Vector<float> c_history_out = c_Vector_float(history_out);
   Py_BEGIN_ALLOW_THREADS
   object->get(c_history_out);
   Py_END_ALLOW_THREADS
@@ -1974,8 +1974,8 @@ PyObject* History_transform (HistoryObject * self, PyObject * args)
   ASSERT_REALS2(history_out, object->length(), object->size());
 
   LOG1("running history transform");
-  Vector<float> c_frame_in = c_Vector<float>(frame_in);
-  Vector<float> c_history_out = c_Vector<float>(history_out);
+  Vector<float> c_frame_in = c_Vector_float(frame_in);
+  Vector<float> c_history_out = c_Vector_float(history_out);
   Py_BEGIN_ALLOW_THREADS
   object->add(c_frame_in);
   object->get(c_history_out);
@@ -2016,7 +2016,7 @@ static int Spline_init (
     self->object = new Spline(size_in,
                                 size_out);
   } else {
-    Vector<float> c_fun = c_Vector<float>(fun);
+    Vector<float> c_fun = c_Vector_float(fun);
     self->object = new Spline(size_in,
                               size_out,
                               c_fun);
@@ -2072,8 +2072,8 @@ PyObject* Spline_transform_fwd (SplineObject * self, PyObject * args)
   ASSERT_REALS(e_rng, object->size_out());
 
   LOG1("running forward 1D object");
-  Vector<float> c_e_dom = c_Vector<float>(e_dom);
-  Vector<float> c_e_rng = c_Vector<float>(e_rng);
+  Vector<float> c_e_dom = c_Vector_float(e_dom);
+  Vector<float> c_e_rng = c_Vector_float(e_rng);
   Py_BEGIN_ALLOW_THREADS
   object->transform_fwd(c_e_dom,
                         c_e_rng);
@@ -2104,8 +2104,8 @@ PyObject* Spline_transform_bwd (SplineObject * self, PyObject * args)
   ASSERT_REALS(e_dom, object->size_in());
 
   LOG1("running backward 1D object");
-  Vector<float> c_e_rng = c_Vector<float>(e_rng);
-  Vector<float> c_e_dom = c_Vector<float>(e_dom);
+  Vector<float> c_e_rng = c_Vector_float(e_rng);
+  Vector<float> c_e_dom = c_Vector_float(e_dom);
   Py_BEGIN_ALLOW_THREADS
   object->transform_bwd(c_e_rng,
                         c_e_dom);
@@ -2181,8 +2181,8 @@ PyObject* Spline2DSeparable_transform_fwd (Spline2DSeparableObject * self, PyObj
   ASSERT_REALS2(e_rng, object->size_out1(), object->size_out2());
 
   LOG("running forward 2D object");
-  Vector<float> c_e_dom = c_Vector<float>(e_dom);
-  Vector<float> c_e_rng = c_Vector<float>(e_rng);
+  Vector<float> c_e_dom = c_Vector_float(e_dom);
+  Vector<float> c_e_rng = c_Vector_float(e_rng);
   Py_BEGIN_ALLOW_THREADS
   object->transform_fwd(c_e_dom,
                         c_e_rng);
@@ -2210,8 +2210,8 @@ PyObject* Spline2DSeparable_transform_bwd (Spline2DSeparableObject * self, PyObj
   ASSERT_REALS2(e_dom, object->size_in1(), object->size_in2());
 
   LOG("running backward 2D object");
-  Vector<float> c_e_rng = c_Vector<float>(e_rng);
-  Vector<float> c_e_dom = c_Vector<float>(e_dom);
+  Vector<float> c_e_rng = c_Vector_float(e_rng);
+  Vector<float> c_e_dom = c_Vector_float(e_dom);
   Py_BEGIN_ALLOW_THREADS
   object->transform_bwd(c_e_rng,
                         c_e_dom);
@@ -2225,7 +2225,7 @@ PyObject* Spline2DSeparable_transform_bwd (Spline2DSeparableObject * self, PyObj
 
 #define MAX_DIMS 4
 
-PyObject * new_Vector<float> (PyObject * self, PyObject * args)
+PyObject * new_Vector_float (PyObject * self, PyObject * args)
 {
   int sizes[MAX_DIMS+1] = {0,0,0,0,0};
   if (not PyArg_ParseTuple(args, "i|iii",
@@ -2252,7 +2252,7 @@ PyObject * new_Vector<float> (PyObject * self, PyObject * args)
   return result;
 }
 
-PyObject * new_Vector<complex> (PyObject * self, PyObject * args)
+PyObject * new_Vector_complex (PyObject * self, PyObject * args)
 {
   int sizes[MAX_DIMS+1] = {0,0,0,0,0};
   if (not PyArg_ParseTuple(args, "i|iii",
@@ -2299,9 +2299,9 @@ PyObject * hdr_real_color (PyObject * self, PyObject * args)
   ASSERT_REALS2(b, I,J);
 
   LOG("running forward 2D object");
-  Vector<float> c_r = c_Vector<float>(r);
-  Vector<float> c_g = c_Vector<float>(g);
-  Vector<float> c_b = c_Vector<float>(b);
+  Vector<float> c_r = c_Vector_float(r);
+  Vector<float> c_g = c_Vector_float(g);
+  Vector<float> c_b = c_Vector_float(b);
   Py_BEGIN_ALLOW_THREADS
   Image::hdr_real_color(I,J, c_r,c_g,c_b);
   Py_END_ALLOW_THREADS
