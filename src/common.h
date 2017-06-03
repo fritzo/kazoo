@@ -9,6 +9,7 @@
 #include <cmath>
 #include <complex>
 #include <cstdint>
+#include <unistd.h>  // for usleep
 
 using std::cin;
 using std::cout;
