@@ -130,7 +130,7 @@ kazoo_module = Extension(
 setup(
     name="kazoo",
     version=__version__,
-    url="http://obermeyer.svnrepository.com/svn/kazoo",
+    url="https://github.com/fritzo/kazoo",
     description="Streaming audio transforms",
     packages=["kazoo", "kazoo.example"],
     package_dir={"kazoo": "src"},
