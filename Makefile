@@ -19,6 +19,15 @@ mac-install:
 brew:
 	brew install portaudio sdl fftw libpng tbb
 
+#----( testing )------------------------------------------------------------------
+
+lint:
+	flake8 .
+	black --check .
+
+format:
+	black .
+
 #----( misc )------------------------------------------------------------------
 
 all: build

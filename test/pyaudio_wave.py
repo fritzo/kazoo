@@ -1,63 +1,68 @@
-
-#from http://people.csail.mit.edu/hubert/pyaudio/#examples
+# from http://people.csail.mit.edu/hubert/pyaudio/#examples
 
 import pyaudio
 import wave
 
+
 def test_wire():
-  """ A wire between input and output. """
+    """A wire between input and output."""
 
-  chunk = 1024
-  FORMAT = pyaudio.paInt16
-  CHANNELS = 2
-  RATE = DEFAULT_SAMPLE_RATE
-  RECORD_SECONDS = 5
+    chunk = 1024
+    FORMAT = pyaudio.paInt16
+    CHANNELS = 2
+    RATE = DEFAULT_SAMPLE_RATE
+    RECORD_SECONDS = 5
 
-  p = pyaudio.PyAudio()
+    p = pyaudio.PyAudio()
 
-  stream = p.open(format = FORMAT,
-                  channels = CHANNELS, 
-                  rate = RATE, 
-                  input = True,
-                  output = True,
-                  frames_per_buffer = chunk)
+    stream = p.open(
+        format=FORMAT,
+        channels=CHANNELS,
+        rate=RATE,
+        input=True,
+        output=True,
+        frames_per_buffer=chunk,
+    )
 
-  print("* recording")
-  for i in range(0, 44100 / chunk * RECORD_SECONDS):
-    data = stream.read(chunk)
-    stream.write(data, chunk)
-  print("* done")
+    print("* recording")
+    for i in range(0, 44100 / chunk * RECORD_SECONDS):
+        data = stream.read(chunk)
+        stream.write(data, chunk)
+    print("* done")
 
-  stream.stop_stream()
-  stream.close()
-  p.terminate()
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
 
-def test_play(filename = 'test.wav'):
-  """ Play a WAVE file. """
 
-  chunk = 1024
+def test_play(filename="test.wav"):
+    """Play a WAVE file."""
 
-  wf = wave.open(filename, 'rb')
+    chunk = 1024
 
-  p = pyaudio.PyAudio()
+    wf = wave.open(filename, "rb")
 
-  # open stream
-  stream = p.open(format = p.get_format_from_width(wf.getsampwidth()),
-                  channels = wf.getnchannels(),
-                  rate = wf.getframerate(),
-                  output = True)
+    p = pyaudio.PyAudio()
 
-  # read data
-  data = wf.readframes(chunk)
+    # open stream
+    stream = p.open(
+        format=p.get_format_from_width(wf.getsampwidth()),
+        channels=wf.getnchannels(),
+        rate=wf.getframerate(),
+        output=True,
+    )
 
-  # play stream
-  while data != '':
-    stream.write(data)
+    # read data
     data = wf.readframes(chunk)
 
-  stream.close()
-  p.terminate()
+    # play stream
+    while data != "":
+        stream.write(data)
+        data = wf.readframes(chunk)
 
-if __name__ == '__main__':
-  test_wire()
+    stream.close()
+    p.terminate()
 
+
+if __name__ == "__main__":
+    test_wire()

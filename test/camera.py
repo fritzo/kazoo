@@ -5,18 +5,20 @@ from opencv import *
 from opencv.highgui import *
 import main
 
-#----( main commands )--------------------------------------------------------
+# ----( main commands )--------------------------------------------------------
+
 
 @main.command
-def show ():
-  'Show camera captured image'
-  camera = cvCreateCameraCapture(-1)
+def show():
+    "Show camera captured image"
+    camera = cvCreateCameraCapture(-1)
 
-  cvNamedWindow('kazoo')
+    cvNamedWindow("kazoo")
 
-  while True:
-    frame = cvQueryFrame(camera)
-    cvShowImage('kazoo', frame)
+    while True:
+        frame = cvQueryFrame(camera)
+        cvShowImage("kazoo", frame)
 
-if __name__ == '__main__': main.main()
 
+if __name__ == "__main__":
+    main.main()

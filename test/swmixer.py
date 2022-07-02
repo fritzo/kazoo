@@ -1,36 +1,36 @@
+# from http://code.google.com/p/pygalaxy/wiki/SWMixer
 
-#from http://code.google.com/p/pygalaxy/wiki/SWMixer
 
-def mic_test (play_background = False):
-  """records and plays back data from the microphone
-  while playing a test sound in the background.
-    
-  (2009:12:10) XXX this has high latency"""
+def mic_test(play_background=False):
+    """records and plays back data from the microphone
+    while playing a test sound in the background.
 
-  import sys
-  import swmixer
-  import numpy
+    (2009:12:10) XXX this has high latency"""
 
-  swmixer.init(samplerate=44100, chunksize=1024, stereo=False, microphone=True)
+    import sys
+    import swmixer
+    import numpy
 
-  if play_background:
-    snd = swmixer.Sound("test.wav")
-    snd.play(loops=-1)
+    swmixer.init(samplerate=44100, chunksize=1024, stereo=False, microphone=True)
 
-  micdata = []
-  frame = 0
+    if play_background:
+        snd = swmixer.Sound("test.wav")
+        snd.play(loops=-1)
 
-  while True:
-    swmixer.tick()
-    frame += 1
-    if frame < 50:
-      micdata = numpy.append(micdata, swmixer.get_microphone())
-    if frame == 50:
-      micsnd = swmixer.Sound(data=micdata)
-      micsnd.play()
-      micdata = []
-      frame = 0
+    micdata = []
+    frame = 0
 
-if __name__ == '__main__':
-  mic_test()
+    while True:
+        swmixer.tick()
+        frame += 1
+        if frame < 50:
+            micdata = numpy.append(micdata, swmixer.get_microphone())
+        if frame == 50:
+            micsnd = swmixer.Sound(data=micdata)
+            micsnd.play()
+            micdata = []
+            frame = 0
 
+
+if __name__ == "__main__":
+    mic_test()

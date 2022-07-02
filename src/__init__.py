@@ -1,8 +1,7 @@
-
 "Streamable audio transformations."
 
-__version__ = '0.5.13'
-__version_info__ = tuple(int(n) for n in __version__.split('.'))
+__version__ = "0.5.13"
+__version_info__ = tuple(int(n) for n in __version__.split("."))
 
 from . import util
 from . import formats
@@ -14,6 +13,5 @@ from .streaming import *
 
 from . import example
 
-#import psycho
-#import neuron
-
+# import psycho
+# import neuron

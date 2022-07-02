@@ -1,32 +1,32 @@
-
 import kazoo as K
 from kazoo import formats
 
-def record_spectrogram (exponent = 10):
 
-  width = 1 << exponent
-  height = width
-  size = height * width
+def record_spectrogram(exponent=10):
 
-  sound = K.Complexes(width)
-  image = K.Reals(height, width/2)
+    width = 1 << exponent
+    height = width
+    size = height * width
 
-  s = K.Spectrogram(exponent)
-  a = K.Audio(width)
+    sound = K.Complexes(width)
+    image = K.Reals(height, width / 2)
 
-  time = size * a.rate / 60.0
-  print("recording & transforming sound for %g seconds..." % time)
-  a.start()
-  for i in range(height):
-    a.read(sound)
-    s.transform_fwd(sound,image[i,:])
-    a.write(sound) #HACK
-  a.stop()
+    s = K.Spectrogram(exponent)
+    a = K.Audio(width)
 
-  print("saving image")
-  image = formats.energy_to_loudness(image)
-  formats.write_image(image, 'test.png')
+    time = size * a.rate / 60.0
+    print("recording & transforming sound for %g seconds..." % time)
+    a.start()
+    for i in range(height):
+        a.read(sound)
+        s.transform_fwd(sound, image[i, :])
+        a.write(sound)  # HACK
+    a.stop()
 
-if __name__ == '__main__':
-  record_spectrogram()
+    print("saving image")
+    image = formats.energy_to_loudness(image)
+    formats.write_image(image, "test.png")
 
+
+if __name__ == "__main__":
+    record_spectrogram()

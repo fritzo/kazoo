@@ -1,93 +1,96 @@
-
 import kazoo as K
 import numpy
 
-def spectrogram_wire (num_seconds = 5):
-  exponent = 10
-  size = 1 << exponent
 
-  audio = K.Audio(size)
-  spec  = K.Spectrogram(exponent)
-  wire  = K.Wire()
+def spectrogram_wire(num_seconds=5):
+    exponent = 10
+    size = 1 << exponent
 
-  sound1   = K.Complexes()
-  sound2   = K.Complexes()
-  freq_in  = K.Reals()
-  freq_out = K.Reals()
+    audio = K.Audio(size)
+    spec = K.Spectrogram(exponent)
+    wire = K.Wire()
 
-  audio.reading(sound1)
-  spec.stream_fwd(sound1, freq_out)
-  wire.stream(freq_in, freq_out)
-  spec.stream_bwd(freq_in, sound2)
-  audio.writing(sound2)
+    sound1 = K.Complexes()
+    sound2 = K.Complexes()
+    freq_in = K.Reals()
+    freq_out = K.Reals()
 
-  K.validate()
+    audio.reading(sound1)
+    spec.stream_fwd(sound1, freq_out)
+    wire.stream(freq_in, freq_out)
+    spec.stream_bwd(freq_in, sound2)
+    audio.writing(sound2)
 
-  audio.run_until_input()
+    K.validate()
 
-def supergram_wire (size_exponent = 9, factor_exponent = 2):
-  
-  spec  = K.Supergram(size_exponent, factor_exponent)
-  audio = K.Audio(spec.small_size)
+    audio.run_until_input()
 
-  sound1 = K.Complexes()
-  sound2 = K.Complexes()
-  energy = K.Reals()
 
-  audio.reading(sound1)
-  spec.stream_fwd(sound1, energy)
-  spec.stream_bwd(energy, sound2)
-  audio.writing(sound2)
+def supergram_wire(size_exponent=9, factor_exponent=2):
 
-  K.validate()
+    spec = K.Supergram(size_exponent, factor_exponent)
+    audio = K.Audio(spec.small_size)
 
-  audio.run_until_input()
+    sound1 = K.Complexes()
+    sound2 = K.Complexes()
+    energy = K.Reals()
 
-def pitch_bend (size_exponent = 10, factor_exponent = 2, factor=0.5):
+    audio.reading(sound1)
+    spec.stream_fwd(sound1, energy)
+    spec.stream_bwd(energy, sound2)
+    audio.writing(sound2)
 
-  spec  = K.Supergram(size_exponent, factor_exponent)
-  audio = K.Audio(spec.small_size)
+    K.validate()
 
-  size = spec.super_size
-  fun = K.Reals(size)
-  for i in range(size):
-    fun[i] = (0.5 + i) / size * factor
-  bend = K.Spline(size, size, fun)
+    audio.run_until_input()
 
-  sound1 = K.Complexes()
-  sound2 = K.Complexes()
-  energy = K.Reals()
-  bent   = K.Reals()
 
-  audio.reading(sound1)
-  spec.stream_fwd(sound1, energy)
-  bend.stream_fwd(energy, bent)
-  spec.stream_bwd(bent, sound2)
-  audio.writing(sound2)
+def pitch_bend(size_exponent=10, factor_exponent=2, factor=0.5):
 
-  K.validate()
+    spec = K.Supergram(size_exponent, factor_exponent)
+    audio = K.Audio(spec.small_size)
 
-  audio.run_until_input()
+    size = spec.super_size
+    fun = K.Reals(size)
+    for i in range(size):
+        fun[i] = (0.5 + i) / size * factor
+    bend = K.Spline(size, size, fun)
 
-def octave_lower (size = (1<<10)):
+    sound1 = K.Complexes()
+    sound2 = K.Complexes()
+    energy = K.Reals()
+    bent = K.Reals()
 
-  audio = K.Audio(size)
-  lower = K.OctaveLower(size)
+    audio.reading(sound1)
+    spec.stream_fwd(sound1, energy)
+    bend.stream_fwd(energy, bent)
+    spec.stream_bwd(bent, sound2)
+    audio.writing(sound2)
 
-  sound1 = K.Complexes()
-  sound2 = K.Complexes()
+    K.validate()
 
-  audio.reading(sound1)
-  lower.stream(sound1, sound2)
-  audio.writing(sound2)
+    audio.run_until_input()
 
-  K.validate()
 
-  audio.run_until_input()
+def octave_lower(size=(1 << 10)):
 
-if __name__ == '__main__':
-  #spectrogram_wire()
-  #supergram_wire()
-  #pitch_bend()
-  octave_lower()
+    audio = K.Audio(size)
+    lower = K.OctaveLower(size)
 
+    sound1 = K.Complexes()
+    sound2 = K.Complexes()
+
+    audio.reading(sound1)
+    lower.stream(sound1, sound2)
+    audio.writing(sound2)
+
+    K.validate()
+
+    audio.run_until_input()
+
+
+if __name__ == "__main__":
+    # spectrogram_wire()
+    # supergram_wire()
+    # pitch_bend()
+    octave_lower()
