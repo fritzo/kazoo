@@ -53,8 +53,7 @@
 
 #define BOILERPLATE_TYPE(module, name) \
   static PyTypeObject name ## Type = { \
-    PyObject_HEAD_INIT(NULL) \
-    0,                                            /* ob_size */ \
+    PyVarObject_HEAD_INIT(NULL, 0) \
     module "." # name,                            /* tp_name */ \
     sizeof(name ## Object),                       /* tp_basicsize */ \
     0,                                            /* tp_itemsize */ \

@@ -22,9 +22,11 @@ Required Libraries:
 
 # see http://docs.python.org/extending/
 
+import os
 from distutils.core import setup, Extension
+from distutils.sysconfig import get_python_inc, get_python_lib
 
-for line in file('src/__init__.py').readlines():
+for line in open('src/__init__.py'):
   if line.startswith('__version__'):
     exec(line.strip())
 
@@ -69,7 +71,17 @@ kazoo_module = Extension(
       'src/sym33.h',
       'src/events.h',
       ],
-    library_dirs = [ '/usr/local/lib' ],
+    include_dirs=[
+        get_python_inc(),
+        os.path.join(get_python_lib(), "numpy", "core", "include"),
+        '/opt/homebrew/include',
+    ],
+    library_dirs=[
+        get_python_lib(),
+        os.path.join(get_python_lib(), "numpy", "core", "lib"),
+        '/usr/local/lib',
+        '/opt/homebrew/lib',
+    ],
     libraries = [
       'm',
       #'blas',
@@ -94,11 +106,11 @@ kazoo_module = Extension(
       '-ggdb',
       '-O3',
       '-pipe',
-      '-march=native',
+      #'-march=native',
       #'-fno-exceptions',
       #'-fno-rtti',
       '-ffast-math',
-      '-funswitch-loops',
+      #'-funswitch-loops',
       #'-malign-double',
       #'-fomit-frame-pointer',
       #'-funsafe-math-optimizations',

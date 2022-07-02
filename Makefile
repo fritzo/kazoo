@@ -14,6 +14,10 @@ cyg-install:
 	python setup.py install
 win-install:
 	/cygdrive/c/Python26/python.exe setup.py install
+mac-install:
+	python setup.py install
+brew:
+	brew install portaudio sdl fftw libpng tbb
 
 #----( misc )------------------------------------------------------------------
 

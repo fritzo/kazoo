@@ -34,7 +34,7 @@
       self->object = NULL; \
     } \
  \
-    self->ob_type->tp_free((PyObject*)self); \
+    Py_TYPE(self)->tp_free((PyObject*)self); \
   }
 
 #define INT_GETTER(Class,name) \
@@ -42,7 +42,7 @@
   { \
     Class * object = self->object; \
     ASSERT(object != NULL, # Class " NULL"); \
-    return PyInt_FromLong(object->name()); \
+    return PyLong_FromLong(object->name()); \
   }
 #define FLOAT_GETTER(Class,name) \
   PyObject* Class ## _ ## name (Class ## Object * self) \
@@ -171,60 +171,64 @@ Vector<complex> c_Vector_complex (PyArrayObject * array, size_t true_size = 0)
 #endif
 
 #define NEW_MODULE(c_name, py_name, methods, description) \
-  PyObject * c_name; \
-  c_name = Py_InitModule3(py_name, methods, description); \
-  { if (c_name == NULL) return; }
+  static struct PyModuleDef c_name ## _struct = { \
+    PyModuleDef_HEAD_INIT, py_name, description, -1, methods }; \
+  PyObject* c_name = PyModule_Create(&c_name ## _struct); \
+  if (c_name == NULL) return NULL;
 
-#define ADD_TYPE_TO_MODULE(module,name,type) { Py_INCREF( & (type)); \
-  PyModule_AddObject((module), (name), (PyObject *) & (type)); }
+#define ADD_OBJ_TO_MODULE(module,name,obj) { Py_INCREF( & (obj)); \
+  PyModule_AddObject((module), (name), (PyObject *) & (obj)); }
 
 PyMODINIT_FUNC init_kazoo (void)
 {
   import_array();
 
-  if (PyType_Ready(&AudioType) < 0) return;
-  if (PyType_Ready(&ScreenType) < 0) return;
-  if (PyType_Ready(&SpectrogramType) < 0) return;
-  if (PyType_Ready(&SupergramType) < 0) return;
-  if (PyType_Ready(&PhasogramType) < 0) return;
-  if (PyType_Ready(&PitchgramType) < 0) return;
-  if (PyType_Ready(&MultiScaleType) < 0) return;
-  if (PyType_Ready(&HiLoSplitterType) < 0) return;
-  if (PyType_Ready(&ShepardType) < 0) return;
-  if (PyType_Ready(&LoudnessType) < 0) return;
-  if (PyType_Ready(&SharpenerType) < 0) return;
-  if (PyType_Ready(&OctaveLowerType) < 0) return;
-  //if (PyType_Ready(&PitchShiftType) < 0) return;
-  if (PyType_Ready(&MelodigramType) < 0) return;
-  if (PyType_Ready(&RhythmgramType) < 0) return;
-  if (PyType_Ready(&CorrelogramType) < 0) return;
-  if (PyType_Ready(&HistoryType) < 0) return;
-  if (PyType_Ready(&SplineType) < 0) return;
-  if (PyType_Ready(&Spline2DSeparableType) < 0) return;
+  if (PyType_Ready(&AudioType) < 0) return NULL;
+  if (PyType_Ready(&ScreenType) < 0) return NULL;
+  if (PyType_Ready(&SpectrogramType) < 0) return NULL;
+  if (PyType_Ready(&SupergramType) < 0) return NULL;
+  if (PyType_Ready(&PhasogramType) < 0) return NULL;
+  if (PyType_Ready(&PitchgramType) < 0) return NULL;
+  if (PyType_Ready(&MultiScaleType) < 0) return NULL;
+  if (PyType_Ready(&HiLoSplitterType) < 0) return NULL;
+  if (PyType_Ready(&ShepardType) < 0) return NULL;
+  if (PyType_Ready(&LoudnessType) < 0) return NULL;
+  if (PyType_Ready(&SharpenerType) < 0) return NULL;
+  if (PyType_Ready(&OctaveLowerType) < 0) return NULL;
+  //if (PyType_Ready(&PitchShiftType) < 0) return NULL;
+  if (PyType_Ready(&MelodigramType) < 0) return NULL;
+  if (PyType_Ready(&RhythmgramType) < 0) return NULL;
+  if (PyType_Ready(&CorrelogramType) < 0) return NULL;
+  if (PyType_Ready(&HistoryType) < 0) return NULL;
+  if (PyType_Ready(&SplineType) < 0) return NULL;
+  if (PyType_Ready(&Spline2DSeparableType) < 0) return NULL;
 
   NEW_MODULE(k, "_kazoo", kazoo_methods, "Low-level array tools.");
   NEW_MODULE(t, "_transforms", NULL, "Invertible time-series transforms.");
   NEW_MODULE(m, "_models", NULL, "Partially observable time-series models.");
 
-  ADD_TYPE_TO_MODULE(t, "Audio", AudioType);
-  ADD_TYPE_TO_MODULE(t, "Screen", ScreenType);
-  ADD_TYPE_TO_MODULE(t, "Spectrogram", SpectrogramType);
-  ADD_TYPE_TO_MODULE(t, "Supergram", SupergramType);
-  ADD_TYPE_TO_MODULE(t, "Phasogram", PhasogramType);
-  ADD_TYPE_TO_MODULE(t, "Pitchgram", PitchgramType);
-  ADD_TYPE_TO_MODULE(t, "MultiScale", MultiScaleType);
-  ADD_TYPE_TO_MODULE(t, "HiLoSplitter", HiLoSplitterType);
-  ADD_TYPE_TO_MODULE(t, "Shepard", ShepardType);
-  ADD_TYPE_TO_MODULE(t, "Loudness", LoudnessType);
-  ADD_TYPE_TO_MODULE(t, "Sharpener", SharpenerType);
-  ADD_TYPE_TO_MODULE(t, "OctaveLower", OctaveLowerType);
-  //ADD_TYPE_TO_MODULE(t, "PitchShift", PitchShiftType);
-  ADD_TYPE_TO_MODULE(t, "Melodigram", MelodigramType);
-  ADD_TYPE_TO_MODULE(t, "Rhythmgram", RhythmgramType);
-  ADD_TYPE_TO_MODULE(t, "Correlogram", CorrelogramType);
-  ADD_TYPE_TO_MODULE(t, "History", HistoryType);
-  ADD_TYPE_TO_MODULE(t, "Spline", SplineType);
-  ADD_TYPE_TO_MODULE(t, "Spline2DSeparable", Spline2DSeparableType);
+  ADD_OBJ_TO_MODULE(k, "transforms", t);
+  ADD_OBJ_TO_MODULE(m, "models", t);
+
+  ADD_OBJ_TO_MODULE(t, "Audio", AudioType);
+  ADD_OBJ_TO_MODULE(t, "Screen", ScreenType);
+  ADD_OBJ_TO_MODULE(t, "Spectrogram", SpectrogramType);
+  ADD_OBJ_TO_MODULE(t, "Supergram", SupergramType);
+  ADD_OBJ_TO_MODULE(t, "Phasogram", PhasogramType);
+  ADD_OBJ_TO_MODULE(t, "Pitchgram", PitchgramType);
+  ADD_OBJ_TO_MODULE(t, "MultiScale", MultiScaleType);
+  ADD_OBJ_TO_MODULE(t, "HiLoSplitter", HiLoSplitterType);
+  ADD_OBJ_TO_MODULE(t, "Shepard", ShepardType);
+  ADD_OBJ_TO_MODULE(t, "Loudness", LoudnessType);
+  ADD_OBJ_TO_MODULE(t, "Sharpener", SharpenerType);
+  ADD_OBJ_TO_MODULE(t, "OctaveLower", OctaveLowerType);
+  //ADD_OBJ_TO_MODULE(t, "PitchShift", PitchShiftType);
+  ADD_OBJ_TO_MODULE(t, "Melodigram", MelodigramType);
+  ADD_OBJ_TO_MODULE(t, "Rhythmgram", RhythmgramType);
+  ADD_OBJ_TO_MODULE(t, "Correlogram", CorrelogramType);
+  ADD_OBJ_TO_MODULE(t, "History", HistoryType);
+  ADD_OBJ_TO_MODULE(t, "Spline", SplineType);
+  ADD_OBJ_TO_MODULE(t, "Spline2DSeparable", Spline2DSeparableType);
 
   PyModule_AddIntConstant(t, "MIN_EXPONENT", MIN_EXPONENT);
   PyModule_AddIntConstant(t, "MAX_EXPONENT", MAX_EXPONENT);
@@ -233,6 +237,8 @@ PyMODINIT_FUNC init_kazoo (void)
   PyModule_AddIntConstant(t, "DEFAULT_FRAMES_PER_BUFFER", DEFAULT_FRAMES_PER_BUFFER);
   PyModule_AddIntConstant(t, "DEFAULT_MIN_FREQ", DEFAULT_MIN_FREQ);
   PyModule_AddIntConstant(t, "DEFAULT_MAX_FREQ", DEFAULT_MAX_FREQ);
+
+  return k;
 }
 
 //----( audio object object )-------------------------------------------------

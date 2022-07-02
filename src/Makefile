@@ -49,10 +49,12 @@ NVCCFLAGS = -g -arch=sm_20 -use_fast_math \
 # XXX
 CPPFLAGS += -DHACK_TO_LIMIT_GPU_POWER_USAGE
 
-FAST_FLAGS = -O3 -fopenmp -pipe -march=native -ffast-math -funsafe-math-optimizations -ffinite-math-only -fno-trapping-math -mrecip -mfpmath=sse -fvect-cost-model
-PROFILE_FLAGS = -O2 -march=native -fno-exceptions -fno-rtti -ffast-math -funsafe-math-optimizations -ffinite-math-only -fno-trapping-math -mrecip -mfpmath=sse -fvect-cost-model
+FAST_FLAGS = -O3 -fopenmp -pipe -ffast-math -funsafe-math-optimizations -ffinite-math-only -fno-trapping-math -mrecip -mfpmath=sse
+PROFILE_FLAGS = -O2 -fno-exceptions -fno-rtti -ffast-math -funsafe-math-optimizations -ffinite-math-only -fno-trapping-math -mrecip -mfpmath=sse
 #Additionial useful flags:
-#  -ftree-vectorizer-verbose=2
+# -march=native
+# -fvect-cost-model
+# -ftree-vectorizer-verbose=2
 STRIP_SYMBOLS = touch
 
 # nvcc currently does not support gcc4.5 and later
