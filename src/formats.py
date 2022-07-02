@@ -21,7 +21,7 @@ def quote (filename):
 def read_wav (filename, size, width):
   import wave, struct, numpy
 
-  print "reading stereo 16bit wave file from %s" % filename
+  print("reading stereo 16bit wave file from %s" % filename)
 
   #see http://bugs.python.org/issue4913
   file = wave.Wave_read(filename)
@@ -31,7 +31,7 @@ def read_wav (filename, size, width):
 
   n = file.getnframes()
   if n < size:
-    print 'WARNING: %i frames requested, only returning %i' % (size,n)
+    print('WARNING: %i frames requested, only returning %i' % (size,n))
   size = min(n, size)
 
   data = file.readframes(size)
@@ -43,7 +43,7 @@ def read_wav (filename, size, width):
 def write_wav (filename, samples):
   import wave, struct, numpy
 
-  print "writing stereo 16bit wave file to %s" % filename
+  print("writing stereo 16bit wave file to %s" % filename)
 
   file = wave.Wave_write(filename)
   file.setsamplewidth(2)
@@ -62,7 +62,7 @@ def mp3_to_wav (filename):
     os.mkdir('temp')
 
   cmd = "madplay -q %s -o temp/mp3_to_wav.wav" % quote(filename)
-  print cmd
+  print(cmd)
   if os.system(cmd):
     raise IOError("madplay failed with command\n%" % cmd)
 
@@ -77,8 +77,8 @@ class AudioFile:
     "filename must be either .wav or .mp3"
     import wave
 
-    print( 'opening AudioFile %s with window size %i' % (filename, size_out)
-         + (', max_size %i' % max_size if max_size else '') )
+    print(( 'opening AudioFile %s with window size %i' % (filename, size_out)
+         + (', max_size %i' % max_size if max_size else '') ))
 
     if filename[-4:] == '.mp3':
       filename = mp3_to_wav(filename)
@@ -155,14 +155,14 @@ def write_color_image (image, filename, tol=1e-8, transpose=True):
   im = Image.fromarray(colored)
   if transpose:
     im = im.transpose(Image.ROTATE_90)
-  print "saving color image to %s" % filename
+  print("saving color image to %s" % filename)
   im.save(filename)
   return im
 
 def write_gray_image (image, filename, tol=1e-8, transpose=True):
   import Image, numpy
 
-  print "writing image to %s" % filename
+  print("writing image to %s" % filename)
   assert image.min() > -tol, "image out of bounds: min = %g" % image.min()
   assert image.max() < 1+tol, "image out of bounds: max = %g" % image.max()
 
@@ -171,7 +171,7 @@ def write_gray_image (image, filename, tol=1e-8, transpose=True):
   im = Image.fromarray(image.astype(numpy.uint8))
   if transpose:
     im = im.transpose(Image.ROTATE_90)
-  print "saving gray image to %s" % filename
+  print("saving gray image to %s" % filename)
   im.save(filename)
   return im
 
@@ -184,16 +184,16 @@ def concat_images (file_prefix, filetype='jpg', mode='RGB', width=None):
   file_pattern = re.compile('^%s.+\.%s$' % (re.escape(file_prefix), filetype))
   filenames = [f for f in os.listdir('.') if file_pattern.match(f)]
   filenames.sort()
-  print 'concatenating images:\n  ' + '\n  '.join(filenames)
+  print('concatenating images:\n  ' + '\n  '.join(filenames))
   h,w = Image.open(filenames[0]).size
   n = len(filenames)
   if width is None: width = n * w
-  print 'total image size: %i x %i' % (width,h)
+  print('total image size: %i x %i' % (width,h))
   result = Image.new('RGB', (width, h))
   for i,filename in enumerate(filenames):
     result.paste(Image.open(filename), (i * w, 0))
   filename = file_prefix + '.' + filetype
-  print 'saving composite image ' + filename
+  print('saving composite image ' + filename)
   result.save(filename)
 
 #----( mp4 videos )-----------------------------------------------------------
@@ -220,7 +220,7 @@ def images_to_mp4 (filename, framerate=24, filetype='jpg'):
     '-ovc x264',
     '-of lavf -o %s.mp4' % filename,
   ])
-  print cmd
+  print(cmd)
 
   if os.system(cmd):
     raise IOError("mencoder failed with command\n%" % cmd)

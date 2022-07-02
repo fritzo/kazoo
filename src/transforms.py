@@ -17,8 +17,8 @@ TODO run each of Multigram's spectrograms in a separate thread
 import math, numpy
 from _kazoo import *
 from _transforms import *
-import formats
-from formats import AudioFile
+from . import formats
+from .formats import AudioFile
 
 #----( simple transforms )----------------------------------------------------
 
@@ -34,7 +34,8 @@ class Null:
 
 class Splitter:
   "copies input to two outputs"
-  def transform (self, data_in, (left_out, right_out)):
+  def transform (self, data_in, xxx_todo_changeme):
+    (left_out, right_out) = xxx_todo_changeme
     left_out[:] = data_in
     right_out[:] = data_in
 
@@ -86,7 +87,7 @@ class Concat2D:
 class Recorder:
   "saves data in a 2D array"
   def __init__ (self, size_in, num_frames=1, allocator = Reals):
-    print 'building Recorder with %i frames' % num_frames
+    print('building Recorder with %i frames' % num_frames)
     self.size_in = size_in
     self.num_frames = num_frames
     self.data = allocator(num_frames, size_in)
@@ -142,7 +143,7 @@ class ImageBuffer:
 
   def __write (self):
     "writes current data to file"
-    import formats
+    from . import formats
     filename = self.__filename % self.__image_num
     self.__image_num += 1
     self.__width += self.__position
@@ -152,8 +153,8 @@ class ImageBuffer:
     "if any data remains, flushes zero-padded data to a file"
     if self.__position > 0:
       if self.__position < self.num_frames:
-        print "flushing ImageBuffer (%i/%i full)" \
-            % (self.__position, self.num_frames)
+        print("flushing ImageBuffer (%i/%i full)" \
+            % (self.__position, self.num_frames))
         self.__data[self.__position:,:] = 0
       self.__write()
       self.__position = 0
@@ -192,8 +193,8 @@ def Bernstein_polynomials (number, size, sharpness=1.0, mapping = None):
   if mapping is not None:
     t = mapping(t)
   def binomial_coeff (n,m):
-    return ( numpy.product(range(1+m,1+n))
-           / numpy.product(range(1,1+n-m)) )
+    return ( numpy.product(list(range(1+m,1+n)))
+           / numpy.product(list(range(1,1+n-m))) )
   s = 1 - t
   basis = [ binomial_coeff(number,n) * pow(t,n) * pow(s,number-n)
             for n in range(number+1) ]
@@ -228,9 +229,9 @@ class Multigram:
 
     if sample_rate is None: sample_rate = DEFAULT_SAMPLE_RATE
 
-    print "building Multigram(%i, %i, %g)" % (small_exponent,
+    print("building Multigram(%i, %i, %g)" % (small_exponent,
                                               large_exponent,
-                                              sample_rate)
+                                              sample_rate))
 
     self.__small_exponent = small_exponent
     self.__large_exponent = large_exponent
@@ -278,7 +279,7 @@ class Multigram:
     if self.__single_thread:
       self.__super_part = Reals(self.size_out)
     else:
-      import network
+      from . import network
       self.__super_parts = [Reals(self.size_out) for _ in sizes]
       self.__switches = [network.Toggle() for _ in sizes]
       for s,t,d,x in zip(self.__switches,
@@ -294,7 +295,7 @@ class Multigram:
                 network.DEBUG("running Supergram")
                 t.transform_fwd(self.__history[d], x)
               s.toggle()
-          except Exception, e:
+          except Exception as e:
             network.stop_threads()
             raise e
           finally:

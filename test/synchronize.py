@@ -215,7 +215,7 @@ def beats ():
 def beat_response (ratio = 64.0, samples = 2000):
   'Plots convolution of two beat functions'
 
-  param = (array(range(samples)) + 0.5) / samples
+  param = (array(list(range(samples))) + 0.5) / samples
 
   u = pow(ratio, param - 0.5)
   v = 1 / u
@@ -299,13 +299,13 @@ def beat_strength (min_acuity = 3, max_acuity = 7):
 def beat_rescale (min_acuity = 1, max_acuity = 24):
   'Prints & plots beat rescaling coefficients for various acuities'
 
-  print 'acuity\tscale'
-  print '-' * 32
-  acuity = range(min_acuity, max_acuity+1)
-  scale = map(beat_scale, acuity)
+  print('acuity\tscale')
+  print('-' * 32)
+  acuity = list(range(min_acuity, max_acuity+1))
+  scale = list(map(beat_scale, acuity))
 
   for a,s in zip(acuity,scale):
-    print '%i\t%s' % (a,s)
+    print('%i\t%s' % (a,s))
 
   pyplot.title('Beat function rescaling function')
   pyplot.plot(acuity,scale)
@@ -319,13 +319,13 @@ def beat_rescale_log2 (min_log2_acuity = -3, max_log2_acuity = 4, size = 20):
 
   import scipy
 
-  print 'acuity\tscale'
-  print '-' * 32
-  acuity = 0.5 * array(range(2 * min_log2_acuity, 1 + 2 * max_log2_acuity))
-  scale = log(map(beat_scale, exp(acuity))) / log(2)
+  print('acuity\tscale')
+  print('-' * 32)
+  acuity = 0.5 * array(list(range(2 * min_log2_acuity, 1 + 2 * max_log2_acuity)))
+  scale = log(list(map(beat_scale, exp(acuity)))) / log(2)
 
   for a,s in zip(acuity,scale):
-    print '%s\t%s' % (a,s)
+    print('%s\t%s' % (a,s))
 
   pyplot.title('Beat function rescaling function')
   pyplot.plot(acuity, scale, 'o')
@@ -356,8 +356,8 @@ class BeatFun:
 def standard_beat (min_acuity = 1.0, max_acuity = 20.0, count = 12):
   'Plots zero-mean unit-variance beat functions at various acuity'
 
-  print 'acuity\t\tmean\t\tvariance'
-  print '-' * 8 * 6
+  print('acuity\t\tmean\t\tvariance')
+  print('-' * 8 * 6)
 
   angle = arange(0, 2*pi, 0.01)
   for i in range(count):
@@ -369,7 +369,7 @@ def standard_beat (min_acuity = 1.0, max_acuity = 20.0, count = 12):
     Ef2 = sum(beat ** 2) / len(beat)
     Vf = Ef2 - Ef ** 2
 
-    print '%g\t%g\t%g' % (acuity, Ef, Vf)
+    print('%g\t%g\t%g' % (acuity, Ef, Vf))
 
     pyplot.plot(angle, beat)
 
@@ -397,7 +397,7 @@ def sim_strength (size = 6, steps = 40000, period = 40):
   golden = False
   if golden:
     phi = (sqrt(5) - 1) / 2
-    freq0 = pow(phi, array(range(size)) - 0.5 * (size - 1))
+    freq0 = pow(phi, array(list(range(size))) - 0.5 * (size - 1))
   else:
     freq0 = exp(random.randn(size))
 
@@ -503,8 +503,8 @@ def staircases (size = 100, steps = 10000, period = 40):
   This motivates the choice of strength = 1 for coupled pairs.
   '''
 
-  param1 = (array(range(size)) + 0.5) / size
-  param2 = (array(range(5)) + 0.5) / 5
+  param1 = (array(list(range(size))) + 0.5) / size
+  param2 = (array(list(range(5))) + 0.5) / 5
 
   pyplot.figure()
   pyplot.title('Devil\'s staircases for pitch-coupled oscillators')
@@ -554,7 +554,7 @@ def lag (size = 200, steps = 40000, period = 40):
   This motivates coupling peak falling 90deg after the downbeat.
   '''
 
-  param1 = (array(range(size)) + 0.5) / size
+  param1 = (array(list(range(size))) + 0.5) / size
 
   freq1 = ones(size)
   freq2 = pow(2, 6 * (param1 - 0.5))
@@ -620,7 +620,7 @@ def stairs_lag (size = 400, steps = 20000, period = 40):
   This motivates pitch-coupling rather than frequency coupling.
   '''
 
-  param = (array(range(size)) + 0.5) / size
+  param = (array(list(range(size))) + 0.5) / size
 
   freq1 = ones(size)
   freq2 = pow(10, 2 * (param - 0.5))
@@ -700,8 +700,8 @@ def tongues (size = 100, steps = 4000, period = 40):
   and a coupling strength achieving a given 1:1 tongue width.
   '''
 
-  param_x = ((array(range(size)) + 0.5) / size).reshape(1,size)
-  param_y = ((array(range(size)) + 0.5) / size).reshape(size,1)
+  param_x = ((array(list(range(size))) + 0.5) / size).reshape(1,size)
+  param_y = ((array(list(range(size))) + 0.5) / size).reshape(size,1)
 
   couple = 2 * param_y    # ranging in [0,2]
   ratio = pow(2, param_x) # ranging in 1,2
@@ -758,8 +758,8 @@ def keys (size = 100, octaves = 1.0, steps = 4000, period = 40):
   This helps to choose beat function radius.
   '''
 
-  param_x = ((array(range(size)) + 0.5) / size).reshape(1,size)
-  param_y = ((array(range(size)) + 0.5) / size).reshape(size,1)
+  param_x = ((array(list(range(size))) + 0.5) / size).reshape(1,size)
+  param_y = ((array(list(range(size))) + 0.5) / size).reshape(size,1)
 
   min_radius = pi / 12
   max_radius = pi / 2
@@ -825,8 +825,8 @@ def regions (size = 100, steps = 4000, period = 40):
   force = zeros((3,size,size))
   total_phase = zeros((3,size,size))
 
-  param_x = ((array(range(size)) + 0.5) / size).reshape(1,size)
-  param_y = ((array(range(size)) + 0.5) / size).reshape(size,1)
+  param_x = ((array(list(range(size))) + 0.5) / size).reshape(1,size)
+  param_y = ((array(list(range(size))) + 0.5) / size).reshape(size,1)
 
   ratio01 = pow(2, param_x) # ranging in 1,2
   ratio12 = pow(2, param_y) # ranging in 1,2

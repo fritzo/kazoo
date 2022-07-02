@@ -15,16 +15,16 @@ def show_file (size_exponent = 10, time_exponent = 2, freq_exponent = 3):
   large_size = s.super_size
   length = s.super_size #arbitrary
 
-  print "reading sound file"
+  print("reading sound file")
   sound = formats.read_wav('test.wav', small_size*length, small_size)
   image = K.transforms.Reals(length, large_size)
 
-  print "transforming data"
+  print("transforming data")
   for i in range(length):
     s.transform_fwd(sound[i,:], image[i,:])
   #del sound
 
-  print "saving image"
+  print("saving image")
   image = K.util.energy_to_loudness(image + 1e-5)
   formats.write_image(image, 'test.png').show()
 
@@ -34,7 +34,7 @@ def show_signal (size_exponent, factor_exponent, signal, filename):
   length_windows = size / 2
   length_samples = size * length_windows
 
-  print "creating signal"
+  print("creating signal")
   input = K.transforms.Complexes(length_samples)
 
   for i in range(length_samples):
@@ -42,7 +42,7 @@ def show_signal (size_exponent, factor_exponent, signal, filename):
     input[i] = signal(t)
     #print signal(t), #DEBUG
 
-  print "transforming signal"
+  print("transforming signal")
   s = K.Supergram(size_exponent, factor_exponent)
 
   length_frames = length_samples / s.small_size
@@ -52,7 +52,7 @@ def show_signal (size_exponent, factor_exponent, signal, filename):
   for i in range(length_frames):
     s.transform_fwd(input[i,:], output[i,:])
 
-  print "writing supergram to %s" % filename
+  print("writing supergram to %s" % filename)
 
   #XXX this fails due to NaNs and Infs in output XXX
   #output[~isfinite(output)] = 0 #DEBUG

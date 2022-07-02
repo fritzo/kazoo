@@ -28,7 +28,7 @@ def BlackmanNuttall (t):
 
 def narrow_window (width_exponent):
   n = 0.75 * ((1 << (2 * width_exponent)) - 1)
-  print "building synth window with w = %i, n = %g" % (width_exponent, n)
+  print("building synth window with w = %i, n = %g" % (width_exponent, n))
   def h (t): return ((t+1) * (1-t)) ** n
   return h
 

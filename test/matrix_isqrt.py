@@ -54,7 +54,7 @@ def plot_sqrt (max_order = 4):
   pyplot.figure()
   T = arange(0.01,10,0.01)
   for order in range(max_order+1):
-    print pade_sqrt(T, order)
+    print(pade_sqrt(T, order))
     pyplot.plot(T, pade_sqrt(T, order))
   pyplot.xscale('log')
   pyplot.title('sqrt_4(0) = %g' % pade_sqrt(0,4))
@@ -84,10 +84,10 @@ def plot_isqrt (method = 'pade', max_order = 4):
       )
   pyplot.show()
 
-def sym33_mult (
-    (a00, a01, a02, a11, a12, a22),
-    (b00, b01, b02, b11, b12, b22)):
+def sym33_mult (xxx_todo_changeme, xxx_todo_changeme1):
 
+  (a00, a01, a02, a11, a12, a22) = xxx_todo_changeme
+  (b00, b01, b02, b11, b12, b22) = xxx_todo_changeme1
   c00 = a00 * b00 + a01 * b01 + a02 * b02
   c01 = a00 * b01 + a01 * b11 + a02 * b12
   c02 = a00 * b02 + a01 * b12 + a02 * b22
@@ -96,12 +96,12 @@ def sym33_mult (
 
   return array([c00, c01, c02, c11, c12, c22])
 
-def sym33_inverse ((a00, a01, a02, a11, a12, a22)):
+def sym33_inverse (xxx_todo_changeme2):
   '''
   from:
   http://en.wikipedia.org/wiki/Matrix_inverse#Inversion_of_3.C3.973_matrices
   '''
-
+  (a00, a01, a02, a11, a12, a22) = xxx_todo_changeme2
   det = (
         a00 * a11 * a22
         - a00 * a12 ** 2
@@ -139,25 +139,25 @@ pair = [[0,1,2],
 def print_sym33_mult ():
   'Prints c code for symmetric 3x3 matrix multiply'
 
-  print 'inline void multiply (const Sym33 & a, const Sym33 & b, Sym33 & c)'
-  print '{'
-  print '  // produced with python test/matrix_isqrt.py print-sym33-mult'
-  print ''
+  print('inline void multiply (const Sym33 & a, const Sym33 & b, Sym33 & c)')
+  print('{')
+  print('  // produced with python test/matrix_isqrt.py print-sym33-mult')
+  print('')
   for ij in range(6):
     i = fst[ij]
     j = snd[ij]
     terms = ['a[i%d%d] * b[i%d%d]' % (i,k,k,j) for k in range(3)]
-    print '  c[i%d%d] = %s;' % (i,j,' + '.join(terms))
-  print '}'
+    print('  c[i%d%d] = %s;' % (i,j,' + '.join(terms)))
+  print('}')
 
 @main.command
 def print_sym33_inv ():
   'Prints c code for symmetric 3x3 matrix inverse'
 
-  print 'inline void inverse (const Sym33 & a, Sym33 & b)'
-  print '{'
-  print '  // produced with python test/matrix_isqrt.py print-sym33-inv'
-  print ''
+  print('inline void inverse (const Sym33 & a, Sym33 & b)')
+  print('{')
+  print('  // produced with python test/matrix_isqrt.py print-sym33-inv')
+  print('')
   def p (t) : return (t+1) % 3
   def n (t) : return (t+2) % 3
   for ij in range(6):
@@ -165,10 +165,10 @@ def print_sym33_inv ():
     j = snd[ij]
     pos = 'a[i%d%d] * a[i%d%d]' % (p(j),p(i),n(j),n(i))
     neg = 'a[i%d%d] * a[i%d%d]' % (p(j),n(i),n(j),p(i))
-    print '  b[i%d%d] = %s - %s;' % (i,j,pos,neg)
-  print ''
-  print '  b *= 1.0f / det(a);'
-  print '}'
+    print('  b[i%d%d] = %s - %s;' % (i,j,pos,neg))
+  print('')
+  print('  b *= 1.0f / det(a);')
+  print('}')
 
 if __name__ == '__main__': main.main()
 

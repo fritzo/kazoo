@@ -14,28 +14,28 @@ def project_unif (X = 3, Y = 2):
 
   J = exp(randn(Y,X))
   J /= sum(J)
-  print 'J = %s' % J
+  print('J = %s' % J)
 
   p = dot(ones(Y), J)
   q = dot(J, ones(X))
   Z = sum(J)
-  print 'p = %s' % p
-  print 'q = %s' % q
-  print 'Z = %s' % Z
+  print('p = %s' % p)
+  print('q = %s' % q)
+  print('Z = %s' % Z)
 
-  print '\nBefore projecting:'
+  print('\nBefore projecting:')
 
   dJ = randn(Y,X)
-  print 'dJ = %s' % dJ
+  print('dJ = %s' % dJ)
 
   dp = dot(ones(Y), dJ)
   dq = dot(dJ, ones(X))
   dZ = sum(dJ)
-  print 'dp = %s' % dp
-  print 'dq = %s' % dq
-  print 'dZ = %s' % dZ
+  print('dp = %s' % dp)
+  print('dq = %s' % dq)
+  print('dZ = %s' % dZ)
 
-  print '\nAfter projecting:'
+  print('\nAfter projecting:')
 
   dJ -= outer(ones(Y) / Y, dp)
   dJ -= outer(dq, ones(X) / X)
@@ -44,9 +44,9 @@ def project_unif (X = 3, Y = 2):
   dp = dot(ones(Y), dJ)
   dq = dot(dJ, ones(X))
   dZ = sum(dJ)
-  print 'dp = %s' % dp
-  print 'dq = %s' % dq
-  print 'dZ = %s' % dZ
+  print('dp = %s' % dp)
+  print('dq = %s' % dq)
+  print('dZ = %s' % dZ)
 
 @main.command
 def project_log (X = 3, Y = 2):
@@ -54,29 +54,29 @@ def project_log (X = 3, Y = 2):
 
   J = exp(randn(Y,X))
   J /= sum(J)
-  print 'J = %s' % J
+  print('J = %s' % J)
 
   p = dot(ones(Y), J)
   q = dot(J, ones(X))
   Z = sum(J)
-  print 'p = %s' % p
-  print 'q = %s' % q
-  print 'Z = %s' % Z
+  print('p = %s' % p)
+  print('q = %s' % q)
+  print('Z = %s' % Z)
 
-  print '\nBefore projecting:'
+  print('\nBefore projecting:')
 
   dJ = randn(Y,X)
   dJ *= J # convert gradient to descent direction in log(J) metric
-  print 'dJ = %s' % dJ
+  print('dJ = %s' % dJ)
 
   dp = dot(ones(Y), dJ)
   dq = dot(dJ, ones(X))
   dZ = sum(dJ)
-  print 'dp = %s' % dp
-  print 'dq = %s' % dq
-  print 'dZ = %s' % dZ
+  print('dp = %s' % dp)
+  print('dq = %s' % dq)
+  print('dZ = %s' % dZ)
 
-  print '\nAfter projecting:'
+  print('\nAfter projecting:')
 
   dJ -= J * outer(ones(Y), dp / p)
   dJ -= J * outer(dq / q, ones(X))
@@ -85,9 +85,9 @@ def project_log (X = 3, Y = 2):
   dp = dot(ones(Y), dJ)
   dq = dot(dJ, ones(X))
   dZ = sum(dJ)
-  print 'dp = %s' % dp
-  print 'dq = %s' % dq
-  print 'dZ = %s' % dZ
+  print('dp = %s' % dp)
+  print('dq = %s' % dq)
+  print('dZ = %s' % dZ)
 
 @main.command
 def project_iter (tol = 1e-12, X = 3, Y = 2):
@@ -107,22 +107,22 @@ def project_iter (tol = 1e-12, X = 3, Y = 2):
   J = exp(randn(Y,X))
   J /= sum(J)
   if logging:
-    print 'J = %s' % J
+    print('J = %s' % J)
 
   p = dot(ones(Y), J)
   q = dot(J, ones(X))
   Z = sum(J)
   if logging:
-    print 'p = %s' % p
-    print 'q = %s' % q
-    print 'Z = %s' % Z
+    print('p = %s' % p)
+    print('q = %s' % q)
+    print('Z = %s' % Z)
 
-  print '\nBefore projecting:'
+  print('\nBefore projecting:')
 
   dJ = randn(Y,X)
   dJ *= J # convert gradient to descent direction in log(J) metric
   if logging:
-    print 'dJ = %s' % dJ
+    print('dJ = %s' % dJ)
 
   scale = 2 / 3.0
   iters = []
@@ -141,19 +141,19 @@ def project_iter (tol = 1e-12, X = 3, Y = 2):
     errors.append(error)
 
     if error < tol:
-      print 'projection converged after %i steps (expected %g)' \
-          % (iter, -log(tol) / log(3.0))
+      print('projection converged after %i steps (expected %g)' \
+          % (iter, -log(tol) / log(3.0)))
       break
 
-  print '\nAfter projecting:'
+  print('\nAfter projecting:')
 
   dp = dot(ones(Y), dJ)
   dq = dot(dJ, ones(X))
   dZ = sum(dJ)
   if logging:
-    print 'dp/tol = %s' % (dp / tol)
-    print 'dq/tol = %s' % (dq / tol)
-    print 'dZ/tol = %s' % (dZ / tol)
+    print('dp/tol = %s' % (dp / tol))
+    print('dq/tol = %s' % (dq / tol))
+    print('dZ/tol = %s' % (dZ / tol))
 
   pyplot.plot(iters, errors, 'ko')
   pyplot.yscale('log')

@@ -21,16 +21,16 @@ def show_file (bank_size = 512, block_size = K.DEFAULT_FRAMES_PER_BUFFER):
 
   pitchgram = K.Pitchgram(size_in, size_out)
 
-  print "reading sound file"
+  print("reading sound file")
   sound = formats.read_wav('test.wav', size_in*length, size_in)
   image = K.transforms.Reals(length, size_out)
 
-  print "transforming data"
+  print("transforming data")
   for i in range(length):
     pitchgram.transform(sound[i,:], image[i,:])
   #del sound
 
-  print "saving image"
+  print("saving image")
   image = K.util.energy_to_loudness(image + 1e-5)
   formats.write_image(image, 'test.png').show()
 
@@ -48,18 +48,18 @@ def show_signal (bank_size, block_size, signal):
   max_freq = 0.25
   pitchgram = K.Pitchgram(size_in, size_out, min_freq, max_freq)
 
-  print "creating signal"
-  t = array(range(duration)) / block_size
+  print("creating signal")
+  t = array(list(range(duration))) / block_size
   sound = K.transforms.Complexes(duration)
   sound[:] = signal(t)
   sound = sound.reshape((num_blocks, block_size))
 
-  print "transforming signal"
+  print("transforming signal")
   image = K.transforms.Reals(num_blocks, size_out)
   for i in range(num_blocks):
     pitchgram.transform(sound[i,:], image[i,:])
 
-  print "writing pitchgram to pitchgram.png"
+  print("writing pitchgram to pitchgram.png")
   #XXX this fails due to NaNs and Infs in image XXX
   #image[~isfinite(image)] = 0 #DEBUG
   image = K.util.energy_to_loudness(image, 0.1)

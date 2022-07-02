@@ -95,7 +95,7 @@ def play_shepard_raw (num_octaves = 12, cycles = 100):
   audio.start()
   for i in range(cycles):
     audio.write(sound)
-    print '.',
+    print('.', end=' ')
   audio.stop()
 
 @main.command
@@ -108,7 +108,7 @@ def play_shepard_balanced (num_octaves = 12, cycles = 100):
   audio.start()
   for i in range(cycles):
     audio.write(sound)
-    print '.',
+    print('.', end=' ')
   audio.stop()
 
 class Filter:
@@ -140,7 +140,7 @@ def shepard_add (fine_freq = 440, coarse_freq = 100, size = 1<<10):
   freq0 = 2 ** pitch0
   freq1 = 2 ** pitch1
 
-  T = 1.0j * pi * array(range(size))
+  T = 1.0j * pi * array(list(range(size)))
   sound = K.Complexes(size)
   sound += energy0 * exp(pitch0)
   sound += energy1 * exp(pitch1)

@@ -15,7 +15,7 @@ def record_spectrogram (exponent = 10):
   a = K.Audio(width)
 
   time = size * a.rate / 60.0
-  print "recording & transforming sound for %g seconds..." % time
+  print("recording & transforming sound for %g seconds..." % time)
   a.start()
   for i in range(height):
     a.read(sound)
@@ -23,7 +23,7 @@ def record_spectrogram (exponent = 10):
     a.write(sound) #HACK
   a.stop()
 
-  print "saving image"
+  print("saving image")
   image = formats.energy_to_loudness(image)
   formats.write_image(image, 'test.png')
 

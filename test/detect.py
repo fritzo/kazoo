@@ -122,7 +122,7 @@ def hand ():
 
   im = Image.open('hand.png')
   draw = ImageDraw.Draw(im)
-  print 'opened %d x %d image' % im.size
+  print('opened %d x %d image' % im.size)
 
   return im,draw
 

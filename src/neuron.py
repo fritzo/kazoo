@@ -27,7 +27,8 @@ class Model:
 def test1 ():
   "2-d oscillator"
 
-  def time_deriv((x,y), omega, delta, beta, nu = 0.1):
+  def time_deriv(xxx_todo_changeme, omega, delta, beta, nu = 0.1):
+    (x,y) = xxx_todo_changeme
     rr = x**2 + y**2
     return ( omega * y + (delta - rr) * x,
             -omega * (x - beta) + (delta - rr) * y
@@ -59,7 +60,8 @@ def test1 ():
 def test2a ():
   "oscilattor on scircle, exhibiting spiking behavior"
 
-  def time_deriv((x,y), omega, theta, delta, nu = 0.1):
+  def time_deriv(xxx_todo_changeme1, omega, theta, delta, nu = 0.1):
+    (x,y) = xxx_todo_changeme1
     x0 = sin(theta)
     y0 = cos(theta)
     return ( omega * y - delta * (x-x0) + normalvariate(0,nu),
@@ -88,7 +90,8 @@ def test2a ():
 def test2b ():
   "oscilattor on scircle, exhibiting spiking behavior"
 
-  def time_deriv((x,y), omega, theta, delta, nu = 0.1):
+  def time_deriv(xxx_todo_changeme2, omega, theta, delta, nu = 0.1):
+    (x,y) = xxx_todo_changeme2
     x0 = sin(theta)
     y0 = cos(theta)
     return ( omega * y - delta * (x-x0) + normalvariate(0,nu),
@@ -119,7 +122,8 @@ def test2b ():
 def test3 ():
   "complex oscillator"
 
-  def time_deriv((x,y), omega, beta, nu):
+  def time_deriv(xxx_todo_changeme3, omega, beta, nu):
+    (x,y) = xxx_todo_changeme3
     damp = 16 * (1 - (x**2 + y**2))
     return ( omega * y + damp * x,
             -omega * x + damp * y + beta + normalvariate(0,nu) )

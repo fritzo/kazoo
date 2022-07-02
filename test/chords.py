@@ -11,7 +11,7 @@ def layers (offset = 4, *positions):
   positions.add(0)
 
   radius = 3 * 12
-  R = range(radius+1)
+  R = list(range(radius+1))
 
   def marked (p,x,y):
     return (x + offset * y) % 12 == p

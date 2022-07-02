@@ -37,7 +37,7 @@ class Vert:
     self.E = {} # edges will add themselves
 
   def validate (self):
-    for p,e in self.E.iteritems():
+    for p,e in self.E.items():
       assert isinstance(p, Port)
       assert isinstance(e, Edge)
       assert self in e.V
@@ -47,15 +47,15 @@ class Vert:
     assert isinstance(self.F, Energy)
 
     assert isinstance(self.M, dict)
-    for p,energy in self.M.iteritems():
+    for p,energy in self.M.items():
       assert isinstance(p, Port)
       assert isinstance(e, Energy)
 
     assert isinstance(self.A, dict)
-    for p,A in self.A.iteritems():
+    for p,A in self.A.items():
       assert isinstance(p, Port)
       assert isinstance(A, dict)
-      for e,energy in A.iteritems():
+      for e,energy in A.items():
         assert isinstance(e, Edge)
         assert isinstance(energy, Energy)
 
@@ -65,7 +65,7 @@ class Vert:
   def init (self, F,M):
     'Set conditional energies.'
     self.A = dict( (p, dict((e, 0.0) for e in E))
-                   for p,E in self.E.iteritems() )
+                   for p,E in self.E.items() )
     self.F = F
     self.M = M
 
@@ -78,11 +78,11 @@ class Vert:
 
   def propagate (self):
     'Aggregate messages and normalize.'
-    for p,E in self.A.iteritems():
+    for p,E in self.A.items():
       for e in E:
         E[e] = e.assoc_energy() - self.M[p] - self.F
-    for p,E in self.A.iteritems():
-      shift = helmholtz_free_energy(E.itervalues())
+    for p,E in self.A.items():
+      shift = helmholtz_free_energy(iter(E.values()))
       for e in E:
         E[e] -= shift
       self.M[p] -= shift
@@ -94,12 +94,12 @@ class Vert:
     An alternative strategy would be to distribute mass between PF and PM.
     '''
     self.PA = dict( (p, dict((e,e.PA) for e in E))
-                    for p,E in self.E.iteritems() )
+                    for p,E in self.E.items() )
     PM = dict( (p, 1 - sum(PA))
-               for (p,PA) in self.PA.iteritems() ) # overestimated
-    self.PF = min(PM.itervalues())
+               for (p,PA) in self.PA.items() ) # overestimated
+    self.PF = min(PM.values())
     self.PM = dict( (p, PMp - self.PF)
-                    for (p,PMp) in PM.iteritems() ) # minimum
+                    for (p,PMp) in PM.items() ) # minimum
 
 class Edge:
   '''
@@ -112,7 +112,7 @@ class Edge:
 
   def __init__ (self, V):
     self.V = V
-    for v,p in V.iteritems():
+    for v,p in V.items():
       try:
         v.E[p].append(self)
       except KeyError:
@@ -120,7 +120,7 @@ class Edge:
 
   def validate (self):
     assert isinstance(self.V, dict)
-    for v,p in self.V.iteritems():
+    for v,p in self.V.items():
       assert isinstance(v, Vert)
       assert isinstance(p, Port)
       assert p in v.E
@@ -130,7 +130,7 @@ class Edge:
     assert isinstance(self.A, Energy)
 
   def validate_soln (self, tol = 1e-6):
-    for v,p in self.V.iteritems():
+    for v,p in self.V.items():
       assert abs(self.PA - v.PA[p][self]) < tol
 
   def init (self, A):
@@ -150,13 +150,13 @@ class Edge:
     #self.A = A
     # Version 2.
     self.A *= (1 - len(self.V))
-    for v,p in self.V.iteritems():
+    for v,p in self.V.items():
       self.A += v.assoc_energy(p,self)
 
   def constrain (self):
     'Set assoc prob to min over vertex views.'
     self.PA = energy_to_prob(max( v.assoc_energy(p,self)
-                                  for v,p in self.V.iteritems() ))
+                                  for v,p in self.V.items() ))
 
 class Matching:
   '''
@@ -190,7 +190,7 @@ class Matching:
     assert isinstance(self.V, list)
     for v in self.V:
       v.validate()
-      for E in v.E.itervalues():
+      for E in v.E.values():
         for e in E:
           assert e in self.E
 
@@ -198,27 +198,27 @@ class Matching:
     assert isinstance(self.E, list)
     for e in self.E:
       e.validate()
-      for v in e.V.iterkeys():
+      for v in e.V.keys():
         assert v in self.V
 
     # A : E -> Energy
     assert isinstance(self.A, dict)
-    for e,energy in self.A.iteritems():
+    for e,energy in self.A.items():
       assert e in self.E
       assert isinstance(energy, Energy)
 
     # F : V -> Energy
     assert isinstance(self.F, dict)
-    for v,energy in self.F.iteritems():
+    for v,energy in self.F.items():
       assert v in self.V
       assert isinstance(energy, Energy)
 
     # M : V -> P -> Energy
     assert isinstance(self.M, dict)
-    for v,M in self.M.iteritems():
+    for v,M in self.M.items():
       assert v in self.V
       assert isinstance(M, dict)
-      for p,energy in M.iteritems():
+      for p,energy in M.items():
         assert isinstance(p, Port)
         assert isinstance(energy, Energy)
 
@@ -282,7 +282,7 @@ class GridMatching (Matching):
     Ei (= V x V
   '''
   def __init__ (self, points, Avertical, Ahoriz, F, Mup, Mdown, Mleft, Mright):
-    P = range(4)
+    P = list(range(4))
     self.verts = dict((p, Vertex()) for p in points)
     self.edges = {}
     for orient,Aorient in [('v',Avertical), ('h',Ahoriz)]:

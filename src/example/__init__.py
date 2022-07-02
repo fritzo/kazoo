@@ -1,7 +1,7 @@
 
-import animate
-import audiofile
-import read_wav
-import record
-import wire
+from . import animate
+from . import audiofile
+from . import read_wav
+from . import record
+from . import wire
 

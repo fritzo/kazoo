@@ -28,14 +28,14 @@ def hh_stats ():
   'prints statistics of the |head><head| matrix'
   HH = read_array('m_head_head')
 
-  print 'HH: ' + stats(HH)
+  print('HH: ' + stats(HH))
 
   evals = linalg.eigvalsh(HH)
-  print 'HH: condition number = %s' % (evals.max() / evals.min())
-  print 'HH: evals = %s' % evals
+  print('HH: condition number = %s' % (evals.max() / evals.min()))
+  print('HH: evals = %s' % evals)
 
   invHH = linalg.inv(HH)
-  print 'inv(HH): ' + stats(invHH)
+  print('inv(HH): ' + stats(invHH))
 
 @main.command
 def ht_stats ():
@@ -43,23 +43,23 @@ def ht_stats ():
   HH = read_array('m_head_head')
   HT = read_array('m_head_tail')
 
-  print 'HH: ' + stats(HH)
-  print 'HT: ' + stats(HT)
+  print('HH: ' + stats(HH))
+  print('HT: ' + stats(HT))
 
   cholHH = linalg.cholesky(HH)
   F = linalg.cho_solve((cholHH, False), HT)
-  print 'F: ' + stats(F)
-  print 'residual = %s' % sum((dot(HH, F) - HT)**2)
+  print('F: ' + stats(F))
+  print('residual = %s' % sum((dot(HH, F) - HT)**2))
 
   Fsums = F.sum(0);
-  print 'F sums: ' + stats2(Fsums)
+  print('F sums: ' + stats2(Fsums))
 
   B = linalg.cho_solve((cholHH, True), HT.transpose())
-  print 'B: ' + stats(B)
-  print 'residual = %s' % sum((dot(HH, B) - HT.transpose())**2)
+  print('B: ' + stats(B))
+  print('residual = %s' % sum((dot(HH, B) - HT.transpose())**2))
 
   Bsums = B.sum(0);
-  print 'B sums: ' + stats2(Bsums)
+  print('B sums: ' + stats2(Bsums))
 
 if __name__ == '__main__': main.main()
 

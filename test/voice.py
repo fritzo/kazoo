@@ -17,8 +17,8 @@ def plot_spectral_params (w0=30.0, w1=5e3, tau=0.2, I=512):
 
   error = rho * log((tau * w1 + rho) / (tau * w0 + rho)) - I
 
-  print min(rho), max(rho)
-  print min(error), max(error)
+  print(min(rho), max(rho))
+  print(min(error), max(error))
 
   pyplot.figure()
   pyplot.plot(rho, error, 'r-')

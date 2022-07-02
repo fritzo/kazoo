@@ -8,7 +8,7 @@ __all__ = [
 import threading
 
 def DEBUG (mess):
-  print "DEBUG %s" % mess
+  print("DEBUG %s" % mess)
   pass
 
 #----( threading )------------------------------------------------------------
@@ -82,14 +82,14 @@ def debug_threads (fun, delay=5):
 
   time.sleep(delay)
 
-  print "\n+------------------------------------+" \
+  print("\n+------------------------------------+" \
       + "\n| Press any key to see thread stacks |" \
-      + "\n+------------------------------------+",
-  raw_input()
+      + "\n+------------------------------------+", end=' ')
+  input()
 
   frames = sys._current_frames()
-  for thread,frame in frames.iteritems():
-    print "\nThread %i traceback:" % thread
+  for thread,frame in frames.items():
+    print("\nThread %i traceback:" % thread)
     traceback.print_stack(frame)
 
 #----( condition patterns )----
@@ -112,7 +112,7 @@ class Channel:
 
   def __alloc (self, size):
     if self.__data is None:
-      print "allocating channel for %s(%i)" % (self.__allocator.__name__, size)
+      print("allocating channel for %s(%i)" % (self.__allocator.__name__, size))
       self.__data = self.__allocator(size)
     else:
       assert size == len(self.__data),\
@@ -229,7 +229,7 @@ def transform (fun):
                       Channel.data(o))
           Channel.end(i, Channel.READING)
           Channel.end(o, Channel.WRITING)
-      except Exception, e:
+      except Exception as e:
         stop_threads()
         raise e
       finally:
@@ -253,7 +253,7 @@ def source (fun):
           if threads_alive():
             fun(self, Channel.data(o))
           Channel.end(o, Channel.WRITING)
-      except Exception, e:
+      except Exception as e:
         stop_threads()
         raise e
       finally:
@@ -277,7 +277,7 @@ def sink (fun):
           if threads_alive():
             fun(self, Channel.data(i))
           Channel.end(i, Channel.READING)
-      except Exception, e:
+      except Exception as e:
         stop_threads()
         raise e
       finally:
@@ -326,7 +326,7 @@ def finite_source (fun):
             if not fun(self, Channel.data(o)):
               stopped.set()
           Channel.end(o, Channel.WRITING)
-      except Exception, e:
+      except Exception as e:
         stop_threads()
         raise e
       finally:
@@ -395,8 +395,8 @@ def test_pipeline (length = 5):
   class Input:
     @switched(source)
     def read (self, data_out):
-      data_out[0] = raw_input()
-      print "|-- %s" % data_out[0]
+      data_out[0] = input()
+      print("|-- %s" % data_out[0])
     def start (self): self.start_read()
     def stop (self): self.stop_read()
 
@@ -404,38 +404,38 @@ def test_pipeline (length = 5):
     @transform
     def transform (self, data_in, data_out):
       data_out[0] = data_in[0] + '@'
-      print "%s --> %s" % (data_in[0], data_out[0])
+      print("%s --> %s" % (data_in[0], data_out[0]))
 
   class Print:
     @sink
     def write (self, data_out):
-      print "%s --|" % data_out[0]
+      print("%s --|" % data_out[0])
 
   def String ():
     return Channel([''])
 
-  print 'building channels'
+  print('building channels')
   c = [String() for _ in range(length+1)]
 
-  print 'building nodes'
+  print('building nodes')
   i = Input()
   t = [Copy() for _ in range(length)]
   o = Print()
 
-  print 'connecting nodes with channels'
+  print('connecting nodes with channels')
   i.read(c[0])
   for n in range(length):
     t[n].transform(c[n],c[n+1])
   o.write(c[-1])
   validate()
 
-  print 'starting'
+  print('starting')
   i.start()
   time.sleep(2)
-  print 'stopping'
+  print('stopping')
   i.stop()
 
-  print 'stopping threads'
+  print('stopping threads')
   stop_threads()
 
 def test_kill ():

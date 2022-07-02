@@ -31,9 +31,9 @@ def nonlinear_minimize (f, x0, sigma, iters = 1, tol = 1e-6):
 
   I = len(x0)
 
-  print 'solving %i-dimensional nonlinear optimization problem' % I
+  print('solving %i-dimensional nonlinear optimization problem' % I)
 
-  print ' x = %s' % x0
+  print(' x = %s' % x0)
 
   Dx = diag(sigma)
 
@@ -73,9 +73,9 @@ def nonlinear_least_squares (f, x0, cov, iters = 1, min_cov = None):
   J = len(f0)
   S = 2 * I
 
-  print 'solving %i x %i nonlinear least squares problem' % (I,J)
+  print('solving %i x %i nonlinear least squares problem' % (I,J))
 
-  print ' x = %s' % x0
+  print(' x = %s' % x0)
 
   for iter in range(iters):
 
@@ -99,15 +99,15 @@ def nonlinear_least_squares (f, x0, cov, iters = 1, min_cov = None):
     linesearch_step(x0, dx, f)
     chi2_dof = linalg.norm(f(x0)) ** 2 / (J - I)
 
-    print '  |dx| = %g' % linalg.norm(dx)
-    print '  chi^2/dof = %g' % chi2_dof
-    print ' x = %s' % x0
+    print('  |dx| = %g' % linalg.norm(dx))
+    print('  chi^2/dof = %g' % chi2_dof)
+    print(' x = %s' % x0)
 
   return chi2_dof
 
 def fun_with_prior (mean, cov, fun):
   chol_inv = linalg.cholesky(linalg.inv(cov)).T
-  print chol_inv
+  print(chol_inv)
   def new_fun (param):
     y1 = dot(chol_inv, param - mean)
     y2 = fun(param)

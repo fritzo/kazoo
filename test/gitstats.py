@@ -26,7 +26,7 @@ def get_stats (hash):
   'returns: # files changed, # insertions(+), # deletions(-)'
   line = git('diff %s~ %s --shortstat' % (hash,hash)).strip()
   if line:
-    print line
+    print(line)
     parts = [part.strip().split(' ', 1) for part in line.split(',')]
     parts = {key.strip(): int(val) for (val, key) in parts}
     return (parts.get('files changed', parts.get('file changed', 0)),
@@ -48,9 +48,9 @@ def fourier_kde (data, weights = None, acuity = None, size = None):
   size = int(size)
   dim = int(round(3 * acuity))
 
-  print 'Fourier KDE acuity = %g, dim = %g' % (acuity, dim)
+  print('Fourier KDE acuity = %g, dim = %g' % (acuity, dim))
 
-  n = array(range(dim))
+  n = array(list(range(dim)))
   omega = 2.0j * pi * n
   blur = exp(-pi * (n/acuity)**2)
 
@@ -60,7 +60,7 @@ def fourier_kde (data, weights = None, acuity = None, size = None):
   coeff *= blur
   coeff[1:] *= 2 # since we ignore negative frequencies
 
-  t = ((0.5 + array(range(size))) / size)
+  t = ((0.5 + array(list(range(size)))) / size)
   basis = exp(omega.conj().reshape((1,dim)) * t.reshape((size,1)))
 
   return t,dot(basis, coeff).real
@@ -124,8 +124,8 @@ def commitload ():
   total_weeks = total_days / 7.0
 
   times = [time.localtime(t) for hash,t in timestamps]
-  hours = array(map(to_hour, times))
-  wdays = array(map(to_wday, times))
+  hours = array(list(map(to_hour, times)))
+  wdays = array(list(map(to_wday, times)))
 
   hour,commits_hour = fourier_kde(hours / 24.0, acuity = 12)
   wday,commits_wday = fourier_kde(wdays / 7.0, acuity = 14)
@@ -184,9 +184,9 @@ def changeload ():
   def to_hour (t): return t.tm_hour + (t.tm_min + t.tm_sec / 60.0) / 60.0
   def to_wday (t): return t.tm_wday + to_hour(t) / 24.0
 
-  weeks = array(map(to_week, epoch))
-  wdays = array(map(to_wday, times))
-  hours = array(map(to_hour, times))
+  weeks = array(list(map(to_week, epoch)))
+  wdays = array(list(map(to_wday, times)))
+  hours = array(list(map(to_hour, times)))
 
   changes = array([a+d/4 for (_,a,d) in stats]) # deletions are 1/4 as heavy
 
@@ -278,7 +278,7 @@ def todo (max_items = 32):
   dated = dated[:max_items]
   for date,fname,lineno,text in dated:
     #print text
-    print '\033[1m%s\033[0m\n(%s:%s)' % (text, fname, lineno)
+    print('\033[1m%s\033[0m\n(%s:%s)' % (text, fname, lineno))
 
 if __name__ == '__main__': main.main()
 

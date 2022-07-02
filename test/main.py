@@ -33,13 +33,13 @@ def main (args = None):
     args = sys.argv[1:]
 
   if not args:
-    print 'Usage: %s COMMAND [ARGS] [KWDS]' % os.path.split(sys.argv[0])[-1]
+    print('Usage: %s COMMAND [ARGS] [KWDS]' % os.path.split(sys.argv[0])[-1])
     for name,(fun,_) in  __commands:
-      print '\n%s %s\n  %s' % (
+      print('\n%s %s\n  %s' % (
           name,
           inspect.formatargspec(*inspect.getargspec(fun)),
           fun.__doc__.strip(),
-          )
+          ))
     sys.exit(1)
 
   cmd,args,kwds = args[0],args[1:],{}

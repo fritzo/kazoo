@@ -39,7 +39,7 @@ class Edge:
     self.vertical = vertical
 
 def find_edges (points):
-  print 'finding edges among %i points' % len(points)
+  print('finding edges among %i points' % len(points))
   size = len(points)
 
   N = {}
@@ -83,7 +83,7 @@ def find_edges (points):
 
   edges = {}
   def add_edges (D, vertical, reverse):
-    for i1,(i2,_,weight) in D.iteritems():
+    for i1,(i2,_,weight) in D.items():
       if reverse:
         i1,i2 = i2,i1
       try:
@@ -96,9 +96,9 @@ def find_edges (points):
   add_edges(S, True, True)
   add_edges(W, False, True)
 
-  print ' found %i edges' % len(edges)
+  print(' found %i edges' % len(edges))
 
-  return edges.values()
+  return list(edges.values())
 
 class Calibration:
   def __init__ (self):
@@ -136,7 +136,7 @@ class Calibration:
     return [self(x,y,param)+(z,) for (x,y,z) in points]
 
   def fit (self, verts, em_iters = 1, nls_iters = 1):
-    print 'fitting grid to %i points' % len(verts)
+    print('fitting grid to %i points' % len(verts))
     I = len(self.param)
     points = self.map_points(verts)
 
@@ -166,7 +166,7 @@ class Calibration:
       optim.nonlinear_least_squares(f, self.param, cov, nls_iters)
 
   def align (self, verts):
-    print 'aligning grid'
+    print('aligning grid')
     points = self.map_points(verts)
     phase = zeros(4)
     total = 0.0

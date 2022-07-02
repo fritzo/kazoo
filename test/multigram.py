@@ -10,16 +10,16 @@ def file_test (small_exponent = 9, large_exponent = 12):
   large_size = s.size_out
   length = s.size_out / 2#arbitrary
 
-  print "reading sound file"
+  print("reading sound file")
   sound = formats.read_wav('test.wav', size_in*length, size_in)
   image = K.Reals(length, large_size)
 
-  print "transforming data"
+  print("transforming data")
   for i in range(length):
     s.transform_fwd(sound[i,:], image[i,:])
   del sound
 
-  print "saving image"
+  print("saving image")
   image = util.energy_to_loudness(image + 1e-5)
   formats.write_image(image, 'test.png')
 
@@ -28,14 +28,14 @@ def signal_test (small_exponent, large_exponent, signal, filename):
   length_windows = fft_size / 2
   length_samples = fft_size * length_windows
 
-  print "creating signal"
+  print("creating signal")
   input = K.Complexes(length_samples)
 
   for i in range(length_samples):
     t = (0.5 + i) / length_samples
     input[i] = signal(t)
 
-  print "transforming signal"
+  print("transforming signal")
   s = K.Multigram(small_exponent, large_exponent)
   
   length_frames = length_samples / s.size_in
@@ -45,7 +45,7 @@ def signal_test (small_exponent, large_exponent, signal, filename):
   for i in range(length_frames):
     s.transform_fwd(input[i,:], output[i,:])
 
-  print "writing multigram to %s" % filename
+  print("writing multigram to %s" % filename)
 
   output = util.energy_to_loudness(output)
   formats.write_image(output, filename)

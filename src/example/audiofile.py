@@ -39,15 +39,15 @@ def test_image1 (infile = 'test.mp3',
   super_size = s.super_size
   length = s.super_size #arbitrary
 
-  print "reading sound file %s" % infile
+  print("reading sound file %s" % infile)
   sound = K.formats.read_mp3(infile, small_size*length, small_size)
   image = K.transforms.Reals(length, super_size)
 
-  print "transforming data"
+  print("transforming data")
   for i in range(length):
     s.transform_fwd(sound[i,:], image[i,:])
 
-  print "saving image %s" % outfile
+  print("saving image %s" % outfile)
   image = K.util.energy_to_loudness(image + 1e-5)
   K.formats.write_image(image, outfile)
 
@@ -64,14 +64,14 @@ def test_image2 (infile = 'test.mp3',
   super_size = s.super_size
   length = s.super_size #arbitrary
 
-  print "transforming data"
+  print("transforming data")
   sound = K.transforms.Complexes(small_size)
   image = K.transforms.Reals(length, super_size)
   for i in range(length):
     a.read(sound)
     s.transform_fwd(sound, image[i,:])
 
-  print "saving image %s" % outfile
+  print("saving image %s" % outfile)
   image = K.util.energy_to_loudness(image + 1e-5)
   K.formats.write_image(image, outfile)
 
@@ -386,7 +386,7 @@ def test_history1 (infile = 'test.wav',
     scale.transform_fwd(energy, pitch)
     loud.transform_fwd(pitch, louds)
     hist.add(louds)
-  if hist.full: print "history is full!"
+  if hist.full: print("history is full!")
 
   image = K.transforms.Reals(length, size)
   hist.get(image)

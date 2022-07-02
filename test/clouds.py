@@ -83,7 +83,7 @@ def plot_chi2 (max_dof = 20, num_samples = 1000):
 
   from matplotlib import pyplot
 
-  X = 2.0 * max_dof / num_samples * array(range(1 + num_samples))
+  X = 2.0 * max_dof / num_samples * array(list(range(1 + num_samples)))
 
   for dof in range(1, 1 + max_dof):
     Y = chi2_pdf(X, dof)
@@ -184,7 +184,7 @@ def plot_prior (filename = 'data/gloves/prior.py'):
     X = prob_to_like(stay[i])
     Y = prob_to_like(stay[i+1])
     stay_no_i = stay[:i] + stay[1+i:]
-    color = zip(*tuple(stay_no_i))
+    color = list(zip(*tuple(stay_no_i)))
 
     c = pyplot.scatter(X, Y, s=R, c=color, alpha=0.3)
 
@@ -228,7 +228,7 @@ def plot_mix (filename = 'data/gloves/prior.py'):
     X = prob_to_time(stay[i])
     Y = prob_to_time(stay[i+1])
     stay_no_i = stay[:i] + stay[1+i:]
-    color = zip(*tuple(stay_no_i))
+    color = list(zip(*tuple(stay_no_i)))
 
     c = pyplot.scatter(X, Y, s=R, c=color, alpha=0.3)
 

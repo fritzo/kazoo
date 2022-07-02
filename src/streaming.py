@@ -1,7 +1,7 @@
 
-import network
-from network import stop_threads, validate
-import transforms
+from . import network
+from .network import stop_threads, validate
+from . import transforms
 import _kazoo
 
 from _transforms import DEFAULT_EXPONENT
@@ -43,8 +43,8 @@ class Audio (transforms.Audio):
   def run_until_input (self):
     try:
       self.start()
-      print "press ENTER to stop"
-      raw_input()
+      print("press ENTER to stop")
+      input()
       self.stop()
     finally:
       stop_threads()
@@ -100,19 +100,19 @@ wrap_spline_output(Multigram, 'pitch_scale')
 def test_wire (size_exponent = 10, factor_exponent = 2):
   import time
 
-  print "declaring transforms"
+  print("declaring transforms")
   s = Supergram(size_exponent, factor_exponent)
   a = Audio(s.small_size)
   w = Wire()
   #v = Screen(s.super_size)
 
-  print "declaring channels"
+  print("declaring channels")
   c1 = Complexes()
   c2 = Reals()
   c3 = Reals()
   c4 = Complexes()
 
-  print "connecting transforms via channels"
+  print("connecting transforms via channels")
   a.reading(c1)
   s.stream_fwd(c1,c2)
   w.stream(c2,c3)
@@ -120,15 +120,15 @@ def test_wire (size_exponent = 10, factor_exponent = 2):
   s.stream_bwd(c3,c4)
   a.writing(c4)
 
-  print "validating"
+  print("validating")
   validate()
 
   duration = 3
-  print "streaming for %g seconds..." % duration
+  print("streaming for %g seconds..." % duration)
   a.start()
   time.sleep(duration)
   a.stop()
-  print "...done"
+  print("...done")
 
   stop_threads()
 

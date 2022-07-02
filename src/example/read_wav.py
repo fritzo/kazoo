@@ -13,16 +13,16 @@ def read_spectrogram (exponent = 10, wavname = 'test.wav'):
   height = width
   size = height * width
 
-  print "reading sound file"
+  print("reading sound file")
   sound = formats.read_wav(wavname, size, width)
   image = K.Reals(height, width/2)
 
-  print "transforming data"
+  print("transforming data")
   s = K.Spectrogram(exponent)
   for i in range(height):
     s.transform_fwd(sound[i,:],image[i,:])
 
-  print "saving image"
+  print("saving image")
   image = formats.energy_to_loudness(image)
   formats.write_image(image, 'test.png')
 

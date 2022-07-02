@@ -81,7 +81,7 @@ def draw_dots3(size, radius, x0, y0):
          + draw_dot(size, r, x0 - dx/2, y0 - dy)
          )
 
-shapes = draw_shape.keys()
+shapes = list(draw_shape.keys())
 
 def drawing_error (draw, im):
   X,Y = im.shape
@@ -159,9 +159,9 @@ def fit (shape, radius = 20.0, iters = 10):
 
   def print_mean ():
     r,x,y = exp(mean[0]),mean[1],mean[2]
-    print 'radius = %g, x = %g, y = %g' % (r,x,y)
+    print('radius = %g, x = %g, y = %g' % (r,x,y))
 
-  print 'fitting dot radius of %i x %i image' % im.shape
+  print('fitting dot radius of %i x %i image' % im.shape)
   print_mean()
   optim.nonlinear_minimize(fun, mean, sigma, iters)
   print_mean()
@@ -170,7 +170,7 @@ def fit (shape, radius = 20.0, iters = 10):
     fun(mean, True)
 
   error = mean - truth
-  print 'error = %s' % error
+  print('error = %s' % error)
   return error
 
 @main.command
